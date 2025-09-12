@@ -16,21 +16,11 @@
 
 -- SubQuestUpdateUnlocked ?
 
-Ext.Osiris.RegisterListener("GameModeStarted", 3, "after", function(mode, isEditor, isStoryReload)
-    print("GameModeStarted " .. mode)
-    -- delete before launch
-    Ext.IO.SaveFile("ap_out.json", "[]")
-    Ext.IO.SaveFile("sent.json", "[]")
-end)
-
 Ext.Osiris.RegisterListener("CharacterCreationFinished", 0, "after", function()
     print("CharCreationDone")
     Ext.IO.SaveFile("ap_out.json", "[]")
+    Ext.IO.SaveFile("ap_in.json", "[]")
     Ext.IO.SaveFile("sent.json", "[]")
-end)
-
-Ext.Osiris.RegisterListener("BackgroundGoalRewarded", 2, "after", function(character, goal)
-    print("BackgroundGoalRewarded " .. character .. " " .. goal)
 end)
 
 Ext.Osiris.RegisterListener("QuestUpdateUnlocked", 3, "after", function(character, topLevelQuestID, stateID)
@@ -54,12 +44,21 @@ Ext.Osiris.RegisterListener("QuestUpdateUnlocked", 3, "after", function(characte
             return
         end
     end
-    table.insert(data, topLevelQuestID .. "-" .. stateID)
-    Ext.IO.SaveFile("ap_out.json", Ext.Json.Stringify(data))
+    local needsToAdd = true
+    for k, v in ipairs(data) do
+        if (v == topLevelQuestID .. "-" .. stateID) then
+            needsToAdd = false
+            break
+        end
+    end
+    if (needsToAdd) then
+        print("Adding quest state to ap_out.json: " .. topLevelQuestID .. "-" .. stateID)
+        table.insert(data, topLevelQuestID .. "-" .. stateID)
+        Ext.IO.SaveFile("ap_out.json", Ext.Json.Stringify(data))
+    end
 end)
 
 Ext.Osiris.RegisterListener("CastedSpell", 5, "after", function(caster, spell, spellType, spellElement, storyActionID)
-    print("CastedSpell " .. spell)
     if (spell == "Shout_AP_Sync") then
         local unparsed_in = Ext.IO.LoadFile("ap_in.json")
         local unparsed_sent = Ext.IO.LoadFile("sent.json")
