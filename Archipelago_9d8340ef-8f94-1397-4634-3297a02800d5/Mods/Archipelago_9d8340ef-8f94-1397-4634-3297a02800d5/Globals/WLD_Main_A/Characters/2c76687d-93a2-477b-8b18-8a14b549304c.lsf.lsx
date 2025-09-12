@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<save>
+	<version major="4" minor="8" revision="0" build="400" lslib_meta="v1,bswap_guids,lsf_keys_adjacency" />
+	<region id="Templates">
+		<node id="Templates">
+			<children>
+				<node id="GameObjects">
+					<attribute id="MapKey" type="FixedString" value="2c76687d-93a2-477b-8b18-8a14b549304c" />
+					<attribute id="Name" type="LSString" value="S_Player_Karlach" />
+					<attribute id="LevelName" type="FixedString" value="WLD_Main_A" />
+					<attribute id="IsGlobal" type="bool" value="True" />
+					<attribute id="Type" type="FixedString" value="character" />
+					<attribute id="TemplateName" type="FixedString" value="3ab0a797-0904-47cb-955d-cdc3ec32409c" />
+					<attribute id="Flag" type="uint8" value="1" />
+					<attribute id="Icon" type="FixedString" value="ce24301b-f705-ab7d-4354-d51ab93c5ae3-EQ_Karlach_(Icon_Origin_Karlach)" />
+					<attribute id="Stats" type="FixedString" value="ORIGIN_Karlach" />
+					<attribute id="CharacterVisualResourceID" type="FixedString" value="ce24301b-f705-ab7d-4354-d51ab93c5ae3" />
+					<attribute id="AnubisConfigName" type="FixedString" value="ORI_Karlach_CampFix" />
+					<attribute id="HasPlayerApprovalRating" type="bool" value="True" />
+					<attribute id="GeneratePortrait" type="LSString" value="Icon_Origin_Karlach" />
+					<attribute id="Race" type="guid" value="88d0d219-9dcb-462b-aab6-ccf31eeee2e3" />
+					<attribute id="SoftBodyCollisionTemplate" type="FixedString" value="e96eed75-850b-4497-b077-a8f62f731bf3" />
+					<attribute id="Faction" type="guid" value="8e465ee5-ad2b-008b-966b-d1641e37e3c5" />
+					<attribute id="Archetype" type="FixedString" value="melee_smart" />
+					<children>
+						<node id="Transform">
+							<attribute id="Scale" type="float" value="1" />
+							<attribute id="Position" type="fvec3" value="110.732735 21.937597 500.21136" />
+							<attribute id="RotationQuat" type="fvec4" value="0 0.99999595 0 -0.0028609233" />
+						</node>
+						<node id="LayerList">
+							<children>
+								<node id="Layers">
+									<children>
+										<node id="Object" key="MapKey">
+											<attribute id="MapKey" type="FixedString" value="WLD_Main_A" />
+											<children>
+												<node id="Layer">
+													<attribute id="Object" type="guid" value="9222db25-d5ca-061f-7dc2-1f8c1dbadff9" />
+												</node>
+												<node id="Layer">
+													<attribute id="Object" type="guid" value="e2c9204f-0ac6-bdd4-8d9d-8bd094f3c4a6" />
+												</node>
+											</children>
+										</node>
+									</children>
+								</node>
+							</children>
+						</node>
+						<node id="SpeakerGroupList">
+							<children>
+								<node id="SpeakerGroup">
+									<attribute id="Object" type="guid" value="c27cf770-ee6a-4206-a97f-62c9d16f6239" />
+								</node>
+							</children>
+						</node>
+						<node id="LocomotionParams" />
+					</children>
+				</node>
+			</children>
+		</node>
+	</region>
+</save>

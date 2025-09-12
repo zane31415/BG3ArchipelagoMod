@@ -1,0 +1,25 @@
+Version 1
+SubGoalCombiner SGC_AND
+INITSECTION
+DB_OneTimeRewards_AP(1,(ITEMROOT)LOOT_SCROLL_AP_Sync_8b285e34-ba86-4a75-a1de-05d192d38fd8);
+KBSECTION
+IF
+LevelGameplayStarted(_,_)
+AND
+DB_Avatars(_Player)
+THEN
+PROC_OneTimeReward_GiveReward_AP(1,1,1,_Player);
+
+//Send to inventory
+PROC
+PROC_OneTimeReward_GiveReward_AP((INTEGER)_RewardNo,(INTEGER)_Amount,(INTEGER)_Notification,(GUIDSTRING)_Player)
+AND
+NOT DB_OneTimeRewards_RewardGiven_AP(_RewardNo)
+AND
+DB_OneTimeRewards_AP(_RewardNo,_Reward)
+THEN
+DB_OneTimeRewards_RewardGiven_AP(_RewardNo);
+TemplateAddTo(_Reward,_Player,_Amount,_Notification);
+EXITSECTION
+
+ENDEXITSECTION

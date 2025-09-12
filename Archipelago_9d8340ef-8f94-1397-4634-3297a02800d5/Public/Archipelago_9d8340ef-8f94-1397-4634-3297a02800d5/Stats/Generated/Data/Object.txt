@@ -1,0 +1,6 @@
+new entry "OBJ_Scroll_AP_Sync"
+type "Object"
+using "OBJ_Scroll_FalseLife"
+data "RootTemplate" "8b285e34-ba86-4a75-a1de-05d192d38fd8"
+data "Level" "1"
+

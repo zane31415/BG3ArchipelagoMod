@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<contentList xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <content contentuid="hc5de6b52gc6a3gd93fg52d8g7c2bcdd46483" version="3">Archipelago Package</content>
+  <content contentuid="h689536c3g74a6g0e0dg0ec9gc19cbcdaa62e" version="3">This is the Archipelago Container. It contains the various tools necessary to make the Archipelago connection work. DO NOT LOSE IT.</content>
+  <content contentuid="ha1ec2af6g4c39g2e8fg693bgf11018f3fe14" version="2">AP Weapon Chest</content>
+  <content contentuid="hd9d2e97dg95aage9b0gaa1eg7208f4fc3302" version="2">This is the Archipelago Weapons Chest. It stores any weapons you receive from the multiworld.</content>
+  <content contentuid="h43d04ca0g4951gbe43g9df7g859277deb33b" version="2">AP Armor Chest</content>
+  <content contentuid="h791610dagd149ge516g0e24g4cf30b155191" version="2">This is the Archipelago Armor chest. It contains armors you have received from the multiworld.</content>
+  <content contentuid="h79749489g1303g86feg14feg9d4a19779777" version="2">AP Stats Chest</content>
+  <content contentuid="h4952ebbegc895gf32cg490dg58c677027ca0" version="2">This is the Archipelago Chest that stores and stat-change or other consumable items you've received through the multiworld.</content>
+  <content contentuid="h786666ceg4196g800bg34feg1bed0481414f" version="2">AP Jewelry Chest</content>
+  <content contentuid="hd9c2e087gf6dbgf21ag8860gc23f37069873" version="2">This is the Archipelago Jewelry Chest. It stores Rings and Amulets you have received through the multiworld.</content>
+  <content contentuid="hf8be7b5eg50ecgf6fbg9a35ga365919ce0dc" version="9">Archipelago Sync</content>
+  <content contentuid="hf1f39849g30f2g333cgf09dgb2b16fa5622f" version="4">Summon AP Armor Chest</content>
+  <content contentuid="h7dbec85ag0f0cgb6b3g4632g7b31867cfd44" version="3">Summon AP Stats Chest</content>
+  <content contentuid="h59f4269ag6822g55d1g80a9ga798f8880426" version="3">Summon AP Jewelry Chest</content>
+  <content contentuid="h3c420fdcg7106g4049g4f9bg4821ee408898" version="1">Archipelago Sync</content>
+  <content contentuid="h17011b21g98ceg4063g8a55g1163b23a54b2" version="2">This is a spell item. It triggers the Archipelago sync and adds whatever items necessary to the caster's inventory. ONLY CAST THIS FROM YOUR TAV.</content>
+  <content contentuid="h081304a6gb9acg4892gcb78gb5ff684b3141" version="1">Archipelago Sync</content>
+  <content contentuid="ha0980638gaa4fg1369g41c4gfef8634058f6" version="1">Force a sync with the archipelago client.</content>
+  <content contentuid="h20656f2agfd05gc196ga28eg153ac2393684" version="1">Archipelago Sync</content>
+  <content contentuid="hd4159ff2ga6a2g9e15g6077g59e5deedb243" version="1">Forces a sync with the Archipelago Client. ONLY CAST FROM TAV.</content>
+  <content contentuid="hc6825983g28f5gb3e5g0aa0gcbdb478cec21" version="2">Archipelago Sync</content>
+  <content contentuid="hf65ac924gbecfg52a3g3337ga964ea1cbf62" version="2">Force a sync with the Archipelago Client. ONLY CAST FROM TAV.</content>
+</contentList>
