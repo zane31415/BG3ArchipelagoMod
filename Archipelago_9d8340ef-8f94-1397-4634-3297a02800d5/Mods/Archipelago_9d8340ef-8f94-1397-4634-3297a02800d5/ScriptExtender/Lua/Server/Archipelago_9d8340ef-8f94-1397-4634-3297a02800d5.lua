@@ -16,7 +16,17 @@
 
 -- SubQuestUpdateUnlocked ?
 PersistentVars = {}
-syncOnAny = false
+syncOnAny = true
+logKills = true
+
+function contains(tbl, value)
+    for i = 1, #tbl do  -- Iterate from index 1 to the length of the table
+        if tbl[i] == value then
+            return true -- Value found
+        end
+    end
+    return false -- Value not found after checking all elements
+end
 
 function OnSessionLoaded()
     -- Persistent variables are only available after SessionLoaded is triggered!
@@ -28,8 +38,11 @@ function OnSessionLoaded()
             print("Failed to parse JSON")
             return
         end
-        if (data.sync_method == 1) then
-            syncOnAny = true
+        if (data.sync_method == 0) then
+            syncOnAny = false
+        end
+        if (data.killsanity == 0) then
+            logKills = false
         end
     end
 end
@@ -37,12 +50,58 @@ end
 Ext.Events.SessionLoaded:Subscribe(OnSessionLoaded)
 
 Ext.Osiris.RegisterListener("KilledBy", 4, "after", function(defender, attackOwner, attacker, storyActionID)
-    local unparsed_kills = Ext.IO.LoadFile("killed_log.json")
-    if (unparsed_kills) then
-        local parsed_kills = Ext.Json.Parse(unparsed_kills)
-        table.insert(parsed_kills, defender)
-        Ext.IO.SaveFile("killed_log.json", Ext.Json.Stringify(parsed_kills))
+    if (logKills) then
+        local unparsed = Ext.IO.LoadFile("ap_out.json")
+        local data = {}
+        print("Logging kill: " .. "Kill-" .. defender)
+        
+        if (unparsed) then
+            data = Ext.Json.Parse(unparsed)
+            if (data == nil) then
+                print("Failed to parse JSON")
+                return
+            end
+        end
+        local needsToAdd = true
+        for k, v in ipairs(data) do
+            if (v == "Kill-" .. defender) then
+                needsToAdd = false
+                break
+            end
+        end
+        if (needsToAdd) then
+            table.insert(data, "Kill-" .. defender)
+            Ext.IO.SaveFile("ap_out.json", Ext.Json.Stringify(data))
+        end
     end
+end)
+
+Ext.Osiris.RegisterListener("EnteredLevel", 3, "after", function(object, objectRootTemplate, level)
+    --print("EnteredLevel: " .. tostring(object) .. " - " .. tostring(level))
+    if (object == GetHostCharacter()) then
+        print("EnteredLevel: " .. level)
+    end
+end)
+
+Ext.Osiris.RegisterListener("TemplateAddedTo", 4, "after", function(objectTemplate, object2, inventoryHolder, addType)
+--    if (inventoryHolder == GetHostCharacter()) then
+--        print("TemplateAddedTo: " .. objectTemplate .. " - " .. object2 .. " - " .. inventoryHolder .. " - " .. addType)
+--        local unparsed = Ext.IO.LoadFile("items_to_remove.json")
+--        local data = {}
+--        
+--        if (unparsed) then
+--            data = Ext.Json.Parse(unparsed)
+--            if (data == nil) then
+--                print("Failed to parse JSON")
+--                return
+--            end
+--        end
+--        local APSent = PersistentVars['APSent']
+--        if (contains(data, objectTemplate) and not APSent[objectTemplate]) then
+--            print("Shouldn't have that.")
+            
+--        end
+--    end
 end)
 
 Ext.Osiris.RegisterListener("CharacterCreationFinished", 0, "after", function()
@@ -102,16 +161,25 @@ Ext.Osiris.RegisterListener("CastedSpell", 5, "after", function(caster, spell, s
                 if (not isAlreadySent) then
                     if (string.sub(v, 1, 5) == "Gold-") then
                         local amount = tonumber(string.sub(v, 6, 11)) --Gold-100000-
-                        print("Granting gold: " .. tostring(amount))
                         if (amount) then
                             AddGold(targetChar, amount)
                         end
                         APSent[v] = true
                     elseif (string.sub(v, 1, 7) == "LevelUp") then
-                        print("Granting exp")
                         local charTable = Osi.DB_Players:Get(nil)
                         for char in pairs(charTable) do
                             Osi.AddExplorationExperience(charTable[char][1], 1000000)
+                        end
+                        APSent[v] = true
+                    elseif (string.sub(v, 1, 5) == "Trap-") then
+                        if (string.sub(v, 6, 13) == "Monster-") then
+                            local monstername = string.sub(v, 14, 49)
+                            local mon = Osi.CreateAtObject(monstername,targetChar,0,0,"",1)
+                            Osi.SetHostileAndEnterCombat(Osi.GetFaction(mon), Osi.GetFaction(targetChar), mon, targetChar)
+                        elseif (string.sub(v, 6, 13) == "Bleeding") then
+                            ApplyStatus(targetChar, "BLEEDING", 10)
+                        elseif (string.sub(v, 6, 9) == "Stun") then
+                            ApplyStatus(targetChar, "STUNNED", 5)
                         end
                         APSent[v] = true
                     else

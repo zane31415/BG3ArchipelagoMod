@@ -1,9 +1,5382 @@
-treasure itemtypes "Common","Uncommon","Rare","Epic","Legendary","Divine","Unique"
+// Hey, the code is pretty easy to understand, and if you plan to change anything here, remember that a reference to a treasure table starts with T_ and a reference to a specific item starts with I_
+// If you want to add an item to a random loot lists, first put the item in a specific type(T_REL_Rarity_Type)
+// then put the item in a general category(T_REL_All_Rarity)
+// All of these loot lists are used in one way or another to transfer data to game locations.
+// Paramonov
+
+// Uncommon clothes
+new treasuretable "REL_Uncommon_Clothes"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+// Rare clothes
+new treasuretable "REL_Rare_Clothes"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+// Epic clothes
+new treasuretable "REL_Epic_Clothes"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+// Legendary clothes
+new treasuretable "REL_Legendary_Clothes"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+// Uncommon armor
+new treasuretable "REL_Uncommon_Armor"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+// Rare armor
+new treasuretable "REL_Rare_Armor"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+// Epic armor
+new treasuretable "REL_Epic_Armor"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+// Legendary armor
+new treasuretable "REL_Legendary_Armor"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+// Uncommon shields
+new treasuretable "REL_Uncommon_Shields"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+// Rare shields
+new treasuretable "REL_Rare_Shields"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+// Epic shields
+new treasuretable "REL_Epic_Shields"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+// Legendary shields
+new treasuretable "REL_Legendary_Shields"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+// Uncommon hats
+new treasuretable "REL_Uncommon_Hats"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+// Rare hats
+new treasuretable "REL_Rare_Hats"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+// Epic hats
+new treasuretable "REL_Epic_Hats"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+// Legendary hats
+new treasuretable "REL_Legendary_Hats"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+// Uncommon cloaks
+new treasuretable "REL_Uncommon_Cloaks"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+// Rare cloaks
+new treasuretable "REL_Rare_Cloaks"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+// Epic cloaks
+new treasuretable "REL_Epic_Cloaks"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+// Legendary cloaks
+new treasuretable "REL_Legendary_Cloaks"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+// Uncommon gloves
+new treasuretable "REL_Uncommon_Gloves"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+// Rare gloves
+new treasuretable "REL_Rare_Gloves"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+// Epic gloves
+new treasuretable "REL_Epic_Gloves"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+// Legendary gloves
+new treasuretable "REL_Legendary_Gloves"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+// Uncommon boots
+new treasuretable "REL_Uncommon_Boots"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+// Rare boots
+new treasuretable "REL_Rare_Boots"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+// Epic boots
+new treasuretable "REL_Epic_Boots"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+// Legendary boots
+new treasuretable "REL_Legendary_Boots"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+// Uncommon amulets
+new treasuretable "REL_Uncommon_Amulets"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+// Rare amulets
+new treasuretable "REL_Rare_Amulets"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+// Epic amulets
+new treasuretable "REL_Epic_Amulets"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+// Legendary amulets
+new treasuretable "REL_Legendary_Amulets"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+// Uncommon rings
+new treasuretable "REL_Uncommon_Rings"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+// Rare rings
+new treasuretable "REL_Rare_Rings"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+// Epic rings
+new treasuretable "REL_Epic_Rings"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+// Legendary rings
+new treasuretable "REL_Legendary_Rings"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+// Uncommon weapons
+new treasuretable "REL_Uncommon_Weapons"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+// Rare weapons
+new treasuretable "REL_Rare_Weapons"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+// Epic weapons
+new treasuretable "REL_Epic_Weapons"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+// Legendary weapons
+new treasuretable "REL_Legendary_Weapons"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+// for random loot lists
+new treasuretable "REL_All_Uncommon"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+new treasuretable "REL_All_Rare"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+new treasuretable "REL_All_Epic"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+new treasuretable "REL_All_Legendary"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+// Special Loot lists for a minor locations
+
+new treasuretable "REL_Special_Low"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+new treasuretable "REL_Special_Normal"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+new treasuretable "REL_Special_High"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+// Misc mod.io new
+
+new treasuretable "REL_Szarr_QuestRing"
+new subtable "-1"
+object category "I_UNI_LOW_SzarrRing",1,0,0,0,0,0,0,0
+
+new treasuretable "REL_Gems"
+new subtable "-1"
+object category "I_OBJ_Agate",2,0,0,0,0,0,0,0
+object category "I_OBJ_Malachite",2,0,0,0,0,0,0,0
+object category "I_OBJ_Onyx",2,0,0,0,0,0,0,0
+object category "I_OBJ_Bloodstone",2,0,0,0,0,0,0,0
+object category "I_OBJ_Jade",2,0,0,0,0,0,0,0
+object category "I_OBJ_Pearl",2,0,0,0,0,0,0,0
+object category "I_OBJ_Amethyst",2,0,0,0,0,0,0,0
+object category "I_OBJ_Topaz",2,0,0,0,0,0,0,0
+object category "I_OBJ_Peridot",2,0,0,0,0,0,0,0
+object category "I_OBJ_Sapphire",2,0,0,0,0,0,0,0
+object category "I_OBJ_Ruby",2,0,0,0,0,0,0,0
+object category "I_OBJ_Jacinth",2,0,0,0,0,0,0,0
+object category "I_OBJ_Diamond",1,0,0,0,0,0,0,0
+object category "I_OBJ_DiamondDark",1,0,0,0,0,0,0,0
+
+new treasuretable "AMP_ArcanizerPool"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+new treasuretable "AMP_ArcanizerPool_1"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+new treasuretable "AMP_ArcanizerPool_2"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+new treasuretable "AMP_ArcanizerPool_3"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+new treasuretable "AMP_ArcanizerPool_4"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+// Gems fix Part 1
+
+new treasuretable "FOR_Spiders_Cocoon"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+// Reward for minor or early quests
+new treasuretable "AMP_Poor_Choice"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+// Mid-game quest reward
+new treasuretable "AMP_Medium_Choice"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+// Reward for key quests
+new treasuretable "AMP_Rich_Choice"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+// Reward for main quest chains
+new treasuretable "AMP_Legendary_Choice"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+// Reward for all sorts of weird quests, where there is a wide range of rarities.
+new treasuretable "AMP_Mixed_4_Choice"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+// Mizora Special 1
+new treasuretable "AMP_Mizora_Choice"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+new treasuretable "AMP_Vanilla_Craft"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+new treasuretable "AMP_Mold_Gar"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+// Reward after Nautiloid, starting equipment choice
+new treasuretable "AMP_Starting_Choice"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+// Act 1 Completion
+new treasuretable "AMP_Medium_Choice_Final"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+// Act 2 Completion
+new treasuretable "AMP_Act2_Final"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+new treasuretable "REL_50_Chance_Low"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+new treasuretable "REL_50_Chance_Normal"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+new treasuretable "REL_50_Chance_High"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+// High level boss loot
+
+new treasuretable "AMP_Lorroakan"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+new treasuretable "AMP_MysticCarrion"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+new treasuretable "AMP_Voss"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+new treasuretable "REL_Balthazar"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+new treasuretable "SHA_LastJusticiar_Treasure"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+new treasuretable "REL_Kagha"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+new treasuretable "REL_Nere"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+new treasuretable "Gortash_Loot"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+new treasuretable "Ketheric_Loot"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+new treasuretable "HAG_Hag"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_LadyJannath"
+CanMerge 1
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+new treasuretable "UND_KuoToa_Boooal"
+CanMerge 1
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+new treasuretable "REL_Viconia"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+new treasuretable "HAG_Lair_RingChest"
+CanMerge 1
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_CazadorsPalace_Crypt_Treasure"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_Legendary_HoH_Treasure"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_Legendary_Raphael_Treasure"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_Legendary_Incubus_Treasure"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+new treasuretable "WYR_Legendary_Gortash_Treasure"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_SteelwatcherTitan_Legendary_Bow_Treasure"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+new treasuretable "WYR_Dragon_Legendary_Trident_Treasure"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+new treasuretable "Legendary_Trident_Treasure"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+new treasuretable "Legendary_DualWielder_Treasure"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+new treasuretable "SHA_OrthonTreasure_Legendary_Greatsword_Treasure"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_Cazador_Trapped_Coffin"
+new subtable "-1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_SorcerousSundries_MystraVault_Treasure"
+new subtable "-1"
+object category "T_REL_All_Epic,1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_SorcerousSundries_MystraVault_Weapon_Treasure"
+new subtable "-1"
+object category "T_REL_All_Epic,1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_SorcerousSundries_SecretRoom3_Treasure"
+new subtable "-1"
+object category "T_REL_All_Epic,1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_HOH_Spectator_Treasure"
+new subtable "1,1;2,1;3,1"
+object category "T_REL_Special_High,1,0,0,0,0,0,0,0
+
+new treasuretable "INT_Orpheus_Treasure"
+new subtable "-1"
+object category "T_REL_All_Epic,1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_Sarevok_Treasure"
+new subtable "-2"
+object category "T_REL_All_Epic",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_Resonance_Matrix",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_CazadorPalace_DeadGirlChest_Treasure"
+new subtable "-1"
+object category "T_REL_Special_High",1,0,0,0,0,0,0,0
+
+// CHEST LOOT
+
+new treasuretable "AMP_MundaneChest"
+new subtable "0,1;1,2;2,2;3,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "AMP_MinorAct1"
+new subtable "0,1;1,2"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "Arron_Container"
+new subtable "0,3;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+new subtable "1,1;2,1"
+object category "T_Exploration_Minor",1,0,0,0,0,0,0,0
+
+new treasuretable "REL_MonkAmulet_Skeleton"
+new subtable "0,2;1,2;2,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_AMP_Vanilla_Craft",1,0,0,0,0,0,0,0
+
+// deleted
+new treasuretable "REL_Goblin_Lootbox"
+new subtable "0,1;1,2;2,2;3,3;4,2;5,1"
+object category "I_Enchant_Crystal4",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Exploration_Minor",1,0,0,0,0,0,0,0
+
+new treasuretable "AMP_Tutorial_Lootbox"
+new subtable "3,1;4,1;5,1;6,1;7,1;8,1;9,1;10,1"
+object category "I_Enchant_Crystal4",1,0,0,0,0,0,0,0
+new subtable "0,1;1,2;2,2;3,3;4,2;5,1"
+object category "I_Resonance_Matrix",1,0,0,0,0,0,0,0
+
+new treasuretable "AMP_Camp_Lootbox_01"
+new subtable "1,1;2,1;3,1;4,1"
+object category "I_Resonance_Matrix",1,0,0,0,0,0,0,0
+
+new treasuretable "AMP_Astral_Chest_01"
+new subtable "1,2;2,3;3,2;4,3;5,4;6,1"
+object category "I_Enchant_Crystal",1,0,0,0,0,0,0,0
+new subtable "0,2;1,2;2,1;3,1"
+object category "T_AMP_Vanilla_Craft",1,0,0,0,0,0,0,0
+new subtable "-5"
+object category "I_Resonance_Matrix",1,0,0,0,0,0,0,0
+
+new treasuretable "DLC_DD_Clothing_Chest"
+CanMerge 1
+new subtable "4,1"
+object category "I_AMP_Book",1,0,0,0,0,0,0,0
+
+new treasuretable "SCL_Village_PeasantLoot"
+new subtable "1,1; 2,1"
+object category "T_Gold_Stash_Poor",1,0,0,0,0,0,0,0
+object category "T_Gold_Stash_Modest",1,0,0,0,0,0,0,0
+object category "T_ST_GEN_Valuables_Jewelry_Copper",1,0,0,0,0,0,0,0
+object category "T_ST_GEN_Valuables_Kitchenware_Plates_Silver",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "UND_DrowResupply_Chest"
+new subtable "1,1"
+object category "I_OBJ_Antitoxin",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_OBJ_Oil_Of_The_Basilisk",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Gold_Pocket_Poor",1,0,0,0,0,0,0,0
+new subtable "0,1;1,2"
+object category "T_REL_All_Uncommon",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_AMP_Vanilla_Craft",1,0,0,0,0,0,0,0
+
+new treasuretable "UND_KC_TrappedChasmChest"
+new subtable "-1"
+object category "T_REL_All_Uncommon",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_Exploration_Additional",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_AMP_Vanilla_Craft",1,0,0,0,0,0,0,0
+
+new treasuretable "UND_KC_GargoyleTrap_Chest"
+new subtable "-1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_Exploration_Major",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_AMP_Vanilla_Craft",1,0,0,0,0,0,0,0
+
+new treasuretable "SCL_AasimarSurvivor_Chest"
+new subtable "-1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Exploration_Minor",1,0,0,0,0,0,0,0
+
+new treasuretable "DEN_DruidTreasure_Equipment"
+new subtable "0,2;1,1;2,1;3,1;4,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_Gold_Stash_Normal",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Exploration_Minor",1,0,0,0,0,0,0,0
+
+new treasuretable "TWN_Sarcophagus_Treasure"
+new subtable "0,1;1,2"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_OBJ_Bone",1,0,0,0,0,0,0,0
+
+new treasuretable "PLA_Zhentarim_LockedRoom_Treasure"
+new subtable "1,1;2,2;3,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_AMP_Vanilla_Craft",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Exploration_Minor",1,0,0,0,0,0,0,0
+
+new treasuretable "DEN_BardChest"
+new subtable "0,2;1,1;2,1"
+object category "T_REL_All_Uncommon",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Exploration_Minor",1,0,0,0,0,0,0,0
+
+new treasuretable "DEN_GoblinHunt_RewardBag"
+new subtable "0,2;1,1;2,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_ST_SimpleMeleeWeapons",1,0,0,0,0,0,0,0
+new subtable "0,1;1,1"
+object category "T_Valuables_Gems",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_ST_RandomPotion",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_Gold_Stash_Modest",1,0,0,0,0,0,0,0
+
+new treasuretable "DEN_Harpy_Nest"
+new subtable "1,3;2,2;3,1;4,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+new subtable "0,1;1,1"
+object category "T_Valuables_Gems",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_Supplies_Camp_Pack",1,0,0,0,0,0,0,0
+new subtable "2,1"
+object category "I_OBJ_Bone",1,0,0,0,0,0,0,0
+
+new treasuretable "FOR_DeathOfATrueSoul_SeluneStash"
+new subtable "-1"
+object category "T_ST_GEN_Valuables_Necklace_Silver",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_OBJ_Idol_Selune",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_REL_Special_Low",2,0,0,0,0,0,0,0
+
+new treasuretable "FOR_VillageFightReward"
+new subtable "0,3;1,2;2,1"
+object category "T_REL_Special_Low",5,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Exploration_Minor",1,0,0,0,0,0,0,0
+
+new treasuretable "FOR_BlacksmithsCellar_FineWeapon"
+new subtable "0,3;1,2;2,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Exploration_Minor",1,0,0,0,0,0,0,0
+
+new treasuretable "FOR_ThayanCellar_JewelledChest_Treasure"
+new subtable "0,3;1,2;2,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_AMP_Vanilla_Craft",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Exploration_Minor",1,0,0,0,0,0,0,0
+
+new treasuretable "FOR_UnfortunateGnome_MillCellarChest"
+new subtable "-1"
+object category "T_Exploration_Additional",1,0,0,0,0,0,0,0
+
+new treasuretable "FOR_Goblin_OverlookChest"
+new subtable "1,1;2,1;3,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_Exploration_Additional",1,0,0,0,0,0,0,0
+
+new treasuretable "FOR_Goblin_WarMapStash"
+new subtable "-1"
+object category "T_Supply_Alcohol",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_Supply_Arrows",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_Supply_Potions",1,0,0,0,0,0,0,0
+new subtable "2,1; 3,1"
+object category "T_ST_Throwable",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "HAG_WoodWoad_Chest"
+new subtable "1,1;2,1;3,1;4,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Exploration_Minor",1,0,0,0,0,0,0,0
+
+new treasuretable "PLA_Cave_BanditChest"
+new subtable "-1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_Exploration_Additional",1,0,0,0,0,0,0,0
+
+new treasuretable "PLA_Tollhouse_Secret_Chest"
+new subtable "1,1;2,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "PLA_Tavern_Chest_Guest"
+new subtable "-1"
+object category "T_Gold_Pocket_Modest",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_ST_Alcohol_Valuable",1,0,0,0,0,0,0,0
+new subtable "0,1;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "GOB_Minthara_Chest"
+new subtable "1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_Gold_Stash_Modest",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Exploration_Minor",1,0,0,0,0,0,0,0
+
+new treasuretable "GOB_King_MagicItems"
+new subtable "1,3;2,3;3,4;4,2;5,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+new subtable "1,1;3,2;2,2;0,2"
+object category "T_AMP_Vanilla_Craft",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "T_Exploration_Major",1,0,0,0,0,0,0,0
+
+new treasuretable "GOB_PriestChanber_Chest"
+new subtable "0,1;1,2"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Exploration_Minor",1,0,0,0,0,0,0,0
+
+new treasuretable "UND_SeluneOutpost_Treasure"
+new subtable "0,1;1,2"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_Exploration_Additional",1,0,0,0,0,0,0,0
+
+new treasuretable "UND_SeluneOutpost_Paladin_Treasure"
+new subtable "0,1;1,2;2,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+new subtable "0,1;1,1"
+object category "T_AMP_Vanilla_Craft",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Exploration_Minor",1,0,0,0,0,0,0,0
+
+new treasuretable "UND_SeluneOutpost_Grenades"
+new subtable "2,1"
+object category "I_OBJ_FireBottle",1,0,0,0,0,0,0,0
+
+new treasuretable "UND_Tower_RingArcana_Chest"
+new subtable "-1"
+object category "T_REL_All_Uncommon",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_Gold_Meager",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+
+new treasuretable "UND_Tower_AmuletDetectThoughts_Chest"
+new subtable "0,1;1,2;2,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Exploration_Minor",1,0,0,0,0,0,0,0
+
+new treasuretable "UND_Tower_SecretCellar_RewardChest"
+new subtable "-1"
+object category "T_Exploration_Major",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_Supply_Scrolls_3",1,0,0,0,0,0,0,0
+new subtable "0,1;1,2;2,1"
+object category "T_AMP_Vanilla_Craft",1,0,0,0,0,0,0,0
+new subtable "1,1;2,1;3,1;4,1;5,1;6,1;7,1;8,1"
+object category "T_Valuables_Gems",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Exploration_Major",1,0,0,0,0,0,0,0
+
+new treasuretable "UND_Duergar_Raft_Chest"
+new subtable "-1"
+object category "T_Gold_Stash_Poor",1,0,0,0,0,0,0,0
+
+new treasuretable "UND_DuergarBlacksmith_Chest"
+new subtable "0,1;1,1;2,1;3,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+new subtable "2,1;0,2;1,1"
+object category "I_OBJ_Metalbar_Silver",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_AMP_Vanilla_Craft",1,0,0,0,0,0,0,0
+
+new treasuretable "UND_KuoToa_MushroomChest"
+new subtable "0,1;1,2;2,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_Gold_Stash_Modest",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_AMP_Vanilla_Craft",1,0,0,0,0,0,0,0
+
+new treasuretable "UND_KC_MerregonTreasure"
+new subtable "0,1;1,2;2,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_Exploration_Major",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_DevilForge_Cellar_Treasure"
+new subtable "-1"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+new subtable "-2"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_REL_All_Uncommon",1,0,0,0,0,0,0,0
+
+new treasuretable "CRE_Temple_Buried_Treasure"
+new subtable "0,1;1,2;2,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_Gold_Pocket_Normal",1,0,0,0,0,0,0,0
+new subtable "0,1;1,1"
+object category "T_Valuables_Gems",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_Supply_Scroll_Utility_Single",1,0,0,0,0,0,0,0
+
+new treasuretable "CRE_TreasuryVault_1_Treasure"
+new subtable "0,1;1,2;2,1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "CRE_TreasuryVault_2_Treasure"
+new subtable "0,1;1,2;2,1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "CRE_TreasuryVault_3_Treasure"
+new subtable "0,1;1,2;2,1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "CRE_TreasuryVault_4_Treasure"
+new subtable "0,1;1,2;2,1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "SCL_InterrogationTable_Hidden_Chest"
+new subtable "0,1;1,2;2,1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Exploration_Minor",1,0,0,0,0,0,0,0
+
+new treasuretable "TWN_Brewer_Treasure"
+new subtable "-1"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+new subtable "2,1"
+object category "T_Exploration_Major",1,0,0,0,0,0,0,0
+
+new treasuretable "MOO_SecretStudyTreasure_Chest"
+new subtable "-1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Exploration_Minor",1,0,0,0,0,0,0,0
+
+new treasuretable "MOO_KethericCombat_Chest"
+new subtable "-1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Exploration_Major",1,0,0,0,0,0,0,0
+
+new treasuretable "MOO_StudyReward_Chest"
+new subtable "-1"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Exploration_Minor",1,0,0,0,0,0,0,0
+
+new treasuretable "MOO_KethhericPersonalBelonging_Chest"
+new subtable "-1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Exploration_Minor",1,0,0,0,0,0,0,0
+
+new treasuretable "MOO_ConfiscatedGoods"
+new subtable "-2"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Exploration_Minor",1,0,0,0,0,0,0,0
+
+new treasuretable "MOO_EvidenceChest"
+new subtable "-1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Exploration_Minor",1,0,0,0,0,0,0,0
+
+new treasuretable "SHA_PlayerMirror_Reward"
+new subtable "-1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Exploration_Minor",1,0,0,0,0,0,0,0
+
+new treasuretable "S_SHA_SilentLibrary_HiddenStash"
+new subtable "-1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Exploration_Minor",1,0,0,0,0,0,0,0
+
+new treasuretable "SHA_JusticiarSkeleton_Combat_Treasure"
+new subtable "-1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Exploration_Minor",1,0,0,0,0,0,0,0
+
+new treasuretable "WYR_OpenHand_Priest"
+new subtable "-1"
+object category "T_Gold_Meager",1,0,0,0,0,0,0,0
+object category "T_Gold_Pocket_Poor",1,0,0,0,0,0,0,0
+new subtable "0,1;1,3"
+object category "T_WYR_OpenHand_Belongings",1,0,0,0,0,0,0,0
+object category "T_WYR_OpenHand_Alchemy_Basic",1,0,0,0,0,0,0,0
+new treasuretable "WYR_OpenHand_PersonalChest"
+new subtable "-1"
+object category "T_WYR_OpenHand_Belongings",1,0,0,0,0,0,0,0
+new subtable "0,1;1,1"
+object category "T_Clothes_Poor_Random",1,0,0,0,0,0,0,0
+new subtable "0,1;1,2"
+object category "T_Gold_Meager",2,0,0,0,0,0,0,0
+object category "T_Gold_Pocket_Poor",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+
+new treasuretable "WYR_Circus_Ringmaster_Chest"
+new subtable "-1"
+object category "T_Gold_Stash_Wealthy",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_OBJ_Scroll_SpeakWithDead",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_OBJ_Skull",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_OBJ_HandMirror",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_SCL_Distillery_PurpleWormPoisonIngredient",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_WPN_Bonesaw",0,0,0,0,0,0,0,0
+
+new treasuretable "WYR_WyrmsCastle_Banites_OpulentChest"
+new subtable "-1"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+
+new treasuretable "WYR_JungleOfChult_Arcanic_Treasure"
+new subtable "-1"
+object category "T_REL_Special_High",1,0,0,0,0,0,0,0
+
+new treasuretable "WYR_SmugglerCave_Basement_Treasure"
+new subtable "-1"
+object category "T_REL_All_Epic",1,0,0,0,0,0,0,0
+
+new treasuretable "CRE_RooftopExploration_Chest"
+new subtable "1,2;2,2;3,1;4,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Exploration_Minor",1,0,0,0,0,0,0,0
+
+new treasuretable "CRE_Axemaster_Buried_Chest"
+new subtable "0,1;1,2;2,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Exploration_Minor",1,0,0,0,0,0,0,0
+
+new treasuretable "SCL_AbsoluteSurvivalItem"
+new subtable "0,1;1,2;2,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Exploration_Minor",1,0,0,0,0,0,0,0
+
+new treasuretable "SCL_MorgueHidden_Chest"
+new subtable "-1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Exploration_Minor",1,0,0,0,0,0,0,0
+
+new treasuretable "SCL_MorgueHiddenCliff_Chest"
+new subtable "1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Exploration_Minor",1,0,0,0,0,0,0,0
+
+new treasuretable "SCL_MasonGuild_Chest"
+new subtable "-1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Exploration_Minor",1,0,0,0,0,0,0,0
+
+new treasuretable "HAV_FlamingFistCorpse"
+new subtable "0,1;1,2;2,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Exploration_Minor",1,0,0,0,0,0,0,0
+
+new treasuretable "HAV_TavernHiddenPlank"
+new subtable "0,1;1,2;2,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Exploration_Minor",1,0,0,0,0,0,0,0
+
+new treasuretable "HAV_TavernTrapped_Chest"
+new subtable "-1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Exploration_Minor",1,0,0,0,0,0,0,0
+
+new treasuretable "HAV_CaveExploration_Chest"
+new subtable "-1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Exploration_Minor",1,0,0,0,0,0,0,0
+
+new treasuretable "HAV_HoneymoonLodge_Chest"
+new subtable "-1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Exploration_Minor",1,0,0,0,0,0,0,0
+
+new treasuretable "SHA_AcademyAltar_Chest"
+new subtable "-1"
+object category "T_REL_All_Uncommon",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Exploration_Minor",1,0,0,0,0,0,0,0
+
+new treasuretable "SHA_HiddenRoom_Magic_Chest"
+new subtable "0,1;1,2;2,2"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Exploration_Minor",1,0,0,0,0,0,0,0
+
+new treasuretable "SHA_Orthon_Chest"
+new subtable "-1"
+object category "T_Gold_Stash_Wealthy",1,0,0,0,0,0,0,0
+new subtable "2,3;3,2;4,1;5,1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "COL_VaultPod2_Treasure"
+new subtable "-1"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+
+new treasuretable "COL_VaultPod1_Treasure"
+new subtable "-1"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+
+new treasuretable "COL_VaultPod4_Treasure"
+new subtable "-1"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_DevilsFee_HelsikChest_Treasure"
+new subtable "-1"
+object category "T_REL_All_Epic",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_StormshoreTabernacle_Tyr_Treasure"
+new subtable "-1"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_StormshoreTabernacle_Helm_Treasure"
+new subtable "-1"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_StormshoreTabernacle_GenericGod_Treasure"
+new subtable "-1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_CountingShouse_Vault9_Treasure"
+new subtable "-1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "BGO_MagicArmor_FlamingFist_Armory"
+new subtable "-1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_WQH_AllandraChest"
+new subtable "-1"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_ElfSong_Rat_Treasure"
+new subtable "-1"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+
+new treasuretable "WYR_Tara_Tressym_Treasure"
+new subtable "-1"
+object category "T_REL_All_Epic",1,0,0,0,0,0,0,0
+
+new treasuretable "SCL_SHA_TadpoledSkeleton_Treasure"
+new subtable "0,1;1,2;2,1"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_DevilForge_Cellar_Treasure"
+new subtable "-1"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+
+new treasuretable "GOB_WaterfallChest"
+new subtable "1,1"
+object category "T_Exploration_Major",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_CONS_DRINK_Wine_Bottle",1,0,0,0,0,0,0,0
+new subtable "0,1;1,2;2,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_CountingHouse_CommonVault_2_Treasure"
+new subtable "0,1;1,1;2,1"
+object category "T_REL_Special_High",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_CountingHouse_CommonVault_6_Treasure"
+new subtable "-1"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+new subtable "6,1"
+object category "I_OBJ_ArrowOfFiendSlaying",1,0,0,0,0,0,0,0
+new subtable "6,1"
+object category "I_OBJ_ArrowOfAberrationSlaying",1,0,0,0,0,0,0,0
+
+new treasuretable "PLA_Corpse_Skeleton_River"
+new subtable "1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_ST_GEN_Valuables_Necklace_Silver",1,0,0,0,0,0,0,0
+
+new treasuretable "CRA_HarperTreasureBox"
+new subtable "-1"
+object category "T_REL_All_Uncommon",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Gold_Stash_Poor",1,0,0,0,0,0,0,0
+new subtable "0,1;1,1"
+object category "T_Valuables_Gems",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_OBJ_Potion_Of_Speed",1,0,0,0,0,0,0,0
+
+new treasuretable "SharFinal_Skeleton01"
+new subtable "1,1"
+object category "T_REL_Special_High",1,0,0,0,0,0,0,0
+
+// CHARACTERS LOOT
+
+new treasuretable "AMP_Brakedance"
+new subtable "0,1;1,1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "AMP_Ooze"
+new subtable "0,1;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "AMP_Owlbear"
+new subtable "-2"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+new subtable "0,1;l,1"
+object category "I_Resonance_Matrix",1,0,0,0,0,0,0,0
+
+new treasuretable "SHA_Skeleton_Giant"
+new subtable "-1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "AMP_GOB_Priestess"
+new subtable "-1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "AMP_ButWhereIsGekh"
+new subtable "-2"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "AMP_Merregon"
+new subtable "1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "AMP_KuoToa_Boss"
+new subtable "1,1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "AMP_1Act"
+new subtable "1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "AMP_2Act"
+new subtable "1,1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "AMP_3Act_Generic"
+new subtable "0,1;1,2"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "AMP_Gith_3Act"
+new subtable "0,1;1,1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+new subtable "0,1;1,1"
+object category "T_REL_Special_High",1,0,0,0,0,0,0,0
+
+new treasuretable "AMP_Dolor"
+new subtable "1,4;2,3;3,2;4,1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+new subtable "l,1"
+object category "I_Resonance_Matrix",1,0,0,0,0,0,0,0
+
+new treasuretable "AMP_GithGeneral_50_Rare"
+new subtable "0,1;1,1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "AMP_GithDoctor"
+new subtable "-3"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "AMP_Dror"
+new subtable "-1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+new subtable "0,1;l,1"
+object category "I_Resonance_Matrix",1,0,0,0,0,0,0,0
+
+new treasuretable "TUT_Zhalk_Loot"
+new subtable "-1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_Resonance_Matrix",1,0,0,0,0,0,0,0
+
+new treasuretable "SCL_AasimarSurvivor_Body"
+new subtable "1,1"
+object category "T_ST_GEN_Valuables_Ring_Gold",1,0,0,0,0,0,0,0
+new subtable "0,1;1,1"
+object category "T_Valuables_Gems",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Gold_Meager",1,0,0,0,0,0,0,0
+new subtable "0,2;1,2;2,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "TUT_DeadTrall"
+CanMerge 1
+new subtable "0,5;1,1"
+object category "T_REL_All_Uncommon",1,0,0,0,0,0,0,0
+
+new treasuretable "UND_MycoVillage_DeadDrowHermit"
+new subtable "3,1"
+object category "T_ST_Alchemy_Crystals",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Gold_Pocket_Modest",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Supply_Alchemy_Poison",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "T_ST_Alchemy_Loot_Rare",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "DEN_DruidLeader"
+new subtable "1,1"
+object category "I_OBJ_FOOD_Chicken",1,0,0,0,0,0,0,0
+
+new treasuretable "FOR_DeathOfATrueSoul_TrueSoul"
+new subtable "1,1"
+object category "T_Gold_Pocket_Modest",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_OBJ_Bottle",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Supply_MeatAndCheese",1,0,0,0,0,0,0,0
+
+new treasuretable "Inquisitor_CRE"
+new subtable "-1"
+object category "I_WPN_Greatsword_Gith",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_ARM_HalfPlate_Body_Githyanki",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_Resonance_Matrix",1,0,0,0,0,0,0,0
+
+new treasuretable "EQP_Jaheira_Loot"
+new subtable "-1"
+object category "T_REL_All_Legendary",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_UNI_Leather_Jaheira",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_UNI_Jaheira_Gloves",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_UNI_Jaheira_Boots",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_ARM_Camp_Body_Jaheira",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_ARM_Camp_Shoes_Jaheira",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_OBJ_Backpack_CampSupplies",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_OBJ_Bag_AlchemyPouch",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_ARM_Underwear_Jaheira",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_Resonance_Matrix",1,0,0,0,0,0,0,0
+
+new treasuretable "Drider_Loot"
+new subtable "0,2;1,2;2,1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_Quest_SCL_MoonlanternWithPixie",1,0,0,0,0,0,0,0
+
+new treasuretable "DEN_GoblinRaider_Captain"
+CanMerge 1
+new subtable "-1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "GOB_GoblinPriest"
+CanMerge 1
+new subtable "1,1;2,1;3,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "Isobel_Loot"
+new subtable "1,1;2,1;3,1;4,1"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+new subtable "0,1;1,1;2,1;3,1;4,1"
+object category "I_Enchant_Crystal2",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_AMP_Book",1,0,0,0,0,0,0,0
+
+new treasuretable "UND_KC_Elder_Brithvar"
+CanMerge 1
+new subtable "-1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "GOB_DrowCommander"
+new subtable "1,4;2,3;3,2"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_GOB_DrowCommander_Leather_Gloves",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_ARM_Camp_Body_Minthara",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_ARM_Camp_Shoes_Minthara",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_OBJ_Backpack_CampSupplies",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_OBJ_Bag_AlchemyPouch",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_ARM_Underwear_Minthara",1,0,0,0,0,0,0,0
+
+new treasuretable "UND_Spectator_Reward"
+new subtable "1,3;2,2;3,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "GLO_Orin"
+new subtable "-1"
+object category "T_Gold_Combat_Leader_Strong",1,0,0,0,0,0,0,0
+
+new treasuretable "FOR_Spiders_SpiderQueen"
+new subtable "1,2;2,2;3,1;4,2;5,1;6,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "UND_Bulette"
+new subtable "-1"
+object category "T_REL_All_Epic",20,0,0,0,0,0,0,0
+object category "T_REL_All_Legendary",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_OBJ_Tool_Shovel",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_OBJ_Bucket",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_OBJ_Bone",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_AMP_Mold_Gar",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_Resonance_Matrix",1,0,0,0,0,0,0,0
+
+new treasuretable "FOR_SchoolOgre_Smart_Corpse"
+new subtable "0,2;1,1;2,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "FOR_Spiders_ApprenticeSkeleton"
+new subtable "0,2;1,1;2,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "PLA_ConflictedFlind"
+new subtable "-1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_Monster_Gnoll",1,0,0,0,0,0,0,0
+
+new treasuretable "PLA_ConflictedFlind_EA"
+new subtable "1,1"
+object category "I_OBJ_Skull",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_OBJ_Bone",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_OBJ_Ruby",1,0,0,0,0,0,0,0
+
+new treasuretable "DEN_Prodigy"
+new subtable "1,1"
+object category "T_Gold_Pocket_Poor",1,0,0,0,0,0,0,0
+new subtable "2,1;3,1"
+object category "T_DEN_Prodigy_Book",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Scroll",1,0,0,0,0,0,0,0
+new subtable "0,1;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_AMP_Book",1,0,0,0,0,0,0,0
+new subtable "-2"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "UND_Minotaur_Armed"
+new subtable "-1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_Gold_Stash_Normal",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_AMP_Vanilla_Craft",1,0,0,0,0,0,0,0
+
+new treasuretable "UND_PetrifiedDrow_Drow_Commander"
+new subtable "-1"
+object category "T_Gold_Combat_Leader_Weak",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_ST_GEN_Valuables_Necklace_Silver",1,0,0,0,0,0,0,0
+new subtable "1,1; 2,1"
+object category "T_ST_GEN_Valuables_Ring_Silver",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_Supplies_Camp_Pack",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_AMP_Vanilla_Craft",1,0,0,0,0,0,0,0
+
+new treasuretable "UND_DeepGnome_Dead_TreasureNearMyco"
+new subtable "-1"
+object category "T_Gold_Stash_Modest",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_AMP_Vanilla_Craft",1,0,0,0,0,0,0,0
+
+new treasuretable "UND_KC_Thrinn"
+new subtable "-1"
+object category "T_UND_Duergar_Officer",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "UND_KC_AdamantineGolem"
+new subtable "1,5;2,2;3,1;4,1"
+object category "T_REL_All_Rare",100,0,0,0,0,0,0,0
+object category "T_REL_All_Epic",2,0,0,0,0,0,0,0
+object category "T_REL_All_Legendary",1,0,0,0,0,0,0,0
+new subtable "2,1;3,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_Resonance_Matrix",1,0,0,0,0,0,0,0
+
+new treasuretable "UND_KC_Mimic_BardReward"
+new subtable "-1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_AMP_Vanilla_Craft",1,0,0,0,0,0,0,0
+
+new treasuretable "TWN_TollCollector_Treasure"
+new subtable "-1"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_Resonance_Matrix",1,0,0,0,0,0,0,0
+
+new treasuretable "TWN_Surgeon_Treasure"
+new subtable "-1"
+object category "T_Gold_Pocket_Wealthy",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "T_ST_Alchemy_Loot_Rare",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_Resonance_Matrix",1,0,0,0,0,0,0,0
+
+new treasuretable "TWN_ZealousAssistant1_Treasure"
+new subtable "-1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "TWN_ZealousAssistant2_Treasure"
+new subtable "-1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "TWN_ZealousAssistant3_Treasure"
+new subtable "-1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "TWN_ZealousAssistant4_Treasure"
+new subtable "-1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "MOO_WallTentacleOgress_Treasure"
+new subtable "-1"
+object category "T_REL_Special_High",1,0,0,0,0,0,0,0
+
+new treasuretable "MOO_MimicReward"
+new subtable "-1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "WYR_Windmill_Mindflayer"
+new subtable "1,1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_AMP_Book",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_Ptaris_Treasure"
+new subtable "-1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "SCL_DarkShamblingMound"
+new subtable "0,1;1,1;2,1"
+object category "T_REL_Special_High",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_ALCH_Ingredient_Part_WoodBark",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_ALCH_Ingredient_Mushroom_ShadowrootSac",1,0,0,0,0,0,0,0
+
+new treasuretable "HAV_PhasmOx"
+new subtable "-1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "HAV_Meenlock_Reward"
+new subtable "1,1;2,1;3,1;4,1"
+object category "T_REL_Special_Normal",2,0,0,0,0,0,0,0
+
+new treasuretable "LOW_StranglerLuke_Treasure"
+new subtable "-1"
+object category "T_REL_Special_High",1,0,0,0,0,0,0,0
+
+new treasuretable "SCl_VlaakithKiller_Treasure"
+new subtable "-2"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_HOH_HopeLoot_Treasure"
+new subtable "-1"
+object category "T_REL_Special_High",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_DeathKnight_Weak_Treasure_1"
+new subtable "-2"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_DeathKnight_Weak_Treasure_2"
+new subtable "-2"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_DeathKnight_Elite_Treasure"
+new subtable "-2"
+object category "T_REL_Special_High",1,0,0,0,0,0,0,0
+
+new treasuretable "UND_Tower_AutomatonCorpse"
+new subtable "0,4;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "UND_Tower_Bernard"
+new subtable "-1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_Resonance_Matrix",1,0,0,0,0,0,0,0
+
+new treasuretable "WYR_Circus_Ringmaster"
+new subtable "1,1"
+object category "T_Gold_Meager",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_OBJ_Skull",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "T_Supply_Scrolls_Necro_Single",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "I_OBJ_Scroll_SpeakWithDead",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_ALCH_Solution_Potion_Rest_Lesser",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_REL_Special_High",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "MOO_PrisonWarden"
+new subtable "1,1"
+object category "T_MOO_Cultist",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_ALCH_Solution_Potion_Rest_Lesser",1,0,0,0,0,0,0,0
+new subtable "-2"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "UND_KC_Shar_DeadJusticiar"
+new subtable "0,1; 1,2"
+object category "I_OBJ_Bone",3,0,0,0,0,0,0,0
+object category "T_Gold_Meager",2,0,0,0,0,0,0,0
+object category "I_OBJ_Candle_Gold",4,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_WPN_Scimitar",1,0,0,0,0,0,0,0
+object category "I_WPN_Dagger",1,0,0,0,0,0,0,0
+object category "T_REL_All_Uncommon",2,0,0,0,0,0,0,0
+object category "T_Valuables_Gems",1,0,0,0,0,0,0,0
+object category "T_Gold_Pocket_Modest",1,0,0,0,0,0,0,0
+object category "T_Scroll",1,0,0,0,0,0,0,0
+object category "T_Alchemy_Potion_Utility",1,0,0,0,0,0,0,0
+
+new treasuretable "SCL_CursedKuoToa_Champion"
+CanMerge 1
+new subtable "-1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "REL_Zevlor"
+new subtable "0,1;1,2;2,3;3,2;4,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+new subtable "0,1;1,1"
+object category "I_Enchant_Crystal4",1,0,0,0,0,0,0,0
+
+new treasuretable "REL_Halsin"
+new subtable "2,1;3,1;4,2;5,2;6,3;7,4;8,3;9,2"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+new subtable "-2"
+object category "I_Resonance_Matrix",1,0,0,0,0,0,0,0
+
+new treasuretable "REL_Yeva"
+new subtable "0,1;1,2;2,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "AMP_Hunter"
+new subtable "1,1;0,2;2,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "AMP_Ravengard"
+new subtable "-2"
+object category "T_REL_Special_High",1,0,0,0,0,0,0,0
+
+// TRADERS
+
+// mod.io version Traders
+
+new treasuretable "AMP_Dothrophenia"
+new subtable "-1"
+object category "I_Para_TrainingRing",1,0,0,0,0,0,0,0
+new subtable "-16"
+object category "I_Enchant_Crystal4",1,0,0,0,0,0,0,0
+new subtable "-8"
+object category "I_Enchant_Crystal2",1,0,0,0,0,0,0,0
+new subtable "-4"
+object category "I_Enchant_Crystal",1,0,0,0,0,0,0,0
+new subtable "-2"
+object category "I_Enchant_Crystal3",1,0,0,0,0,0,0,0
+
+new treasuretable "FOR_SchoolOgre_Smart"
+new subtable "0,2;1,1"
+object category "T_REL_All_Uncommon",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Gold_Pocket_Normal",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_ST_Food_Sausage",1,0,0,0,0,0,0,0
+
+new treasuretable "Florrick_Trader"
+new subtable "1,1"
+object category "T_REL_All_Uncommon",1,0,0,0,0,0,0,0
+new subtable "0,2;1,1"
+object category "T_REL_All_Uncommon",1,0,0,0,0,0,0,0
+new subtable "0,4;1,1"
+object category "T_REL_All_Uncommon",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Gold_Trader_Modest",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_OBJ_Scroll_Revivify",1,0,0,0,0,0,0,0
+new subtable "1,1;2,1"
+object category "I_WPN_Torch",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_JewelTrader"
+CanMerge 1
+new subtable "5,1;7,1;8,1;6,1"
+object category "T_Valuables_Gems",1,0,0,0,0,0,0,0
+
+// vanilla traders
+
+new treasuretable "PLA_Tollhouse_SuppliesTrader"
+new subtable "1,1"
+object category "T_Gold_Trader_Normal",1,0,0,0,0,0,0,0
+new subtable "4,1;5,1;6,1"
+object category "T_ST_SpecialArrow",1,0,0,0,0,0,0,0
+new subtable "4,1;5,1;6,1"
+object category "T_ST_Throwable",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "I_OBJ_Kit_ThievesTools",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "I_OBJ_Kit_TrapDisarm",1,0,0,0,0,0,0,0
+new subtable "4,1"
+object category "I_OBJ_Scroll_Revivify",1,0,0,0,0,0,0,0
+new subtable "6,1;7,1;8,1"
+object category "T_ST_RandomPotion",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Supplies_Vendor_Poor",1,0,0,0,0,0,0,0
+new subtable "-2"
+object category "T_REL_All_Uncommon",1,0,0,0,0,0,0,0
+
+new treasuretable "PLA_Tollhouse_SuppliesTrader_None"
+new subtable "1,1"
+object category "T_Gold_Trader_Normal",1,0,0,0,0,0,0,0
+new subtable "4,1;5,1;6,1"
+object category "T_ST_SpecialArrow",1,0,0,0,0,0,0,0
+new subtable "4,1;5,1;6,1"
+object category "T_ST_Throwable",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "I_OBJ_Kit_ThievesTools",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "I_OBJ_Kit_TrapDisarm",1,0,0,0,0,0,0,0
+new subtable "4,1"
+object category "I_OBJ_Scroll_Revivify",1,0,0,0,0,0,0,0
+new subtable "6,1;7,1;8,1"
+object category "T_ST_RandomPotion",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Supplies_Vendor_Poor",1,0,0,0,0,0,0,0
+
+new treasuretable "END_CircusTrader"
+CanMerge 1
+new subtable "1,1"
+object category "T_REL_All_Uncommon",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_REL_All_Uncommon",1,0,0,0,0,0,0,0
+new subtable "0,2;1,1"
+object category "T_REL_All_Uncommon",1,0,0,0,0,0,0,0
+new subtable "0,4;1,1"
+object category "T_REL_All_Uncommon",1,0,0,0,0,0,0,0
+new subtable "0,4;1,1"
+object category "T_REL_All_Uncommon",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+new subtable "0,2;1,1"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+new subtable "0,4;1,1"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_REL_All_Epic",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_REL_All_Epic",1,0,0,0,0,0,0,0
+new subtable "0,2;1,1;2,1;3,1;4,1;5,1;6,1"
+object category "T_REL_All_Epic",1,0,0,0,0,0,0,0
+
+new treasuretable "DEN_Volo_Trade"
+new subtable "-1"
+object category "T_Gold_Trader_Modest",1,0,0,0,0,0,0,0
+new subtable "2,1"
+object category "T_DEN_Volo_Trade_Book",1,0,0,0,0,0,0,0
+new subtable "9,1"
+object category "T_Scroll",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "I_OBJ_Potion_Healing",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_OBJ_GreaseBottle",1,0,0,0,0,0,0,0
+new subtable "4,1;5,1;6,1"
+object category "I_OBJ_Kit_ThievesTools",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_REL_All_Uncommon",1,0,0,0,0,0,0,0
+new subtable "5,1"
+object category "I_OBJ_Potion_Of_Animal_Speaking",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_Supplies_Vendor_Poor",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "T_ST_MusicInstrument_Common",1,0,0,0,0,0,0,0
+
+new treasuretable "DEN_Volo_Trade_None"
+new subtable "-1"
+object category "T_Gold_Trader_Modest",1,0,0,0,0,0,0,0
+new subtable "2,1"
+object category "T_DEN_Volo_Trade_Book",1,0,0,0,0,0,0,0
+new subtable "9,1"
+object category "T_Scroll",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "I_OBJ_Potion_Healing",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_OBJ_GreaseBottle",1,0,0,0,0,0,0,0
+new subtable "4,1;5,1;6,1"
+object category "I_OBJ_Kit_ThievesTools",1,0,0,0,0,0,0,0
+new subtable "5,1"
+object category "I_OBJ_Potion_Of_Animal_Speaking",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_Supplies_Vendor_Poor",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "T_ST_MusicInstrument_Common",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_Guildhall_Bartender"
+new subtable "-1"
+object category "T_Gold_Trader_Normal",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_Supplies_Vendor_Barkeep_Fancy",1,0,0,0,0,0,0,0
+new subtable "10,1"
+object category "T_ST_Alcohol_Cheap",1,0,0,0,0,0,0,0
+new subtable "5,1"
+object category "T_ST_Alcohol_Medium",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_Supplies_Vendor_Cook",1,0,0,0,0,0,0,0
+new subtable "1,1; 2,1; 3,1"
+object category "I_CONS_Drug_Ether",1,0,0,0,0,0,0,0
+new subtable "1,1; 2,1; 3,1"
+object category "I_CONS_Drug_Dreammist",1,0,0,0,0,0,0,0
+new subtable "1,1; 2,1; 3,1"
+object category "I_CONS_Drug_Silkroot",1,0,0,0,0,0,0,0
+new subtable "1,1; 2,1; 3,1"
+object category "I_CONS_Drug_Terazul",1,0,0,0,0,0,0,0
+new subtable "-3"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_Guildhall_Bartender_None"
+new subtable "-1"
+object category "T_Gold_Trader_Normal",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_Supplies_Vendor_Barkeep_Fancy",1,0,0,0,0,0,0,0
+new subtable "10,1"
+object category "T_ST_Alcohol_Cheap",1,0,0,0,0,0,0,0
+new subtable "5,1"
+object category "T_ST_Alcohol_Medium",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_Supplies_Vendor_Cook",1,0,0,0,0,0,0,0
+new subtable "1,1; 2,1; 3,1"
+object category "I_CONS_Drug_Ether",1,0,0,0,0,0,0,0
+new subtable "1,1; 2,1; 3,1"
+object category "I_CONS_Drug_Dreammist",1,0,0,0,0,0,0,0
+new subtable "1,1; 2,1; 3,1"
+object category "I_CONS_Drug_Silkroot",1,0,0,0,0,0,0,0
+new subtable "1,1; 2,1; 3,1"
+object category "I_CONS_Drug_Terazul",1,0,0,0,0,0,0,0
+
+new treasuretable "MOO_BugBearvendor_Trade"
+new subtable "1,1"
+object category "T_Gold_Trader_Wealthy",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_Melee_Finesse",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_Melee_Adjusted",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_Ranged_Adjusted",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_BodyArmor",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_SecondaryArmor",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_ST_Generic_Magic_MediumArmor_ACT2_B",1,0,0,0,0,0,0,0
+new subtable "1,1"
+StartLevel "7"
+object category "T_ST_Generic_Magic_HeavyArmor_ACT2_B",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_ST_Generic_Magic_LightArmor_ACT2_B",1,0,0,0,0,0,0,0
+new subtable "-4"
+object category "T_REL_All_Uncommon",1,0,0,0,0,0,0,0
+new subtable "-5"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+new subtable "0,1;1,1"
+object category "T_REL_All_Epic",1,0,0,0,0,0,0,0
+new subtable "1,1;2,1"
+object category "I_WPN_Torch",1,0,0,0,0,0,0,0
+new subtable "2,1"
+object category "I_ALCH_Solution_Potion_Rest_Lesser",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_SCL_Supplies_Trader",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_AMP_Book",1,0,0,0,0,0,0,0
+
+new treasuretable "MOO_BugBearvendor_Trade_None"
+new subtable "1,1"
+object category "T_Gold_Trader_Wealthy",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_Melee_Finesse",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_Melee_Adjusted",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_Ranged_Adjusted",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_BodyArmor",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_SecondaryArmor",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_ST_Generic_Magic_MediumArmor_ACT2_B",1,0,0,0,0,0,0,0
+new subtable "1,1"
+StartLevel "7"
+object category "T_ST_Generic_Magic_HeavyArmor_ACT2_B",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_ST_Generic_Magic_LightArmor_ACT2_B",1,0,0,0,0,0,0,0
+new subtable "1,1;2,1"
+object category "I_WPN_Torch",1,0,0,0,0,0,0,0
+new subtable "2,1"
+object category "I_ALCH_Solution_Potion_Rest_Lesser",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_SCL_Supplies_Trader",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_AMP_Book",1,0,0,0,0,0,0,0
+
+new treasuretable "MOO_BugBearVendor_PrivateStash"
+new subtable "1,1"
+object category "T_Gold_Trader_Wealthy",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_Melee_Finesse",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_Melee_Adjusted",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_Ranged_Adjusted",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_BodyArmor",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_SecondaryArmor",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_ST_Generic_Magic_MediumArmor_ACT2_B",1,0,0,0,0,0,0,0
+new subtable "1,1"
+StartLevel "7"
+object category "T_ST_Generic_Magic_HeavyArmor_ACT2_B",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_ST_Generic_Magic_LightArmor_ACT2_B",1,0,0,0,0,0,0,0
+new subtable "1,1;2,1"
+object category "I_WPN_Torch",1,0,0,0,0,0,0,0
+new subtable "2,1"
+object category "I_ALCH_Solution_Potion_Rest_Lesser",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_SCL_Supplies_Trader",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_AMP_Book",1,0,0,0,0,0,0,0
+new subtable "-3"
+object category "T_REL_All_Uncommon",1,0,0,0,0,0,0,0
+new subtable "-3"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+new subtable "-2"
+object category "T_REL_All_Epic",1,0,0,0,0,0,0,0
+
+new treasuretable "MOO_BugBearVendor_PrivateStash_None"
+new subtable "1,1"
+object category "T_Gold_Trader_Wealthy",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_Melee_Finesse",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_Melee_Adjusted",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_Ranged_Adjusted",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_BodyArmor",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_SecondaryArmor",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_ST_Generic_Magic_MediumArmor_ACT2_B",1,0,0,0,0,0,0,0
+new subtable "1,1"
+StartLevel "7"
+object category "T_ST_Generic_Magic_HeavyArmor_ACT2_B",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_ST_Generic_Magic_LightArmor_ACT2_B",1,0,0,0,0,0,0,0
+new subtable "1,1;2,1"
+object category "I_WPN_Torch",1,0,0,0,0,0,0,0
+new subtable "2,1"
+object category "I_ALCH_Solution_Potion_Rest_Lesser",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_SCL_Supplies_Trader",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_AMP_Book",1,0,0,0,0,0,0,0
+
+new treasuretable "WYR_Danthelon_Trader"
+new subtable "1,1"
+object category "T_Gold_Trader_Wealthy",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_Melee_Finesse",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_Melee_Adjusted",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_Ranged_Adjusted",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_BodyArmor_Magic",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_Flasks",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_Ranged_Arrows",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_BGO_Supplies_Fancy",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Supplies_Camp_Pack",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_RevivifyScrolls",1,0,0,0,0,0,0,0
+new subtable "-3"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+new subtable "-2"
+object category "T_REL_All_Epic",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_OBJ_Scroll_ShockingGrasp",1,0,0,0,0,0,0,0
+new subtable "3,1;4,1"
+object category "I_OBJ_Kit_ThievesTools",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "I_OBJ_Kit_TrapDisarm",1,0,0,0,0,0,0,0
+
+new treasuretable "WYR_Danthelon_Trader_None"
+new subtable "1,1"
+object category "T_Gold_Trader_Wealthy",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_Melee_Finesse",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_Melee_Adjusted",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_Ranged_Adjusted",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_BodyArmor_Magic",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_Flasks",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_Ranged_Arrows",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_BGO_Supplies_Fancy",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Supplies_Camp_Pack",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_RevivifyScrolls",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_OBJ_Scroll_ShockingGrasp",1,0,0,0,0,0,0,0
+new subtable "3,1;4,1"
+object category "I_OBJ_Kit_ThievesTools",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "I_OBJ_Kit_TrapDisarm",1,0,0,0,0,0,0,0
+
+new treasuretable "HAV_HarperQuarterMaster"
+new subtable "1,1"
+object category "T_Gold_Trader_Wealthy",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_OBJ_Oil_Of_The_Basilisk",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "I_OBJ_Kit_ThievesTools",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "I_OBJ_Kit_TrapDisarm",1,0,0,0,0,0,0,0
+new subtable "2,1"
+object category "I_WPN_Torch",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_BodyArmor",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_SecondaryArmor_Metal",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_Shield",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_Melee_Finesse",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_Melee_Magic",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_ST_SimpleRangedWeapons_1",1,0,0,0,0,0,0,0
+new subtable "2,1"
+object category "I_OBJ_Scroll_SpeakWithDead",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_Scrolls",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_Flasks",1,0,0,0,0,0,0,0
+new subtable "15,1"
+object category "T_ST_SpecialArrow",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "I_OBJ_GreaseBottle",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_SCL_Supplies_Trader",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Supplies_Camp_Pack",1,0,0,0,0,0,0,0
+new subtable "5,1"
+object category "T_ST_Dye",1,0,0,0,0,0,0,0
+new subtable "5,1"
+object category "T_ST_DyeRare",1,0,0,0,0,0,0,0
+new subtable "-10"
+object category "I_OBJ_Dye_Remover",1,0,0,0,0,0,0,0
+new subtable "-4"
+object category "T_REL_All_Uncommon",1,0,0,0,0,0,0,0
+new subtable "-5"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+
+new treasuretable "HAV_HarperQuarterMaster_None"
+new subtable "1,1"
+object category "T_Gold_Trader_Wealthy",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_OBJ_Oil_Of_The_Basilisk",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "I_OBJ_Kit_ThievesTools",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "I_OBJ_Kit_TrapDisarm",1,0,0,0,0,0,0,0
+new subtable "2,1"
+object category "I_WPN_Torch",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_BodyArmor",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_SecondaryArmor_Metal",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_Shield",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_Melee_Finesse",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_Melee_Magic",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_ST_SimpleRangedWeapons_1",1,0,0,0,0,0,0,0
+new subtable "2,1"
+object category "I_OBJ_Scroll_SpeakWithDead",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_Scrolls",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_Flasks",1,0,0,0,0,0,0,0
+new subtable "15,1"
+object category "T_ST_SpecialArrow",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "I_OBJ_GreaseBottle",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_SCL_Supplies_Trader",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Supplies_Camp_Pack",1,0,0,0,0,0,0,0
+new subtable "5,1"
+object category "T_ST_Dye",1,0,0,0,0,0,0,0
+new subtable "5,1"
+object category "T_ST_DyeRare",1,0,0,0,0,0,0,0
+new subtable "-10"
+object category "I_OBJ_Dye_Remover",1,0,0,0,0,0,0,0
+
+new treasuretable "HAV_HarperQuarterMaster_Magic_Trade"
+new subtable "-1"
+object category "T_Empty",1,0,0,0,0,0,0,0
+
+new treasuretable "MOO_InfernalTrader_Trade"
+new subtable "-1"
+object category "T_Gold_Trader_Wealthy",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_Supply_Alchemy_Poison",2,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "T_Alchemy_PotionOrCoating_Supply",2,0,0,0,0,0,0,0
+new subtable "2,1"
+object category "T_Supply_Scrolls",4,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "T_Supply_Alchemy_Common",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_SCL_Supplies_Trader",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_Supplies_Camp_Pack",1,0,0,0,0,0,0,0
+new subtable "7,1"
+object category "T_ST_DyeRare",1,0,0,0,0,0,0,0
+new subtable "-7"
+object category "I_OBJ_Dye_Remover",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_REL_All_Uncommon",1,0,0,0,0,0,0,0
+new subtable "-6"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+new subtable "0,1;1,1"
+object category "T_REL_All_Epic",1,0,0,0,0,0,0,0
+
+new treasuretable "MOO_InfernalTrader_Trade_None"
+new subtable "-1"
+object category "T_Gold_Trader_Wealthy",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_Supply_Alchemy_Poison",2,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "T_Alchemy_PotionOrCoating_Supply",2,0,0,0,0,0,0,0
+new subtable "2,1"
+object category "T_Supply_Scrolls",4,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "T_Supply_Alchemy_Common",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_SCL_Supplies_Trader",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_Supplies_Camp_Pack",1,0,0,0,0,0,0,0
+new subtable "7,1"
+object category "T_ST_DyeRare",1,0,0,0,0,0,0,0
+new subtable "-7"
+object category "I_OBJ_Dye_Remover",1,0,0,0,0,0,0,0
+
+new treasuretable "MOO_InfernalTrader_SpecialStock"
+new subtable "-1"
+object category "T_REL_All_Epic",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_OBJ_Scroll_CharmPerson",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_OBJ_Scroll_Invisibility",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_OBJ_Scroll_SummonQuasit",1,0,0,0,0,0,0,0
+new subtable "4,1"
+object category "T_Supply_Alchemy_Rare",1,0,0,0,0,0,0,0
+
+new treasuretable "MOO_InfernalTrader_SpecialStock_None"
+new subtable "-1"
+object category "I_OBJ_Scroll_CharmPerson",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_OBJ_Scroll_Invisibility",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_OBJ_Scroll_SummonQuasit",1,0,0,0,0,0,0,0
+new subtable "4,1"
+object category "T_Supply_Alchemy_Rare",1,0,0,0,0,0,0,0
+
+new treasuretable "CRE_Expeditioner_Magic_Trade"
+new subtable "-1"
+object category "T_Empty",1,0,0,0,0,0,0,0
+
+new treasuretable "CRE_Expeditioner_Trade"
+new subtable "1,1"
+object category "T_Gold_Trader_Normal",1,0,0,0,0,0,0,0
+new subtable "2,1;3,1;4,1"
+object category "I_WPN_Torch",1,0,0,0,0,0,0,0
+new subtable "2,1;3,1;4,1"
+object category "T_Alchemy_Potion_Utility",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Alchemy_Potion_Elixir",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Alchemy_Oil",1,0,0,0,0,0,0,0
+new subtable "2,1;3,1;4,1"
+object category "I_OBJ_Kit_ThievesTools",1,0,0,0,0,0,0,0
+new subtable "2,1;3,1;4,1"
+object category "I_OBJ_Kit_TrapDisarm",1,0,0,0,0,0,0,0
+new subtable "3,1;4,1"
+object category "T_Alchemy_Potion_Healing",1,0,0,0,0,0,0,0
+new subtable "2,1;3,1;4,1"
+object category "T_Scroll",1,0,0,0,0,0,0,0
+new subtable "2,1;3,1;4,1"
+object category "T_ST_SpecialArrow",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_ST_MusicInstrument",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Supplies_Vendor_Poor",1,0,0,0,0,0,0,0
+new subtable "5,1"
+object category "T_ST_DyeRare",1,0,0,0,0,0,0,0
+new subtable "-5"
+object category "I_OBJ_Dye_Remover",1,0,0,0,0,0,0,0
+new subtable "-5"
+object category "T_REL_All_Uncommon",1,0,0,0,0,0,0,0
+new subtable "-6"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+
+new treasuretable "CRE_Expeditioner_Trade_None"
+new subtable "1,1"
+object category "T_Gold_Trader_Normal",1,0,0,0,0,0,0,0
+new subtable "2,1;3,1;4,1"
+object category "I_WPN_Torch",1,0,0,0,0,0,0,0
+new subtable "2,1;3,1;4,1"
+object category "T_Alchemy_Potion_Utility",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Alchemy_Potion_Elixir",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Alchemy_Oil",1,0,0,0,0,0,0,0
+new subtable "2,1;3,1;4,1"
+object category "I_OBJ_Kit_ThievesTools",1,0,0,0,0,0,0,0
+new subtable "2,1;3,1;4,1"
+object category "I_OBJ_Kit_TrapDisarm",1,0,0,0,0,0,0,0
+new subtable "3,1;4,1"
+object category "T_Alchemy_Potion_Healing",1,0,0,0,0,0,0,0
+new subtable "2,1;3,1;4,1"
+object category "T_Scroll",1,0,0,0,0,0,0,0
+new subtable "2,1;3,1;4,1"
+object category "T_ST_SpecialArrow",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_ST_MusicInstrument",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Supplies_Vendor_Poor",1,0,0,0,0,0,0,0
+new subtable "5,1"
+object category "T_ST_DyeRare",1,0,0,0,0,0,0,0
+new subtable "-5"
+object category "I_OBJ_Dye_Remover",1,0,0,0,0,0,0,0
+
+new treasuretable "DEN_Entrance_Trade"
+new subtable "1,1"
+object category "T_Gold_Trader_Normal",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_ST_DEN_Entrance_Trade_Armor",1,0,0,0,0,0,0,0
+new subtable "3,1;2,1;1,1"
+object category "I_OBJ_Potion_Healing",1,0,0,0,0,0,0,0
+new subtable "3,1;2,1;1,1"
+object category "T_ST_RandomPotion",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "I_OBJ_Scroll_Revivify",1,0,0,0,0,0,0,0
+new subtable "9,1"
+object category "T_Scroll",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_ST_DEN_Trader_Ranged_Arrows",1,0,0,0,0,0,0,0
+new subtable "4,1"
+object category "I_OBJ_Kit_ThievesTools",1,0,0,0,0,0,0,0
+new subtable "2,1"
+object category "I_WPN_Torch",1,0,0,0,0,0,0,0
+new subtable "5,1"
+object category "I_OBJ_Kit_TrapDisarm",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_Supplies_Vendor_Fancy",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_OBJ_Tool_Shovel",1,0,0,0,0,0,0,0
+new subtable "7,1"
+object category "T_ST_Dye",1,0,0,0,0,0,0,0
+new subtable "-10"
+object category "I_OBJ_Dye_Remover",1,0,0,0,0,0,0,0
+new subtable "-6"
+object category "T_REL_All_Uncommon",1,0,0,0,0,0,0,0
+new subtable "-3"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+
+new treasuretable "DEN_Entrance_Trade_None"
+new subtable "1,1"
+object category "T_Gold_Trader_Normal",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_ST_DEN_Entrance_Trade_Armor",1,0,0,0,0,0,0,0
+new subtable "3,1;2,1;1,1"
+object category "I_OBJ_Potion_Healing",1,0,0,0,0,0,0,0
+new subtable "3,1;2,1;1,1"
+object category "T_ST_RandomPotion",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "I_OBJ_Scroll_Revivify",1,0,0,0,0,0,0,0
+new subtable "9,1"
+object category "T_Scroll",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_ST_DEN_Trader_Ranged_Arrows",1,0,0,0,0,0,0,0
+new subtable "4,1"
+object category "I_OBJ_Kit_ThievesTools",1,0,0,0,0,0,0,0
+new subtable "2,1"
+object category "I_WPN_Torch",1,0,0,0,0,0,0,0
+new subtable "5,1"
+object category "I_OBJ_Kit_TrapDisarm",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_Supplies_Vendor_Fancy",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_OBJ_Tool_Shovel",1,0,0,0,0,0,0,0
+new subtable "7,1"
+object category "T_ST_Dye",1,0,0,0,0,0,0,0
+new subtable "-10"
+object category "I_OBJ_Dye_Remover",1,0,0,0,0,0,0,0
+
+new treasuretable "DEN_Ethel"
+new subtable "4,1"
+object category "I_OBJ_Potion_Healing",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_OBJ_Potion_Healing_Greater",1,0,0,0,0,0,0,0
+new subtable "5,1"
+object category "I_CONS_DRINK_Water_Bottle",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "I_OBJ_Potion_Of_Hill_Giant_Strength",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Gold_Trader_Normal",1,0,0,0,0,0,0,0
+new subtable "5,1;6,1"
+object category "T_ST_DEN_Ethel_Alchemy",1,0,0,0,0,0,0,0
+new subtable "-3"
+object category "T_REL_All_Uncommon",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Supplies_Vendor_Tiny",1,0,0,0,0,0,0,0
+
+new treasuretable "DEN_Ethel_None"
+new subtable "4,1"
+object category "I_OBJ_Potion_Healing",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_OBJ_Potion_Healing_Greater",1,0,0,0,0,0,0,0
+new subtable "5,1"
+object category "I_CONS_DRINK_Water_Bottle",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "I_OBJ_Potion_Of_Hill_Giant_Strength",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Gold_Trader_Normal",1,0,0,0,0,0,0,0
+new subtable "5,1;6,1"
+object category "T_ST_DEN_Ethel_Alchemy",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Supplies_Vendor_Tiny",1,0,0,0,0,0,0,0
+
+new treasuretable "HAG_Ethel"
+new subtable "-1"
+object category "T_Gold_Trader_Wealthy",1,0,0,0,0,0,0,0
+new subtable "2,1;1,1;3,1;0,1"
+object category "I_OBJ_Potion_Healing_Greater",1,0,0,0,0,0,0,0
+new subtable "2,1;1,1;3,1;0,1"
+object category "T_ST_RandomPotion",1,0,0,0,0,0,0,0
+new subtable "2,1;1,1;3,1;0,1"
+object category "T_Alchemy_Poison",1,0,0,0,0,0,0,0
+new subtable "2,1;1,1;3,1;0,1"
+object category "I_OBJ_FireBottle",1,0,0,0,0,0,0,0
+new subtable "2,1;1,1;3,1;0,1"
+object category "I_OBJ_AcidBottle",1,0,0,0,0,0,0,0
+new subtable "7,1"
+object category "T_Scroll",1,0,0,0,0,0,0,0
+
+new treasuretable "DEN_Weaponsmith_Trade"
+new subtable "-4"
+object category "T_REL_All_Uncommon",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_BodyArmor_Magic",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_Melee",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Rapier",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Halberd",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Trident",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Battleaxe",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Club",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Greatsword",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_Ranged_Adjusted",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_BodyArmor",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_SecondaryArmor",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Gold_Trader_Normal",1,0,0,0,0,0,0,0
+new subtable "5,1"
+object category "T_ST_Dye",1,0,0,0,0,0,0,0
+new subtable "-5"
+object category "I_OBJ_Dye_Remover",1,0,0,0,0,0,0,0
+
+new treasuretable "DEN_Weaponsmith_Trade_None"
+new subtable "1,1"
+object category "T_EquipmentTrader_BodyArmor_Magic",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_Melee",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Rapier",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Halberd",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Trident",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Battleaxe",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Club",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Greatsword",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_Ranged_Adjusted",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_BodyArmor",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_SecondaryArmor",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Gold_Trader_Normal",1,0,0,0,0,0,0,0
+new subtable "5,1"
+object category "T_ST_Dye",1,0,0,0,0,0,0,0
+new subtable "-5"
+object category "I_OBJ_Dye_Remover",1,0,0,0,0,0,0,0
+
+new treasuretable "GOB_Festivities_Trader_GoblinWeapons"
+new subtable "4,1;5,1;6,1"
+object category "I_WPN_Goblin_Quarterstaff",2,0,0,0,0,0,0,0
+object category "I_WPN_Goblin_Scimitar",2,0,0,0,0,0,0,0
+object category "I_WPN_Goblin_Shortbow",2,0,0,0,0,0,0,0
+object category "I_WPN_Goblin_Spear",2,0,0,0,0,0,0,0
+object category "I_WPN_Goblin_Mace",2,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "T_Supplies_Camp_Pack",1,0,0,0,0,0,0,0
+new subtable "2,1; 3,1"
+object category "T_Supplies_Food_10",2,0,0,0,0,0,0,0
+object category "T_Supply_Alcohol",1,0,0,0,0,0,0,0
+new subtable "7,1"
+object category "T_ST_Dye",1,0,0,0,0,0,0,0
+new subtable "-10"
+object category "I_OBJ_Dye_Remover",1,0,0,0,0,0,0,0
+
+new treasuretable "GOB_Festivities_Trader"
+new subtable "1,1"
+object category "I_WPN_Longbow_1",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Greatsword_1",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Greatclub_1",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_WarPick_1",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_ARM_Hide_Body_2",1,0,0,0,0,0,0,0
+new subtable "-3"
+object category "T_REL_All_Uncommon",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+new subtable "3,1;4,1;5,1;2,1;1,1;0,1"
+object category "I_OBJ_Potion_Healing",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "I_OBJ_Scroll_Revivify",1,0,0,0,0,0,0,0
+new subtable "2,1;1,1;0,1"
+object category "I_OBJ_Potion_Healing_Greater",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_Gold_Trader_Normal",1,0,0,0,0,0,0,0
+new subtable "2,1"
+object category "T_MagicItems",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "I_WPN_Torch",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_GOB_Festivities_Trader_GoblinWeapons",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_OBJ_Tool_Shovel",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "T_Valuables_Jewelry",1,0,0,0,0,0,0,0
+new subtable "4,1"
+object category "T_Kitchen_Rich",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "T_ST_MusicInstrument",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_Supplies_Vendor_Tiny",1,0,0,0,0,0,0,0
+
+new treasuretable "GOB_Festivities_Trader_None"
+new subtable "1,1"
+object category "I_WPN_Longbow_1",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Greatsword_1",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Greatclub_1",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_WarPick_1",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_ARM_Hide_Body_2",1,0,0,0,0,0,0,0
+new subtable "3,1;4,1;5,1;2,1;1,1;0,1"
+object category "I_OBJ_Potion_Healing",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "I_OBJ_Scroll_Revivify",1,0,0,0,0,0,0,0
+new subtable "2,1;1,1;0,1"
+object category "I_OBJ_Potion_Healing_Greater",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_Gold_Trader_Normal",1,0,0,0,0,0,0,0
+new subtable "2,1"
+object category "T_MagicItems",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "I_WPN_Torch",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_GOB_Festivities_Trader_GoblinWeapons",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_OBJ_Tool_Shovel",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "T_Valuables_Jewelry",1,0,0,0,0,0,0,0
+new subtable "4,1"
+object category "T_Kitchen_Rich",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "T_ST_MusicInstrument",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_Supplies_Vendor_Tiny",1,0,0,0,0,0,0,0
+
+new treasuretable "GOB_Quartermaster"
+new subtable "1,1"
+object category "T_Gold_Trader_Normal",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_Melee",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_Ranged_Adjusted",1,0,0,0,0,0,0,0
+new subtable "2,1"
+object category "I_OBJ_ArrowOfFire",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "I_OBJ_FireBottle",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_GOB_Quartermaster_Potions",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "I_OBJ_Kit_ThievesTools",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "I_OBJ_Kit_TrapDisarm",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_Scrolls",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_MagicItems",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Torch",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Supplies_Vendor_Fancy",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_GOB_Quartermaster_Armor",1,0,0,0,0,0,0,0
+new subtable "-4"
+object category "T_REL_All_Uncommon",1,0,0,0,0,0,0,0
+new subtable "-3"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+
+new treasuretable "GOB_Quartermaster_None"
+new subtable "1,1"
+object category "T_Gold_Trader_Normal",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_Melee",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_Ranged_Adjusted",1,0,0,0,0,0,0,0
+new subtable "2,1"
+object category "I_OBJ_ArrowOfFire",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "I_OBJ_FireBottle",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_GOB_Quartermaster_Potions",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "I_OBJ_Kit_ThievesTools",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "I_OBJ_Kit_TrapDisarm",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_Scrolls",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_MagicItems",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Torch",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Supplies_Vendor_Fancy",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_GOB_Quartermaster_Armor",1,0,0,0,0,0,0,0
+
+new treasuretable "PLA_ZhentarimTrader_Extra"
+new subtable "2,1;3,1"
+object category "I_OBJ_Potion_Of_Invisibility",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Dagger_1",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Dagger_2",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Longbow_1",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Longbow_2",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Greataxe",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Greatsword",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Halberd",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Glaive",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_HeavyCrossbow",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Rapier",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Battleaxe",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_WarPick",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Flail",1,0,0,0,0,0,0,0
+new subtable "2,1"
+object category "I_WPN_HandCrossbow",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Longbow",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Morningstar",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Warhammer",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Longsword",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Trident",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Scimitar",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Pike",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Shortsword",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "I_WPN_LightHammer",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_LightCrossbow",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Mace",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Dagger",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Greatclub",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Handaxe",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Shortbow",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Club",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "I_WPN_Javelin",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Quarterstaff",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Sickle",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Maul",1,0,0,0,0,0,0,0
+new subtable "2,1"
+object category "T_ST_MartialMeleeWeapons_1",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_BodyArmor_Magic",1,0,0,0,0,0,0,0
+
+new treasuretable "PLA_ZhentarimTrader"
+new subtable "1,1"
+object category "T_PLA_ZhentarimTrader_Common",1,0,0,0,0,0,0,0
+new subtable "2,1;3,1"
+object category "I_OBJ_Potion_Of_Invisibility",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Dagger_1",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Dagger_2",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Longbow_1",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Longbow_2",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Greataxe",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Greatsword",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Halberd",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Glaive",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_HeavyCrossbow",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Rapier",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Battleaxe",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_WarPick",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Flail",1,0,0,0,0,0,0,0
+new subtable "2,1"
+object category "I_WPN_HandCrossbow",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Longbow",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Morningstar",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Warhammer",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Longsword",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Trident",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Scimitar",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Pike",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Shortsword",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "I_WPN_LightHammer",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_LightCrossbow",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Mace",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Dagger",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Greatclub",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Handaxe",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Shortbow",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Club",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "I_WPN_Javelin",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Quarterstaff",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Sickle",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Maul",1,0,0,0,0,0,0,0
+new subtable "2,1"
+object category "T_ST_MartialMeleeWeapons_1",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_BodyArmor_Magic",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_MagicItems",1,0,0,0,0,0,0,0
+new subtable "2,1"
+object category "T_ST_MusicInstrument",1,0,0,0,0,0,0,0
+new subtable "-3"
+object category "T_REL_All_Uncommon",1,0,0,0,0,0,0,0
+new subtable "-7"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+
+new treasuretable "PLA_ZhentarimTrader_None"
+new subtable "1,1"
+object category "T_PLA_ZhentarimTrader_Common",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_PLA_ZhentarimTrader_Extra",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_MagicItems",1,0,0,0,0,0,0,0
+new subtable "2,1"
+object category "T_ST_MusicInstrument",1,0,0,0,0,0,0,0
+
+new treasuretable "CRE_MagicItem_Gith_Trader"
+new subtable "1,1"
+object category "T_Empty",1,0,0,0,0,0,0,0
+
+new treasuretable "CRE_GithQuartermistress_Trade"
+new subtable "1,1"
+object category "T_Gold_Trader_Normal",1,0,0,0,0,0,0,0
+new subtable "3,1;4,1"
+object category "PotionHealing",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_Melee",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_BodyArmor",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_Ranged",1,0,0,0,0,0,0,0
+new subtable "8,1"
+object category "T_ST_SpecialArrow",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_CRE_Supplies_Gith_Trader",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_RevivifyScrolls",1,0,0,0,0,0,0,0
+new subtable "-4"
+object category "T_REL_All_Uncommon",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_REL_All_Epic",1,0,0,0,0,0,0,0
+new subtable "-3"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_Enchant_Crystal",1,0,0,0,0,0,0,0
+
+new treasuretable "CRE_GithQuartermistress_Trade_None"
+new subtable "1,1"
+object category "T_Gold_Trader_Normal",1,0,0,0,0,0,0,0
+new subtable "3,1;4,1"
+object category "PotionHealing",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_Melee",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_BodyArmor",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_Ranged",1,0,0,0,0,0,0,0
+new subtable "8,1"
+object category "T_ST_SpecialArrow",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_CRE_Supplies_Gith_Trader",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_RevivifyScrolls",1,0,0,0,0,0,0,0
+
+new treasuretable "UND_SocietyOfBrilliance_Hobgoblin"
+new subtable "-1"
+object category "T_Gold_Trader_Wealthy",1,0,0,0,0,0,0,0
+new subtable "2,1; 3,1"
+object category "T_UND_SocietyOfBrilliance_Book",1,0,0,0,0,0,0,0
+new subtable "10,1"
+object category "T_Scroll",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "I_OBJ_Scroll_Revivify",1,0,0,0,0,0,0,0
+new subtable "3,1;4,1;5,1;2,1;1,1;0,1"
+object category "I_OBJ_Potion_Healing",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_OBJ_Tool_IdentifyingGlass",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_UND_Supplies",1,0,0,0,0,0,0,0
+new subtable "-5"
+object category "T_REL_All_Uncommon",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+new subtable "2,1;3,1;1,1"
+object category "T_Supply_Alchemy_Loot_Rare",1,0,0,0,0,0,0,0
+
+new treasuretable "UND_SocietyOfBrilliance_Hobgoblin_None"
+new subtable "-1"
+object category "T_Gold_Trader_Wealthy",1,0,0,0,0,0,0,0
+new subtable "2,1; 3,1"
+object category "T_UND_SocietyOfBrilliance_Book",1,0,0,0,0,0,0,0
+new subtable "10,1"
+object category "T_Scroll",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "I_OBJ_Scroll_Revivify",1,0,0,0,0,0,0,0
+new subtable "3,1;4,1;5,1;2,1;1,1;0,1"
+object category "I_OBJ_Potion_Healing",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_OBJ_Tool_IdentifyingGlass",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_UND_Supplies",1,0,0,0,0,0,0,0
+new subtable "2,1;3,1;1,1"
+object category "T_Supply_Alchemy_Loot_Rare",1,0,0,0,0,0,0,0
+
+new treasuretable "UND_SocietyOfBrilliance_Mindflayer"
+new subtable "2,1; 3,1"
+object category "T_UND_SocietyOfBrilliance_Book",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_Gold_Trader_Normal",1,0,0,0,0,0,0,0
+new subtable "3,1;4,1;5,1"
+object category "I_OBJ_MindflayerBulb_Caustic",1,0,0,0,0,0,0,0
+new subtable "3,1;4,1;5,1"
+object category "I_OBJ_MindflayerBulb_Spiked",1,0,0,0,0,0,0,0
+new subtable "3,1;4,1;5,1"
+object category "I_OBJ_MindflayerBulb_Vacuum",1,0,0,0,0,0,0,0
+new subtable "3,1;2,1;1,1;0,1"
+object category "I_OBJ_Potion_Of_Psychic_Resistance",1,0,0,0,0,0,0,0
+new subtable "-2"
+object category "T_REL_All_Uncommon",1,0,0,0,0,0,0,0
+new subtable "-3"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+new subtable "-2"
+object category "I_Enchant_Crystal2",1,0,0,0,0,0,0,0
+
+new treasuretable "UND_SocietyOfBrilliance_Mindflayer_None"
+new subtable "2,1;3,1"
+object category "T_UND_SocietyOfBrilliance_Book",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_Gold_Trader_Normal",1,0,0,0,0,0,0,0
+new subtable "3,1;4,1;5,1"
+object category "I_OBJ_MindflayerBulb_Caustic",1,0,0,0,0,0,0,0
+new subtable "3,1;4,1;5,1"
+object category "I_OBJ_MindflayerBulb_Spiked",1,0,0,0,0,0,0,0
+new subtable "3,1;4,1;5,1"
+object category "I_OBJ_MindflayerBulb_Vacuum",1,0,0,0,0,0,0,0
+new subtable "3,1;2,1;1,1;0,1"
+object category "I_OBJ_Potion_Of_Psychic_Resistance",1,0,0,0,0,0,0,0
+new subtable "0,9;1,1"
+object category "I_Enchant_Crystal4",1,0,0,0,0,0,0,0
+
+new treasuretable "UND_MycoVillage_AlchemistDwarf_Trade"
+new subtable "1,1"
+EndLevel "6"
+object category "T_EquipmentTrader_BodyArmor_Magic",1,0,0,0,0,0,0,0
+new subtable "3,1"
+EndLevel "6"
+object category "T_ST_SimpleRangedWeapons_1",1,0,0,0,0,0,0,0
+object category "T_ST_MartialRangedWeapons_1",1,0,0,0,0,0,0,0
+new subtable "3,1"
+EndLevel "6"
+object category "T_ST_SimpleRangedWeapons",1,0,0,0,0,0,0,0
+object category "T_ST_MartialRangedWeapons",1,0,0,0,0,0,0,0
+new subtable "1,1"
+EndLevel "6"
+object category "I_ARM_Leather_Body",0,0,0,0,0,0,0,0
+new subtable "1,1"
+EndLevel "6"
+object category "I_ARM_Helmet_Leather",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_Gold_Trader_Wealthy",1,0,0,0,0,0,0,0
+new subtable "3,1;4,1;5,1;2,1;1,4;0,1"
+object category "I_OBJ_Potion_Healing",1,0,0,0,0,0,0,0
+new subtable "2,1;1,1;0,1"
+object category "I_OBJ_Potion_Of_Animal_Speaking",1,0,0,0,0,0,0,0
+new subtable "2,1;1,1;0,1"
+object category "I_OBJ_Potion_Of_Invisibility",1,0,0,0,0,0,0,0
+new subtable "2,1;1,1;0,1"
+object category "I_OBJ_Potion_Of_Fire_Resistance",1,0,0,0,0,0,0,0
+new subtable "2,1;1,1;0,1"
+object category "I_ALCH_Solution_Potion_DetectThoughts",1,0,0,0,0,0,0,0
+new subtable "2,1;1,1;0,1"
+object category "I_OBJ_Potion_Of_Hill_Giant_Strength",1,0,0,0,0,0,0,0
+new subtable "1,1;0,1"
+object category "T_AlchemistTrader_Poison",1,0,0,0,0,0,0,0
+new subtable "2,1;3,1"
+object category "I_OBJ_Kit_ThievesTools",1,0,0,0,0,0,0,0
+new subtable "2,1;3,1"
+object category "I_OBJ_Kit_TrapDisarm",1,0,0,0,0,0,0,0
+new subtable "2,1"
+EndLevel "6"
+object category "I_WPN_Torch",1,0,0,0,0,0,0,0
+new subtable "-1"
+EndLevel "6"
+object category "T_UND_Supplies",1,0,0,0,0,0,0,0
+new subtable "2,1"
+object category "T_ST_Dye",1,0,0,0,0,0,0,0
+new subtable "2,1"
+object category "T_ST_DyeRare",1,0,0,0,0,0,0,0
+new subtable "-5"
+object category "I_OBJ_Dye_Remover",1,0,0,0,0,0,0,0
+new subtable "-4"
+object category "T_REL_All_Uncommon",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+new subtable "4,1;5,1"
+object category "T_Supply_Alchemy_Herbs_Rare",1,0,0,0,0,0,0,0
+object category "T_Supply_Alchemy_Mushrooms_Rare",1,0,0,0,0,0,0,0
+object category "T_Supply_Alchemy_Mushrooms_Underdark",1,0,0,0,0,0,0,0
+
+new treasuretable "UND_MycoVillage_AlchemistDwarf_Trade_None"
+new subtable "1,1"
+EndLevel "6"
+object category "T_EquipmentTrader_BodyArmor_Magic",1,0,0,0,0,0,0,0
+new subtable "3,1"
+EndLevel "6"
+object category "T_ST_SimpleRangedWeapons_1",1,0,0,0,0,0,0,0
+object category "T_ST_MartialRangedWeapons_1",1,0,0,0,0,0,0,0
+new subtable "3,1"
+EndLevel "6"
+object category "T_ST_SimpleRangedWeapons",1,0,0,0,0,0,0,0
+object category "T_ST_MartialRangedWeapons",1,0,0,0,0,0,0,0
+new subtable "1,1"
+EndLevel "6"
+object category "I_ARM_Leather_Body",0,0,0,0,0,0,0,0
+new subtable "1,1"
+EndLevel "6"
+object category "I_ARM_Helmet_Leather",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_Gold_Trader_Wealthy",1,0,0,0,0,0,0,0
+new subtable "3,1;4,1;5,1;2,1;1,4;0,1"
+object category "I_OBJ_Potion_Healing",1,0,0,0,0,0,0,0
+new subtable "2,1;1,1;0,1"
+object category "I_OBJ_Potion_Of_Animal_Speaking",1,0,0,0,0,0,0,0
+new subtable "2,1;1,1;0,1"
+object category "I_OBJ_Potion_Of_Invisibility",1,0,0,0,0,0,0,0
+new subtable "2,1;1,1;0,1"
+object category "I_OBJ_Potion_Of_Fire_Resistance",1,0,0,0,0,0,0,0
+new subtable "2,1;1,1;0,1"
+object category "I_ALCH_Solution_Potion_DetectThoughts",1,0,0,0,0,0,0,0
+new subtable "2,1;1,1;0,1"
+object category "I_OBJ_Potion_Of_Hill_Giant_Strength",1,0,0,0,0,0,0,0
+new subtable "1,1;0,1"
+object category "T_AlchemistTrader_Poison",1,0,0,0,0,0,0,0
+new subtable "2,1;3,1"
+object category "I_OBJ_Kit_ThievesTools",1,0,0,0,0,0,0,0
+new subtable "2,1;3,1"
+object category "I_OBJ_Kit_TrapDisarm",1,0,0,0,0,0,0,0
+new subtable "2,1"
+EndLevel "6"
+object category "I_WPN_Torch",1,0,0,0,0,0,0,0
+new subtable "-1"
+EndLevel "6"
+object category "T_UND_Supplies",1,0,0,0,0,0,0,0
+new subtable "2,1"
+object category "T_ST_Dye",1,0,0,0,0,0,0,0
+new subtable "2,1"
+object category "T_ST_DyeRare",1,0,0,0,0,0,0,0
+new subtable "-5"
+object category "I_OBJ_Dye_Remover",1,0,0,0,0,0,0,0
+new subtable "4,1;5,1"
+object category "T_Supply_Alchemy_Herbs_Rare",1,0,0,0,0,0,0,0
+object category "T_Supply_Alchemy_Mushrooms_Rare",1,0,0,0,0,0,0,0
+object category "T_Supply_Alchemy_Mushrooms_Underdark",1,0,0,0,0,0,0,0
+
+new treasuretable "UND_MycoVillage_AlchemistDwarf_Trade_Magic"
+new subtable "-2"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_REL_All_Epic",1,0,0,0,0,0,0,0
+
+new treasuretable "UND_MycoVillage_AlchemistDwarf_Trade_Magic_None"
+new subtable "-1"
+object category "T_Empty",1,0,0,0,0,0,0,0
+
+new treasuretable "UND_KC_Trader_Weapons"
+new subtable "-1"
+object category "T_Gold_Trader_Normal",1,0,0,0,0,0,0,0
+new subtable "4,1; 5,1"
+object category "T_UND_Supplies",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_Supplies_Camp_Pack",1,0,0,0,0,0,0,0
+new subtable "3,1;2,1;1,1;0,1"
+object category "I_OBJ_Potion_Healing",1,0,0,0,0,0,0,0
+new subtable "-4"
+object category "T_REL_All_Uncommon",1,0,0,0,0,0,0,0
+
+new treasuretable "UND_KC_Trader_Weapons_None"
+new subtable "-1"
+object category "T_Gold_Trader_Normal",1,0,0,0,0,0,0,0
+new subtable "4,1; 5,1"
+object category "T_UND_Supplies",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_Supplies_Camp_Pack",1,0,0,0,0,0,0,0
+new subtable "3,1;2,1;1,1;0,1"
+object category "I_OBJ_Potion_Healing",1,0,0,0,0,0,0,0
+
+new treasuretable "HAV_UnfortunateGnome_Magic_Trade"
+new subtable "-3"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+
+new treasuretable "HAV_UnfortunateGnome_Trade_None"
+new subtable "1,1"
+object category "T_Gold_Trader_Normal",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "T_Alchemy_Potion_Utility",1,0,0,0,0,0,0,0
+new subtable "6,1"
+object category "T_Alchemy_Potion_Healing",1,0,0,0,0,0,0,0
+new subtable "3,1;4,1;5,1"
+object category "I_WPN_Torch",1,0,0,0,0,0,0,0
+new subtable "5,1;6,1;7,1"
+object category "I_OBJ_FireBottle",2,0,0,0,0,0,0,0
+object category "I_OBJ_AcidBottle",1,0,0,0,0,0,0,0
+object category "I_OBJ_Bomb",2,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_Ranged_Arrows",5,0,0,0,0,0,0,0
+new subtable "1,1;2,1;3,1;4,1"
+object category "I_OBJ_Kit_ThievesTools",3,0,0,0,0,0,0,0
+object category "I_OBJ_Kit_TrapDisarm",3,0,0,0,0,0,0,0
+new subtable "0,1;1,1;2,1"
+object category "T_ST_MusicInstrument",1,0,0,0,0,0,0,0
+new subtable "7,1"
+object category "T_ST_DyeRare",1,0,0,0,0,0,0,0
+new subtable "-5"
+object category "I_OBJ_Dye_Remover",1,0,0,0,0,0,0,0
+
+new treasuretable "WYR_UnfortunateGnome_None"
+new subtable "1,1"
+object category "T_Gold_Trader_Normal",1,0,0,0,0,0,0,0
+new subtable "5,1"
+object category "T_Alchemy_Potion_Utility",1,0,0,0,0,0,0,0
+new subtable "5,1"
+object category "T_Alchemy_Oil",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "T_Alchemy_Potion_Healing",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "I_WPN_Torch",1,0,0,0,0,0,0,0
+new subtable "7,1"
+object category "I_OBJ_FireBottle",2,0,0,0,0,0,0,0
+object category "I_OBJ_AcidBottle",1,0,0,0,0,0,0,0
+object category "I_OBJ_Bomb",2,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_Ranged_Arrows",5,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "I_OBJ_Kit_ThievesTools",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "I_OBJ_Kit_TrapDisarm",1,0,0,0,0,0,0,0
+new subtable "7,1"
+object category "T_ST_DyeRare",1,0,0,0,0,0,0,0
+new subtable "-5"
+object category "I_OBJ_Dye_Remover",1,0,0,0,0,0,0,0
+
+new treasuretable "HAV_Weaponsmith_Trade"
+new subtable "1,1"
+object category "T_DEN_Weaponsmith_Trade_None",1,0,0,0,0,0,0,0
+new subtable "1,1"
+StartLevel "7"
+object category "I_ARM_PlateArmor_Body",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_ST_Generic_Magic_LightArmor_ACT2_A",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_ST_Generic_Magic_MediumArmor_ACT2_A",1,0,0,0,0,0,0,0
+new subtable "1,1"
+StartLevel "7"
+object category "T_ST_Generic_Magic_HeavyArmor_ACT2_A",1,0,0,0,0,0,0,0
+new subtable "-6"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+
+new treasuretable "HAV_Weaponsmith_Trade_None"
+new subtable "1,1"
+object category "T_DEN_Weaponsmith_Trade_None",1,0,0,0,0,0,0,0
+new subtable "1,1"
+StartLevel "7"
+object category "I_ARM_PlateArmor_Body",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_ST_Generic_Magic_LightArmor_ACT2_A",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_ST_Generic_Magic_MediumArmor_ACT2_A",1,0,0,0,0,0,0,0
+new subtable "1,1"
+StartLevel "7"
+object category "T_ST_Generic_Magic_HeavyArmor_ACT2_A",1,0,0,0,0,0,0,0
+
+new treasuretable "HAV_Thiefling_Trade"
+new subtable "-1"
+object category "T_Gold_Trader_Normal",1,0,0,0,0,0,0,0
+new subtable "2,1;3,1;4,1"
+object category "I_OBJ_Kit_ThievesTools",1,0,0,0,0,0,0,0
+new subtable "2,1;3,1;4,1"
+object category "I_OBJ_Kit_TrapDisarm",1,0,0,0,0,0,0,0
+new subtable "0,1;1,1;2,1"
+object category "T_Alchemy_Oil",1,0,0,0,0,0,0,0
+new subtable "0,1;1,1;2,1"
+object category "T_Alchemy_Potion_Elixir",1,0,0,0,0,0,0,0
+new subtable "0,1;1,1;2,1"
+object category "T_Alchemy_Potion_Utility",1,0,0,0,0,0,0,0
+new subtable "0,1;1,1;2,1"
+object category "I_OBJ_Potion_Of_Invisibility",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_SpecialArrow_Supply",3,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_Throwable_Supply",3,0,0,0,0,0,0,0
+new subtable "3,1;4,1;5,1"
+object category "I_WPN_Torch",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "T_ST_MusicInstrument",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_OBJ_Tool_Shovel",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_OBJ_Bucket",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_CONS_FOOD_Vegetable_Potato_Boiled",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_UNI_HAV_Thiefling_ArrowOfSlaying",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_UNI_HAV_Thiefling_CursedSpoon",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_UNI_HAV_Thiefling_DecanterOfEndlessWater",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_UNI_HAV_Thiefling_FishingRod",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_UNI_HAV_Thiefling_SendingShell",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+
+new treasuretable "HAV_Thiefling_Trade_None"
+new subtable "-1"
+object category "T_Gold_Trader_Normal",1,0,0,0,0,0,0,0
+new subtable "2,1;3,1;4,1"
+object category "I_OBJ_Kit_ThievesTools",1,0,0,0,0,0,0,0
+new subtable "2,1;3,1;4,1"
+object category "I_OBJ_Kit_TrapDisarm",1,0,0,0,0,0,0,0
+new subtable "0,1;1,1;2,1"
+object category "T_Alchemy_Oil",1,0,0,0,0,0,0,0
+new subtable "0,1;1,1;2,1"
+object category "T_Alchemy_Potion_Elixir",1,0,0,0,0,0,0,0
+new subtable "0,1;1,1;2,1"
+object category "T_Alchemy_Potion_Utility",1,0,0,0,0,0,0,0
+new subtable "0,1;1,1;2,1"
+object category "I_OBJ_Potion_Of_Invisibility",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_SpecialArrow_Supply",3,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_Throwable_Supply",3,0,0,0,0,0,0,0
+new subtable "3,1;4,1;5,1"
+object category "I_WPN_Torch",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "T_ST_MusicInstrument",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_OBJ_Tool_Shovel",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_OBJ_Bucket",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_CONS_FOOD_Vegetable_Potato_Boiled",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_UNI_HAV_Thiefling_ArrowOfSlaying",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_UNI_HAV_Thiefling_CursedSpoon",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_UNI_HAV_Thiefling_DecanterOfEndlessWater",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_UNI_HAV_Thiefling_FishingRod",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_UNI_HAV_Thiefling_SendingShell",1,0,0,0,0,0,0,0
+
+new treasuretable "MOO_ZhentQuartermaster"
+new subtable "-1"
+object category "T_GOB_Quartermaster_None",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_REL_All_Uncommon",1,0,0,0,0,0,0,0
+new subtable "-6"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_REL_All_Epic",1,0,0,0,0,0,0,0
+
+new treasuretable "MOO_ZhentQuartermaster_None"
+new subtable "-1"
+object category "T_GOB_Quartermaster_None",1,0,0,0,0,0,0,0
+
+new treasuretable "WYR_Ironhand_Magic_Merchant"
+new subtable "-2"
+object category "T_REL_All_Uncommon",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+new subtable "-3"
+object category "T_REL_All_Epic",1,0,0,0,0,0,0,0
+
+new treasuretable "WYR_Ironhand_Merchant"
+new subtable "1,1"
+object category "T_WYR_Ironhand_Magic_Merchant",1,0,0,0,0,0,0,0
+new subtable "2,2;3,1"
+object category "I_OBJ_Scroll_RemoveCurse",1,0,0,0,0,0,0,0
+new subtable "4,1"
+object category "I_OBJ_Bomb_Sunflash",1,0,0,0,0,0,0,0
+new subtable "5,1"
+object category "T_ST_Throwable",1,0,0,0,0,0,0,0
+new subtable "5,1"
+object category "I_OBJ_Bomb",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_BGO_Supplies_Poor",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Gold_Trader_Modest",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_Ranged_Arrows",1,0,0,0,0,0,0,0
+
+new treasuretable "WYR_Ironhand_Merchant_None"
+new subtable "2,2;3,1"
+object category "I_OBJ_Scroll_RemoveCurse",1,0,0,0,0,0,0,0
+new subtable "4,1"
+object category "I_OBJ_Bomb_Sunflash",1,0,0,0,0,0,0,0
+new subtable "5,1"
+object category "T_ST_Throwable",1,0,0,0,0,0,0,0
+new subtable "5,1"
+object category "I_OBJ_Bomb",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_BGO_Supplies_Poor",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Gold_Trader_Modest",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_Ranged_Arrows",1,0,0,0,0,0,0,0
+
+new treasuretable "WYR_OrinsImpersonation_Smith"
+new subtable "1,1"
+object category "T_Gold_Trader_Wealthy",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_BodyArmor",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_BodyArmor_Magic",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_SecondaryArmor",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_Melee_Adjusted",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_Ranged_Arrows",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_WPN_Dagger_1",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_WPN_Longbow_1",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_WPN_Spear_1",1,0,0,0,0,0,0,0
+new subtable "-4"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+new subtable "-3"
+object category "T_REL_All_Epic",1,0,0,0,0,0,0,0
+
+new treasuretable "WYR_OrinsImpersonation_Smith_None"
+new subtable "1,1"
+object category "T_Gold_Trader_Wealthy",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_BodyArmor",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_BodyArmor_Magic",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_SecondaryArmor",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_Melee_Adjusted",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_Ranged_Arrows",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_WPN_Dagger_1",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_WPN_Longbow_1",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_WPN_Spear_1",1,0,0,0,0,0,0,0
+
+new treasuretable "WYR_SharranInformer_Basic"
+new subtable "-1"
+object category "T_Gold_Trader_Wealthy",1,0,0,0,0,0,0,0
+new subtable "2,1;3,1;4,1"
+object category "T_Valuables_Jewelry",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_Supply_Scrolls",1,0,0,0,0,0,0,0
+new subtable "2,1;3,1"
+object category "T_Valuables_Gems",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_ST_MusicInstrument",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_Supplies_Vendor_Poor",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_Alchemy_PotionOrCoating",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_ST_SpecialArrow",1,0,0,0,0,0,0,0
+new subtable "-2"
+object category "T_REL_All_Uncommon",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+
+new treasuretable "WYR_SharranInformer_Basic_None"
+new subtable "-1"
+object category "T_Gold_Trader_Wealthy",1,0,0,0,0,0,0,0
+new subtable "2,1;3,1;4,1"
+object category "T_Valuables_Jewelry",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_Supply_Scrolls",1,0,0,0,0,0,0,0
+new subtable "2,1;3,1"
+object category "T_Valuables_Gems",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_ST_MusicInstrument",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_Supplies_Vendor_Poor",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_Alchemy_PotionOrCoating",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_ST_SpecialArrow",1,0,0,0,0,0,0,0
+
+new treasuretable "WYR_SharranInformer_Extended"
+new subtable "-1"
+object category "T_WYR_SharranInformer_Basic_None",1,0,0,0,0,0,0,0
+new subtable "-2"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+new subtable "-4"
+object category "T_REL_All_Epic",1,0,0,0,0,0,0,0
+new subtable "8,1"
+object category "T_Alchemy_Coating",1,0,0,0,0,0,0,0
+new subtable "6,1"
+object category "T_Supply_Scroll_Single",1,0,0,0,0,0,0,0
+
+new treasuretable "WYR_SharranInformer_Extended_None"
+new subtable "-1"
+object category "T_WYR_SharranInformer_Basic_None",1,0,0,0,0,0,0,0
+new subtable "8,1"
+object category "T_Alchemy_Coating",1,0,0,0,0,0,0,0
+new subtable "6,1"
+object category "T_Supply_Scroll_Single",1,0,0,0,0,0,0,0
+
+new treasuretable "WYR_Thiefling_Trade"
+new subtable "-1"
+object category "T_HAV_Thiefling_Trade_None",1,0,0,0,0,0,0,0
+new subtable "-3"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_UNI_WYR_Thiefling_BaldursGateStone",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_UNI_WYR_Thiefling_HolyHandSoap",1,0,0,0,0,0,0,0
+
+new treasuretable "WYR_Thiefling_Trade_None"
+new subtable "-1"
+object category "T_HAV_Thiefling_Trade_None",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_UNI_WYR_Thiefling_BaldursGateStone",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_UNI_WYR_Thiefling_HolyHandSoap",1,0,0,0,0,0,0,0
+
+new treasuretable "WYR_Circus_KoboldMerchant_Magic"
+new subtable "-2"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+
+new treasuretable "WYR_Circus_KoboldMerchant"
+new subtable "1,1"
+object category "T_Gold_Trader_Normal",1,0,0,0,0,0,0,0
+new subtable "7,1"
+object category "T_Alchemy_Potion_Utility",1,0,0,0,0,0,0,0
+new subtable "7,1"
+object category "T_Alchemy_Potion_Elixir",1,0,0,0,0,0,0,0
+new subtable "6,1"
+object category "T_ST_SpecialArrow",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_WYR_Circus_KoboldMerchant_Magic",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_CONS_FOOD_Vegetable_Potato",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_Food_Neogi_Claws",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_Food_Giant_Hamster",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Clothes_Rich_Shoes",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_ST_Alcohol_Valuable",1,0,0,0,0,0,0,0
+new subtable "6,1"
+object category "T_ST_Alchemy_Loot_Common",1,0,0,0,0,0,0,0
+new subtable "15,1"
+object category "T_Ingredient_Alchemy_Rare",1,0,0,0,0,0,0,0
+
+new treasuretable "WYR_Circus_KoboldMerchant_None"
+new subtable "1,1"
+object category "T_Gold_Trader_Normal",1,0,0,0,0,0,0,0
+new subtable "7,1"
+object category "T_Alchemy_Potion_Utility",1,0,0,0,0,0,0,0
+new subtable "7,1"
+object category "T_Alchemy_Potion_Elixir",1,0,0,0,0,0,0,0
+new subtable "6,1"
+object category "T_ST_SpecialArrow",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_CONS_FOOD_Vegetable_Potato",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_Food_Neogi_Claws",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_Food_Giant_Hamster",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Clothes_Rich_Shoes",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_ST_Alcohol_Valuable",1,0,0,0,0,0,0,0
+new subtable "6,1"
+object category "T_ST_Alchemy_Loot_Common",1,0,0,0,0,0,0,0
+new subtable "15,1"
+object category "T_Ingredient_Alchemy_Rare",1,0,0,0,0,0,0,0
+
+new treasuretable "WYR_SharessCaress_Bartender_Trade_None"
+new subtable "1,1"
+object category "T_Supplies_Vendor_Barkeep_Fancy",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Gold_Trader_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "WYR_SharessCaress_Bartender_Trade_Potent"
+new subtable "3,1"
+object category "I_WYR_SharessCaress_PotentDrink",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_WYR_SharessCaress_Bartender_Trade",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+
+new treasuretable "WYR_SharessCaress_Bartender_Trade_Potent_None"
+new subtable "3,1"
+object category "I_WYR_SharessCaress_PotentDrink",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_WYR_SharessCaress_Bartender_Trade",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_VoicelessPenitent"
+new subtable "-1"
+object category "T_Gold_Trader_Normal",1,0,0,0,0,0,0,0
+new subtable "2,1"
+object category "T_Supply_Alchemy_Loot_Common",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "T_Supply_Alchemy_Loot_Rare",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_Supply_Alchemy_Mushrooms_Rare",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_OBJ_Bone",1,0,0,0,0,0,0,0
+new subtable "-4"
+object category "T_REL_All_Epic",1,0,0,0,0,0,0,0
+new subtable "4,1"
+object category "I_OBJ_Kit_ThievesTools",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "I_OBJ_Kit_TrapDisarm",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_VoicelessPenitent_None"
+new subtable "-1"
+object category "T_Gold_Trader_Normal",1,0,0,0,0,0,0,0
+new subtable "2,1"
+object category "T_Supply_Alchemy_Loot_Common",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "T_Supply_Alchemy_Loot_Rare",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_Supply_Alchemy_Mushrooms_Rare",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_OBJ_Bone",1,0,0,0,0,0,0,0
+new subtable "4,1"
+object category "I_OBJ_Kit_ThievesTools",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "I_OBJ_Kit_TrapDisarm",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_Guildhall_FetchersBrat_Trade_Magic"
+new subtable "-2"
+object category "T_REL_All_Epic",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_Guildhall_FetchersBrat_Trade"
+new subtable "1,1"
+object category "T_Gold_Trader_Wealthy",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Supplies_Camp_Pack",1,0,0,0,0,0,0,0
+new subtable "2,1"
+object category "T_Valuables_Jewelry",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_LOW_Guildhall_FetchersBrat_Trade_Magic",1,0,0,0,0,0,0,0
+new subtable "3,1;4,1;5,1;6,1"
+object category "T_ST_Alchemy_Herb_Rare",1,0,0,0,0,0,0,0
+object category "T_ST_Alchemy_Mushroom_Rare",2,0,0,0,0,0,0,0
+object category "T_ST_Alchemy_Loot_Rare",4,0,0,0,0,0,0,0
+new subtable "3,1;4,1,5,1;6,1"
+object category "T_Alchemy_Potion_Utility",1,0,0,0,0,0,0,0
+object category "T_Alchemy_Potion_Elixir",1,0,0,0,0,0,0,0
+object category "T_Alchemy_Coating",1,0,0,0,0,0,0,0
+object category "T_Supply_Scroll_Single",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Clothes_Wizard_Hat",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "T_ST_DyeVeryRare",1,0,0,0,0,0,0,0
+new subtable "8,1"
+object category "I_OBJ_Kit_ThievesTools",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "I_OBJ_Kit_TrapDisarm",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_Guildhall_FetchersBrat_Trade_None"
+new subtable "1,1"
+object category "T_Gold_Trader_Wealthy",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Supplies_Camp_Pack",1,0,0,0,0,0,0,0
+new subtable "2,1"
+object category "T_Valuables_Jewelry",1,0,0,0,0,0,0,0
+new subtable "3,1;4,1;5,1;6,1"
+object category "T_ST_Alchemy_Herb_Rare",1,0,0,0,0,0,0,0
+object category "T_ST_Alchemy_Mushroom_Rare",2,0,0,0,0,0,0,0
+object category "T_ST_Alchemy_Loot_Rare",4,0,0,0,0,0,0,0
+new subtable "3,1;4,1,5,1;6,1"
+object category "T_Alchemy_Potion_Utility",1,0,0,0,0,0,0,0
+object category "T_Alchemy_Potion_Elixir",1,0,0,0,0,0,0,0
+object category "T_Alchemy_Coating",1,0,0,0,0,0,0,0
+object category "T_Supply_Scroll_Single",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Clothes_Wizard_Hat",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "T_ST_DyeVeryRare",1,0,0,0,0,0,0,0
+new subtable "8,1"
+object category "I_OBJ_Kit_ThievesTools",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "I_OBJ_Kit_TrapDisarm",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_MurderTribunal_ViciousWeapon"
+new subtable "-1"
+object category "T_Empty",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_MurderTribunal_Merchant"
+new subtable "-1"
+object category "T_Gold_Trader_Wealthy",1,0,0,0,0,0,0,0
+new subtable "-3"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+new subtable "-3"
+object category "T_REL_All_Epic",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_BOOK_GEN_History_BhaalspawnMissives",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_BOOK_GEN_History_BhaalspawnTestimonials",1,0,0,0,0,0,0,0
+new subtable "2,1"
+object category "T_Supply_Alchemy_Poison",1,0,0,0,0,0,0,0
+new subtable "10,1"
+object category "I_OBJ_Dye_Red",1,0,0,0,0,0,0,0
+new subtable "5,1"
+object category "I_OBJ_Dye_BlackRed",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_MurderTribunal_Merchant_None"
+new subtable "-1"
+object category "T_Gold_Trader_Wealthy",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_BOOK_GEN_History_BhaalspawnMissives",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_BOOK_GEN_History_BhaalspawnTestimonials",1,0,0,0,0,0,0,0
+new subtable "2,1"
+object category "T_Supply_Alchemy_Poison",1,0,0,0,0,0,0,0
+new subtable "10,1"
+object category "I_OBJ_Dye_Red",1,0,0,0,0,0,0,0
+new subtable "5,1"
+object category "I_OBJ_Dye_BlackRed",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_DevilsFee_Diabolist_Trade_Magic"
+new subtable "-1"
+object category "T_LOW_DevilsFee_Diabolist_Trade",1,0,0,0,0,0,0,0
+new subtable "2,1;3,1"
+object category "MagicScroll_Necro_3",1,0,0,0,0,0,0,0
+new subtable "1,1;2,1"
+object category "MagicScroll_Necro_4",1,0,0,0,0,0,0,0
+new subtable "2,1"
+object category "T_Supply_Scrolls_Necro",1,0,0,0,0,0,0,0
+new subtable "2,1"
+object category "T_Supply_Alchemy_Loot_Rare",1,0,0,0,0,0,0,0
+new subtable "-2"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+new subtable "-4"
+object category "T_REL_All_Epic",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_DevilsFee_Diabolist_Trade_Magic_None"
+new subtable "-1"
+object category "T_LOW_DevilsFee_Diabolist_Trade",1,0,0,0,0,0,0,0
+new subtable "2,1;3,1"
+object category "MagicScroll_Necro_3",1,0,0,0,0,0,0,0
+new subtable "1,1;2,1"
+object category "MagicScroll_Necro_4",1,0,0,0,0,0,0,0
+new subtable "2,1"
+object category "T_Supply_Scrolls_Necro",1,0,0,0,0,0,0,0
+new subtable "2,1"
+object category "T_Supply_Alchemy_Loot_Rare",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_Weaponsmith_Trade"
+new subtable "-4"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+new subtable "-3"
+object category "T_REL_All_Epic",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_DEN_Weaponsmith_Trade_None",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_Weaponsmith_Trade_None"
+new subtable "-1"
+object category "T_DEN_Weaponsmith_Trade_None",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_MysticCarrion_Trade_Magic"
+new subtable "-2"
+object category "T_REL_All_Epic",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_MysticCarrion_Trade"
+new subtable "1,1"
+object category "T_Gold_Trader_Wealthy",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_LOW_MysticCarrion_Trade_Magic",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "T_Supply_Scrolls_Necro",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "T_Supply_Alchemy_Loot_Rare",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "I_OBJ_Scroll_SpeakWithDead",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_MysticCarrion_Trade_None"
+new subtable "1,1"
+object category "T_Gold_Trader_Wealthy",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "T_Supply_Scrolls_Necro",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "T_Supply_Alchemy_Loot_Rare",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "I_OBJ_Scroll_SpeakWithDead",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_SorcerousSundries_Trade_Magic"
+new subtable "-2"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+new subtable "-5"
+object category "T_REL_All_Epic",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_AMP_Book",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_SorcerousSundries_Trade"
+new subtable "1,1"
+object category "T_Gold_Trader_Wealthy",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_LOW_SorcerousSundries_Trade_Magic",1,0,0,0,0,0,0,0
+new subtable "2,1;3,1"
+object category "T_DEN_Prodigy_Book",1,0,0,0,0,0,0,0
+new subtable "50,1"
+object category "T_Supply_Scrolls",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Clothes_Wizard_Hat_Supply",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_ARM_Robe_Body",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_ARM_Robe_Body_Sorcerer",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_SorcerousSundries_Trade_None"
+new subtable "1,1"
+object category "T_Gold_Trader_Wealthy",1,0,0,0,0,0,0,0
+new subtable "2,1;3,1"
+object category "T_DEN_Prodigy_Book",1,0,0,0,0,0,0,0
+new subtable "50,1"
+object category "T_Supply_Scrolls",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_Clothes_Wizard_Hat_Supply",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_ARM_Robe_Body",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_ARM_Robe_Body_Sorcerer",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_SteepsTrader_Armor"
+new subtable "-1"
+object category "T_Gold_Trader_Wealthy",1,0,0,0,0,0,0,0
+new subtable "-3"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_BodyArmor",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_BodyArmor_Magic",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_SecondaryArmor",1,0,0,0,0,0,0,0
+new subtable "10,1"
+object category "T_ST_DyeRandom",1,0,0,0,0,0,0,0
+new subtable "-10"
+object category "I_OBJ_Dye_Remover",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_SteepsTrader_Armor_None"
+new subtable "-1"
+object category "T_Gold_Trader_Wealthy",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_BodyArmor",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_BodyArmor_Magic",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_SecondaryArmor",1,0,0,0,0,0,0,0
+new subtable "10,1"
+object category "T_ST_DyeRandom",1,0,0,0,0,0,0,0
+new subtable "-10"
+object category "I_OBJ_Dye_Remover",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_SteepsTrader_Weapons"
+new subtable "-1"
+object category "T_Gold_Trader_Wealthy",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_Ranged",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_Melee_Adjusted",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "T_Alchemy_Coating",1,0,0,0,0,0,0,0
+new subtable "-3"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_SteepsTrader_Weapons_None"
+new subtable "-1"
+object category "T_Gold_Trader_Wealthy",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_Ranged",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "T_EquipmentTrader_Melee_Adjusted",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "T_Alchemy_Coating",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_StormshoreTabernacle_Guardian"
+new subtable "5,1;6,1"
+object category "I_OBJ_Scroll_Revivify",1,0,0,0,0,0,0,0
+new subtable "4,1"
+object category "I_OBJ_Scroll_SpeakWithDead",1,0,0,0,0,0,0,0
+new subtable "4,1"
+object category "T_Supply_Alchemy_Potion_Healing",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_OBJ_Potion_Of_Necrotic_Resistance",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_OBJ_Potion_Of_Psychic_Resistance",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_OBJ_Potion_Of_Invulnerability",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_OBJ_Potion_Of_Heroism",1,0,0,0,0,0,0,0
+new subtable "4,1"
+object category "T_Supply_Scrolls_Healing",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "I_OBJ_HolyWaterFlask",1,0,0,0,0,0,0,0
+new subtable "-4"
+object category "T_REL_All_Epic",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_StormshoreTabernacle_Guardian_None"
+new subtable "5,1;6,1"
+object category "I_OBJ_Scroll_Revivify",1,0,0,0,0,0,0,0
+new subtable "4,1"
+object category "I_OBJ_Scroll_SpeakWithDead",1,0,0,0,0,0,0,0
+new subtable "4,1"
+object category "T_Supply_Alchemy_Potion_Healing",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_OBJ_Potion_Of_Necrotic_Resistance",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_OBJ_Potion_Of_Psychic_Resistance",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_OBJ_Potion_Of_Invulnerability",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "I_OBJ_Potion_Of_Heroism",1,0,0,0,0,0,0,0
+new subtable "4,1"
+object category "T_Supply_Scrolls_Healing",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "I_OBJ_HolyWaterFlask",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_InfernalTrade"
+new subtable "-1"
+object category "T_Gold_Trader_Wealthy",1,0,0,0,0,0,0,0
+new subtable "2,1"
+object category "T_Supply_Alchemy_Poison",1,0,0,0,0,0,0,0
+new subtable "3,1;4,1"
+object category "T_Alchemy_PotionOrCoating",1,0,0,0,0,0,0,0
+new subtable "2,1"
+object category "T_Supply_Scrolls_Necro",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_REL_All_Epic",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_InfernalTrade_None"
+new subtable "-1"
+object category "T_Gold_Trader_Wealthy",1,0,0,0,0,0,0,0
+new subtable "2,1"
+object category "T_Supply_Alchemy_Poison",1,0,0,0,0,0,0,0
+new subtable "3,1;4,1"
+object category "T_Alchemy_PotionOrCoating",1,0,0,0,0,0,0,0
+new subtable "2,1"
+object category "T_Supply_Scrolls_Necro",1,0,0,0,0,0,0,0
+
+// Minor chests where in vanilla the items didn't appear. Merging is used here, so the original loot lists are not affected. Drop chance is mostly low
+
+new treasuretable "DEN_Library_Scroll"
+CanMerge 1
+new subtable "0,39;1,1"
+object category "T_REL_Uncommon_Rings",1,0,0,0,0,0,0,0
+object category "T_REL_Uncommon_Amulets",1,0,0,0,0,0,0,0
+
+new treasuretable "CHA_Skeleton_Hatch"
+CanMerge 1
+new subtable "0,2;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "BanditCave_Backpack"
+new subtable "0,3;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "DEN_Stargazer"
+CanMerge 1
+new subtable "1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "TUT_Chest_Shar"
+CanMerge 1
+new subtable "0,3;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "WLD_CRA_GoldChest"
+CanMerge 1
+new subtable "0,39;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "CRA_NautiloidChest"
+CanMerge 1
+new subtable "0,39;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "WLD_CRA_RidgeSecretChest"
+CanMerge 1
+new subtable "0,1;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "CHA_LowerEntrance_Chest"
+CanMerge 1
+new subtable "0,39;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "CHA_FL1_Chest_Entrance"
+CanMerge 1
+new subtable "0,4;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "DEN_HayChest"
+CanMerge 1
+new subtable "0,39;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "DEN_DruidLeader_Chest"
+CanMerge 1
+new subtable "0,14;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "DEN_Harpy_HiddenChest"
+CanMerge 1
+new subtable "0,3;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "FOR_Spiders_SpiderHermit_Chest"
+CanMerge 1
+new subtable "0,9;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_REL_All_Uncommon",1,0,0,0,0,0,0,0
+
+new treasuretable "HAG_Swamp_Chest"
+CanMerge 1
+new subtable "0,1;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "HAG_Chest"
+CanMerge 1
+new subtable "0,14;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "HAG_Evil_Chest"
+CanMerge 1
+new subtable "0,14;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "GOB_ZhentQuarters_Chest_Gold"
+CanMerge 1
+new subtable "0,6;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "UND_SocietyOfBrilliance_Chest"
+CanMerge 1
+new subtable "0,9;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "UND_KC_ThrinnChest"
+CanMerge 1
+new subtable "0,9;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "UND_KC_Supplies_NereChest"
+CanMerge 1
+new subtable "0,39;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "SCL_Village_PeasantBuriedChest"
+CanMerge 1
+new subtable "0,14;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_MysticCarrion_Hoard_Chest"
+CanMerge 1
+new subtable "0,14;1,1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "S_DEN_BuriedChest_03"
+CanMerge 1
+new subtable "0,4;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "S_FOR_BuriedChest_02"
+CanMerge 1
+new subtable "0,4;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "S_SCL_BuriedChest_01"
+CanMerge 1
+new subtable "0,4;1,1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "S_SCL_BuriedChest_02"
+CanMerge 1
+new subtable "0,4;1,1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "S_SCL_BuriedChest_03"
+CanMerge 1
+new subtable "0,4;1,1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "S_SCL_BuriedChest_04"
+CanMerge 1
+new subtable "0,4;1,1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "S_SCL_BuriedChest_05"
+CanMerge 1
+new subtable "0,4;1,1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "S_TWN_BuriedChest_01"
+CanMerge 1
+new subtable "0,4;1,1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "S_TWN_BuriedChest_02"
+CanMerge 1
+new subtable "0,4;1,1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "S_TWN_BuriedChest_03"
+CanMerge 1
+new subtable "0,4;1,1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "S_TWN_BuriedChest_04"
+CanMerge 1
+new subtable "0,4;1,1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "S_TWN_BuriedChest_05"
+CanMerge 1
+new subtable "0,4;1,1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "S_TWN_BuriedChest_06"
+CanMerge 1
+new subtable "0,4;1,1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "S_TWN_BuriedChest_07"
+CanMerge 1
+new subtable "0,4;1,1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "S_HAV_BuriedChest_01"
+CanMerge 1
+new subtable "0,4;1,1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "S_HAV_BuriedChest_02"
+CanMerge 1
+new subtable "0,4;1,1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "S_HAV_BuriedChest_03"
+CanMerge 1
+new subtable "0,4;1,1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "S_HAV_BuriedChest_04"
+CanMerge 1
+new subtable "0,4;1,1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "S_SHA_BuriedChest_01"
+CanMerge 1
+new subtable "0,4;1,1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "S_SHA_BuriedChest_02"
+CanMerge 1
+new subtable "0,4;1,1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "S_MOO_BuriedChest_01"
+CanMerge 1
+new subtable "0,4;1,1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "S_MOO_BuriedChest_02"
+CanMerge 1
+new subtable "0,4;1,1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "S_MOO_BuriedChest_03"
+CanMerge 1
+new subtable "0,4;1,1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "S_MOO_BuriedChest_04"
+CanMerge 1
+new subtable "0,4;1,1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "S_WYR_BuriedChest_01"
+CanMerge 1
+new subtable "0,4;1,1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "S_WYR_BuriedChest_02"
+CanMerge 1
+new subtable "0,4;1,1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "S_WYR_BuriedChest_03"
+CanMerge 1
+new subtable "0,4;1,1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "S_WYR_BuriedChest_04"
+CanMerge 1
+new subtable "0,4;1,1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "S_WYR_BuriedChest_05"
+CanMerge 1
+new subtable "0,4;1,1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "S_WYR_BuriedChest_06"
+CanMerge 1
+new subtable "0,4;1,1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "S_WYR_BuriedChest_07"
+CanMerge 1
+new subtable "0,4;1,1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "S_WYR_BuriedChest_08"
+CanMerge 1
+new subtable "0,4;1,1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "S_WYR_BuriedChest_09"
+CanMerge 1
+new subtable "0,4;1,1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "S_WYR_BuriedChest_10"
+CanMerge 1
+new subtable "0,4;1,1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "S_WYR_BuriedChest_11"
+CanMerge 1
+new subtable "0,4;1,1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "S_WYR_BuriedChest_12"
+CanMerge 1
+new subtable "0,4;1,1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "S_LOW_BuriedChest_01"
+CanMerge 1
+new subtable "0,4;1,1"
+object category "T_REL_Special_High",1,0,0,0,0,0,0,0
+
+new treasuretable "S_LOW_BuriedChest_02"
+CanMerge 1
+new subtable "0,4;1,1"
+object category "T_REL_Special_High",1,0,0,0,0,0,0,0
+
+new treasuretable "S_LOW_BuriedChest_03"
+CanMerge 1
+new subtable "0,4;1,1"
+object category "T_REL_Special_High",1,0,0,0,0,0,0,0
+
+new treasuretable "S_LOW_BuriedChest_04"
+CanMerge 1
+new subtable "0,4;1,1"
+object category "T_REL_Special_High",1,0,0,0,0,0,0,0
+
+new treasuretable "S_LOW_BuriedChest_05"
+CanMerge 1
+new subtable "0,4;1,1"
+object category "T_REL_Special_High",1,0,0,0,0,0,0,0
+
+new treasuretable "S_LOW_BuriedChest_06"
+CanMerge 1
+new subtable "0,4;1,1"
+object category "T_REL_Special_High",1,0,0,0,0,0,0,0
+
+new treasuretable "S_LOW_BuriedChest_07"
+CanMerge 1
+new subtable "0,4;1,1"
+object category "T_REL_Special_High",1,0,0,0,0,0,0,0
+
+new treasuretable "S_LOW_BuriedChest_08"
+CanMerge 1
+new subtable "0,4;1,1"
+object category "T_REL_Special_High",1,0,0,0,0,0,0,0
+
+new treasuretable "S_LOW_BuriedChest_09"
+CanMerge 1
+new subtable "0,4;1,1"
+object category "T_REL_Special_High",1,0,0,0,0,0,0,0
+
+new treasuretable "S_LOW_BuriedChest_10"
+CanMerge 1
+new subtable "0,4;1,1"
+object category "T_REL_Special_High",1,0,0,0,0,0,0,0
+
+new treasuretable "S_LOW_BuriedChest_11"
+CanMerge 1
+new subtable "0,4;1,1"
+object category "T_REL_Special_High",1,0,0,0,0,0,0,0
+
+new treasuretable "S_LOW_BuriedChest_12"
+CanMerge 1
+new subtable "0,4;1,1"
+object category "T_REL_Special_High",1,0,0,0,0,0,0,0
+
+new treasuretable "CRA_HarperTreasureBox"
+CanMerge 1
+new subtable "0,9;1,1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "CHA_Container_Treasure"
+CanMerge 1
+new subtable "0,3;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "GOB_Ruins_ScrollsTreasure"
+CanMerge 1
+new subtable "0,3;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "GOB_Ruins_Silverware"
+CanMerge 1
+new subtable "0,9;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "GOB_WolfPens_BeastmasterTreasure"
+CanMerge 1
+new subtable "-1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_Undercity_Ambush_Treasure"
+CanMerge 1
+new subtable "0,4;1,1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_CountingHouse_Docks_Valuable_Treasure"
+CanMerge 1
+new subtable "0,9;1,1"
+object category "T_REL_Special_High",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_CountingHouse_CommonVault_1_Treasure"
+CanMerge 1
+new subtable "0,4;1,1"
+object category "T_REL_Special_High",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_CountingHouse_CommonVault_3_Treasure"
+CanMerge 1
+new subtable "0,4;1,1"
+object category "T_REL_Special_High",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_CountingHouse_CommonVault_4_Treasure"
+CanMerge 1
+new subtable "0,4;1,1"
+object category "T_REL_Special_High",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_CazadorsPlace_Treasure"
+CanMerge 1
+new subtable "0,4;1,1"
+object category "T_REL_Special_High",1,0,0,0,0,0,0,0
+
+new treasuretable "DEN_SecretTunnelCrate"
+CanMerge 1
+new subtable "0,39;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "CRA_LockedCrate"
+CanMerge 1
+new subtable "0,39;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "FOR_BlacksmithsCellar_Crate"
+CanMerge 1
+new subtable "0,39;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "PLA_Cave_Crate"
+CanMerge 1
+new subtable "0,39;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "PLA_Tollhouse_Barracks_Crate"
+CanMerge 1
+new subtable "0,99;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "FOR_SchoolOgre_Stash_Valuables"
+CanMerge 1
+new subtable "0,9;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "FOR_Windmill_GoblinStash"
+CanMerge 1
+new subtable "0,9;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "FOR_ZhentSupplyStash"
+CanMerge 1
+new subtable "0,9;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "SCL_Distillery_BrewerRoseStash_Additional"
+CanMerge 1
+new subtable "0,2;1,1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "GEN_Stash_Hunter"
+CanMerge 1
+new subtable "0,99;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "TUT_Monster_Mindflayer"
+CanMerge 1
+new subtable "0,99;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "Monster_Mindflayer"
+CanMerge 1
+new subtable "0,14;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "TUT_Backpack_Thief"
+CanMerge 1
+new subtable "0,9;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "TUT_Victim_Generic"
+CanMerge 1
+new subtable "0,9;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "CHA_LooterBackpack"
+CanMerge 1
+new subtable "0,99;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "DEN_AdventurerLostBackpack"
+CanMerge 1
+new subtable "0,99;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "FOR_DeathOfATrueSoul_VictimBackpack"
+CanMerge 1
+new subtable "0,39;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "FOR_UnfortunateGnome_Backpack"
+CanMerge 1
+new subtable "0,39;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "FOR_Spiders_TravellerBackpack"
+CanMerge 1
+new subtable "0,39;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "FOR_Spiders_RichBackpack"
+CanMerge 1
+new subtable "0,39;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "FOR_Spiders_ApprenticeBackpack"
+CanMerge 1
+new subtable "0,39;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "HAG_GurHunter_Backpack"
+CanMerge 1
+new subtable "0,39;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "HAG_AbandonedCamp_Backpack_Traveller"
+CanMerge 1
+new subtable "0,99;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "HAG_AbandonedCamp_Backpack_Wizard"
+CanMerge 1
+new subtable "0,99;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "HAG_AbandonedCamp_Backpack_Bard"
+CanMerge 1
+new subtable "0,99;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "PLA_Cave_ZhentBackpack"
+CanMerge 1
+new subtable "0,39;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "PLA_Cave_Backpack"
+CanMerge 1
+new subtable "0,99;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "GOB_AdventurerScoutBackpack"
+CanMerge 1
+new subtable "0,39;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "UND_MycoVillage_DeadDrowHermit_Backpack"
+CanMerge 1
+new subtable "0,9;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "SHA_EntranceAltar_RitualBackpack"
+CanMerge 1
+new subtable "0,39;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "WYR_Circus_Backpack"
+CanMerge 1
+new subtable "0,9;1,1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "BGO_TravellerBackpack"
+CanMerge 1
+new subtable "0,9;1,1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "MOO_Cultist"
+CanMerge 1
+new subtable "0,99;1,1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "Monster_OchreJelly"
+CanMerge 1
+new subtable "0,9;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "Monster_HookHorror"
+CanMerge 1
+new subtable "0,4;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "COL_Morgue_Butcher"
+CanMerge 1
+new subtable "1,1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "SCL_Supplies_NPC"
+CanMerge 1
+new subtable "0,99;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "PLA_Tavern_Paladin"
+CanMerge 1
+new subtable "0,19;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "FOR_BlacksmithsCellar_Weapons"
+CanMerge 1
+new subtable "0,39;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "DEN_Warehouse_Major"
+CanMerge 1
+new subtable "0,39;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "UND_SeluneOutpost_Skeleton"
+CanMerge 1
+new subtable "0,99;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "DEN_AdventurerLostBag"
+CanMerge 1
+new subtable "0,39;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "CHA_Container_Tomb_Minor"
+CanMerge 1
+new subtable "0,39;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "PLA_ZhentHideout_Container_Illicit"
+CanMerge 1
+new subtable "0,39;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "GOB_PathToParty_Potions"
+CanMerge 1
+new subtable "0,9;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "GOB_Checkpoint"
+CanMerge 1
+new subtable "0,9;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "GOB_SpiderPit_RewardSkeleton"
+CanMerge 1
+new subtable "0,9;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "Exploration_Major"
+CanMerge 1
+new subtable "0,99;1,1"
+object category "T_REL_All_Uncommon",10,0,0,0,0,0,0,0
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+
+new treasuretable "CRE_Gith_Elite"
+CanMerge 1
+new subtable "0,39;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "TUT_Mindflayer_Dead"
+CanMerge 1
+new subtable "0,99;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "TUT_BackupCambion_Reward"
+CanMerge 1
+new subtable "0,2;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "UND_Duergar_DrowCommander"
+CanMerge 1
+new subtable "0,19;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "UND_Myconid_SovereignCorpse"
+CanMerge 1
+new subtable "0,9;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "GOB_DeadMindFlayer"
+CanMerge 1
+new subtable "0,9;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "GOB_PainPriest"
+CanMerge 1
+new subtable "0,39;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "WYR_Thugs_Leader"
+CanMerge 1
+new subtable "0,9;1,1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "CHA_Exterior_Bandit_Leader"
+CanMerge 1
+new subtable "0,9;1,1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "PLA_AncientHarper_Melee"
+CanMerge 1
+new subtable "0,9;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "PLA_AncientHarper_Ranged"
+CanMerge 1
+new subtable "0,9;1,1"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+// QUEST REWARS - 22.12.24 mostly became irrelevant due to above lines
+
+new treasuretable "UND_LoneDuergar_QuestReward"
+new subtable "-1"
+object category "T_REL_All_Uncommon",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_REL_All_Uncommon",1,0,0,0,0,0,0,0
+
+new treasuretable "PLA_ZhentarimShipment_ExtraReward"
+new subtable "-1"
+object category "T_REL_All_Uncommon",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_REL_All_Uncommon",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_REL_All_Uncommon",1,0,0,0,0,0,0,0
+
+new treasuretable "WYR_FigaroSister_QuestReward_Alternative"
+new subtable "-1"
+object category "T_REL_All_Uncommon",1,0,0,0,0,0,0,0
+
+new treasuretable "DEN_CapturedGoblin"
+new subtable "-1"
+object category "T_REL_All_Uncommon",1,0,0,0,0,0,0,0
+
+new treasuretable "DEN_Volo_Adventure"
+new subtable "-1"
+object category "T_REL_All_Uncommon",1,0,0,0,0,0,0,0
+
+new treasuretable "UND_MycoVillage_BroodingSovereign_QuestReward"
+new subtable "-1"
+object category "T_REL_All_Uncommon",1,0,0,0,0,0,0,0
+
+new treasuretable "UND_MushroomHunter_QuestReward"
+new subtable "-1"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_REL_All_Uncommon",1,0,0,0,0,0,0,0
+
+new treasuretable "DEN_IdolTheft_ReturnForReward"
+new subtable "-1"
+object category "T_REL_All_Uncommon",1,0,0,0,0,0,0,0
+
+new treasuretable "ORI_Wyll_Infernal_Robe"
+new subtable "-5"
+object category "T_REL_Special_Low",1,0,0,0,0,0,0,0
+
+new treasuretable "ORI_Wyll_Infernal_Rapier"
+new subtable "-1"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+
+new treasuretable "UND_MyconidRevenge_QuestReward_Evil"
+new subtable "-1"
+object category "T_REL_Rare_Amulets",1,0,0,0,0,0,0,0
+
+new treasuretable "UND_MyconidRevenge_QuestReward_Good"
+new subtable "-1"
+object category "T_REL_Rare_Amulets",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_SaveHaggedChild_LoraQuestReward"
+new subtable "-1"
+object category "T_REL_All_Epic",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_REL_All_Epic",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_SaveHope_QuestReward"
+new subtable "-1"
+object category "T_REL_All_Epic",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_AvengeHagSurvivors_QuestReward"
+new subtable "-1"
+object category "T_REL_All_Epic",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_BreakHagHex_QuestReward"
+new subtable "-1"
+object category "T_REL_All_Epic",1,0,0,0,0,0,0,0
+
+new treasuretable "HAV_SavingPrisoners_AlfirasReward"
+new subtable "-1"
+object category "T_Gold_QuestReward_Normal",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "T_Supply_Scroll_Single",1,0,0,0,0,0,0,0
+new subtable "3,1"
+object category "T_Alchemy_PotionOrOil",1,0,0,0,0,0,0,0
+new subtable "2,1"
+object category "T_ST_Throwable",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_AvengeWaveservant_WaveservantReward"
+new subtable "-1"
+object category "T_REL_All_Epic",1,0,0,0,0,0,0,0
+
+new treasuretable "LOW_Sewers_ForsakenSkull"
+new subtable "-1"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+
+new treasuretable "SHA_FindArabellasParents_Reward"
+new subtable "-1"
+object category "T_REL_All_Uncommon",1,0,0,0,0,0,0,0
+
+new treasuretable "SCL_ServantOfTheRaven_Reward"
+new subtable "-1"
+object category "T_Gold_Pocket_Normal",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+
+new treasuretable "SHA_NightsongReward"
+new subtable "-1"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_REL_All_Epic",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_REL_All_Epic",1,0,0,0,0,0,0,0
+
+new treasuretable "PLA_Tavern_SaveFlorrick_QuestReward"
+new subtable "-1"
+object category "T_REL_All_Uncommon",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_REL_All_Uncommon",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_REL_All_Rare",1,0,0,0,0,0,0,0
+new subtable "-1"
+object category "T_REL_All_Epic",1,0,0,0,0,0,0,0
+
+new treasuretable "SCL_RuinedFortExploration"
+new subtable "-1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "SCL_GithOliver_Treasure"
+new subtable "-1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "SCL_HarperAmbush_Treasure"
+new subtable "-1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "SCL_AbsoluteEntraceFort_Treasure"
+new subtable "-1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "SCL_DockExploration"
+new subtable "-1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "SCL_BannedSeluneItem"
+new subtable "-1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "SCL_TollHouseExplorationChest"
+new subtable "-1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "SCL_TollHouseCollectorHeavyChest_Treasure"
+new subtable "-1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "SCL_TollHouseCollectorRichChest_Treasure"
+new subtable "-1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "SCL_DistilleryAlchemyChest_Treasure"
+new subtable "-1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "SCL_HospitalFakeOffice"
+new subtable "-1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "SCL_HospitalMorgueFinalChest"
+new subtable "-1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "SCL_GraveyardNecromancerPreparation_Chest"
+new subtable "-1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+new treasuretable "Arabella_Quest"
+new subtable "1,1"
+object category "T_REL_Special_Normal",1,0,0,0,0,0,0,0
+
+// Some stuff
+
+new treasuretable "AMP_JackPot"
+new subtable "2,3;3,2;4,1;5,2;6,4;7,2;8,1"
+object category "I_Enchant_Crystal2",25,0,0,0,0,0,0,0
+object category "I_Enchant_Crystal",5,0,0,0,0,0,0,0
+object category "I_Enchant_Crystal4",50,0,0,0,0,0,0,0
+object category "I_Enchant_Crystal3",1,0,0,0,0,0,0,0
+
+new treasuretable "AMP_ChaosPool_1"
+new subtable "1,1"
+object category "I_TUT_Lab_ClericBrainJar",1,0,0,0,0,0,0,0
+object category "I_DEN_EmptyRuneSocket",1,0,0,0,0,0,0,0
+object category "I_HAG_Broken_Promises",1,0,0,0,0,0,0,0
+object category "I_GOB_RoastingDwarf_Meat",1,0,0,0,0,0,0,0
+object category "I_OBJ_Potion_Healing",1,0,0,0,0,0,0,0
+object category "I_HAG_AntidotePear",1,0,0,0,0,0,0,0
+object category "I_DEN_EldathIdol",1,0,0,0,0,0,0,0
+object category "T_Supply_Alchemy_Loot_Common",1,0,0,0,0,0,0,0
+object category "T_Alchemy_Potion_Elixir_1",2,0,0,0,0,0,0,0
+object category "T_Exploration_Minor",2,0,0,0,0,0,0,0
+object category "T_ST_RandomPotion",2,0,0,0,0,0,0,0
+object category "T_ST_LightArmor",1,0,0,0,0,0,0,0
+object category "T_ST_MediumArmor",1,0,0,0,0,0,0,0
+object category "T_ST_HeavyArmor",1,0,0,0,0,0,0,0
+object category "T_ST_RandomWeapon",1,0,0,0,0,0,0,0
+object category "T_ST_Dye",2,0,0,0,0,0,0,0
+object category "T_ST_DyeRare",2,0,0,0,0,0,0,0
+object category "T_ST_DyeVeryRare",2,0,0,0,0,0,0,0
+object category "T_ST_Dyes_AllVeryRare",1,0,0,0,0,0,0,0
+object category "T_Supply_Alchemy_Coating",2,0,0,0,0,0,0,0
+object category "T_Exploration_Minor_GuaranteedSinglePack",2,0,0,0,0,0,0,0
+object category "T_Exploration_Minor_AdditionalGold",2,0,0,0,0,0,0,0
+object category "T_Exploration_Major_Scroll",2,0,0,0,0,0,0,0
+object category "T_Exploration_Minor_Scroll",2,0,0,0,0,0,0,0
+object category "T_ST_Alcohol_Cheap",2,0,0,0,0,0,0,0
+object category "T_ST_RogueTools_Supply",2,0,0,0,0,0,0,0
+object category "T_Alchemy_Potion_Healing_Supply",2,0,0,0,0,0,0,0
+object category "T_Throwable_Supply",2,0,0,0,0,0,0,0
+object category "T_ST_SpecialArrow",2,0,0,0,0,0,0,0
+object category "T_Clothes_Rich_Random_Supply",2,0,0,0,0,0,0,0
+object category "T_Gold_Stash_Opulent",2,0,0,0,0,0,0,0
+
+new treasuretable "AMP_ChaosPool_2"
+new subtable "1,1;2,1"
+object category "I_TUT_Lab_ClericBrainJar",1,0,0,0,0,0,0,0
+object category "I_DEN_EmptyRuneSocket",1,0,0,0,0,0,0,0
+object category "I_HAG_Broken_Promises",1,0,0,0,0,0,0,0
+object category "I_GOB_RoastingDwarf_Meat",1,0,0,0,0,0,0,0
+object category "I_OBJ_Potion_Healing",1,0,0,0,0,0,0,0
+object category "I_HAG_AntidotePear",1,0,0,0,0,0,0,0
+object category "I_UND_SussurTree_Flower",1,0,0,0,0,0,0,0
+object category "I_DEN_EldathIdol",1,0,0,0,0,0,0,0
+object category "T_Supply_Alchemy_Loot_Common",1,0,0,0,0,0,0,0
+object category "T_Supply_Alchemy_Loot_Rare",2,0,0,0,0,0,0,0
+object category "T_Alchemy_Potion_Elixir_1",2,0,0,0,0,0,0,0
+object category "T_Alchemy_Potion_Elixir_2",2,0,0,0,0,0,0,0
+object category "T_Exploration_Minor",2,0,0,0,0,0,0,0
+object category "T_ST_RandomPotion",2,0,0,0,0,0,0,0
+object category "T_ST_LightArmor",1,0,0,0,0,0,0,0
+object category "T_ST_MediumArmor",1,0,0,0,0,0,0,0
+object category "T_ST_HeavyArmor",1,0,0,0,0,0,0,0
+object category "T_ST_RandomWeapon",1,0,0,0,0,0,0,0
+object category "T_ST_Dye",2,0,0,0,0,0,0,0
+object category "T_ST_DyeRare",2,0,0,0,0,0,0,0
+object category "T_ST_DyeVeryRare",2,0,0,0,0,0,0,0
+object category "T_Supply_Alchemy_Coating",2,0,0,0,0,0,0,0
+object category "T_Exploration_Minor_GuaranteedSinglePack",2,0,0,0,0,0,0,0
+object category "T_Exploration_Minor_AdditionalGold",2,0,0,0,0,0,0,0
+object category "T_Exploration_Major_Scroll",2,0,0,0,0,0,0,0
+object category "T_Exploration_Minor_Scroll",2,0,0,0,0,0,0,0
+object category "T_ST_Alcohol_Cheap",2,0,0,0,0,0,0,0
+object category "T_ST_RogueTools_Supply",2,0,0,0,0,0,0,0
+object category "T_Alchemy_Potion_Healing_Supply",2,0,0,0,0,0,0,0
+object category "T_Throwable_Supply",2,0,0,0,0,0,0,0
+object category "T_ST_SpecialArrow",2,0,0,0,0,0,0,0
+object category "T_ST_Dyes_AllVeryRare",2,0,0,0,0,0,0,0
+object category "T_Clothes_Rich_Random_Supply",2,0,0,0,0,0,0,0
+object category "T_Gold_Stash_Opulent",2,0,0,0,0,0,0,0
+
+new treasuretable "AMP_ChaosPool_3"
+new subtable "3,1;4,1"
+object category "I_GOB_RoastingDwarf_Meat",1,0,0,0,0,0,0,0
+object category "I_UND_Noblestalk",2,0,0,0,0,0,0,0
+object category "I_UND_SussurTree_Flower",1,0,0,0,0,0,0,0
+object category "I_GLO_SoulCoin",2,0,0,0,0,0,0,0
+object category "I_QUEST_FOR_OwlbearEgg",1,0,0,0,0,0,0,0
+object category "T_Supply_Alchemy_Loot_Rare",2,0,0,0,0,0,0,0
+object category "T_Alchemy_Potion_Elixir_1",2,0,0,0,0,0,0,0
+object category "T_Alchemy_Potion_Elixir_2",2,0,0,0,0,0,0,0
+object category "T_Alchemy_Potion_Elixir_3",2,0,0,0,0,0,0,0
+object category "T_Exploration_Major",1,0,0,0,0,0,0,0
+object category "T_ST_RandomPotion",2,0,0,0,0,0,0,0
+object category "T_ST_Dye",2,0,0,0,0,0,0,0
+object category "T_ST_DyeRare",2,0,0,0,0,0,0,0
+object category "T_ST_DyeVeryRare",2,0,0,0,0,0,0,0
+object category "T_AMP_Vanilla_Craft",1ё,0,0,0,0,0,0,0
+object category "T_Supply_Alchemy_Coating",2,0,0,0,0,0,0,0
+object category "T_Exploration_Major_Scroll",2,0,0,0,0,0,0,0
+object category "T_ST_RogueTools_Supply",2,0,0,0,0,0,0,0
+object category "T_Alchemy_Potion_Healing_Supply",2,0,0,0,0,0,0,0
+object category "T_Throwable_Supply",2,0,0,0,0,0,0,0
+object category "T_ST_SpecialArrow",2,0,0,0,0,0,0,0
+object category "T_ST_Dyes_AllVeryRare",2,0,0,0,0,0,0,0
+object category "T_Clothes_Rich_Random_Supply",2,0,0,0,0,0,0,0
+object category "T_Gold_Stash_Opulent",2,0,0,0,0,0,0,0
+object category "T_DLC_DD_Adventurers_Pack",1,0,0,0,0,0,0,0
+object category "T_DLC_DD_Clothing_Chest",1,0,0,0,0,0,0,0
+
+new treasuretable "AMP_ChaosPool_4"
+new subtable "3,1;4,1;5,1"
+object category "I_GOB_RoastingDwarf_Meat",1,0,0,0,0,0,0,0
+object category "I_UND_Noblestalk",2,0,0,0,0,0,0,0
+object category "I_UND_SussurTree_Flower",1,0,0,0,0,0,0,0
+object category "I_GLO_SoulCoin",2,0,0,0,0,0,0,0
+object category "I_QUEST_FOR_OwlbearEgg",1,0,0,0,0,0,0,0
+object category "T_Alchemy_Potion_Elixir_3",2,0,0,0,0,0,0,0
+object category "T_Exploration_Major",1,0,0,0,0,0,0,0
+object category "T_AMP_Vanilla_Craft",2,0,0,0,0,0,0,0
+object category "T_Exploration_Major_Scroll",2,0,0,0,0,0,0,0
+object category "T_ST_RogueTools_Supply",2,0,0,0,0,0,0,0
+object category "T_Alchemy_Potion_Healing_Supply",2,0,0,0,0,0,0,0
+object category "T_ST_Dyes_AllVeryRare",2,0,0,0,0,0,0,0
+object category "T_Gold_Stash_Opulent",2,0,0,0,0,0,0,0
+object category "T_DLC_DD_Adventurers_Pack",1,0,0,0,0,0,0,0
+object category "T_DLC_DD_Clothing_Chest",1,0,0,0,0,0,0,0
+
+new treasuretable "AMP_Berbalang_loot"
+new subtable "0,4;1,1"
+object category "I_Enchant_Crystal2",1,0,0,0,0,0,0,0
+
+new treasuretable "PARA_Bag4"
+new subtable "1,1"
+object category "I_arc_G_Monk1",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_G_Monk2",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_G_Monk3",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_G_Monk4",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_N_Radiant1",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_N_Radiant2",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_N_Radiant3",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_N_Radiant4",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_N_Force1",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_N_Force2",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_N_Force3",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_N_Force4",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_N_Lightning1",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_N_Lightning2",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_N_Lightning3",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_N_Lightning4",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_N_Fire1",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_N_Fire2",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_N_Fire3",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_N_Fire4",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_N_Cold1",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_N_Cold2",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_N_Cold3",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_N_Cold4",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_N_Necrotic1",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_N_Necrotic2",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_N_Necrotic3",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_N_Necrotic4",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_N_Warrior1",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_N_Warrior2",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_N_Warrior3",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_N_Warrior4",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_N_Acid1",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_N_Acid2",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_N_Acid3",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_N_Acid4",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_N_Thunder1",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_N_Thunder2",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_N_Thunder3",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_N_Thunder4",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_N_Psychic1",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_N_Psychic2",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_N_Psychic3",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_N_Psychic4",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_N_Blood1",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_N_Blood2",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_N_Blood3",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_N_Blood4",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_N_Underdark1",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_N_Underdark2",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_N_Underdark3",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_N_Underdark4",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_N_Poison1",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_N_Poison2",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_N_Poison3",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_N_Poison4",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_N_Diamond1",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_N_Diamond2",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_N_Diamond3",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_N_Diamond4",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_R_Radiant1",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_R_Radiant2",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_R_Radiant3",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_R_Radiant4",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_R_Force1",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_R_Force2",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_R_Force3",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_R_Force4",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_R_Lightning1",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_R_Lightning2",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_R_Lightning3",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_R_Lightning4",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_R_Fire1",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_R_Fire2",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_R_Fire3",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_R_Fire4",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_R_Cold1",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_R_Cold2",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_R_Cold3",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_R_Cold4",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_R_Necrotic1",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_R_Necrotic2",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_R_Necrotic3",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_R_Necrotic4",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_R_Warrior1",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_R_Warrior2",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_R_Warrior3",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_R_Warrior4",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_R_Acid1",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_R_Acid2",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_R_Acid3",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_R_Acid4",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_R_Thunder1",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_R_Thunder2",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_R_Thunder3",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_R_Thunder4",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_R_Psychic1",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_R_Psychic2",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_R_Psychic3",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_R_Psychic4",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_R_Blood1",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_R_Blood2",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_R_Blood3",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_R_Blood4",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_R_Underdark1",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_R_Underdark2",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_R_Underdark3",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_R_Underdark4",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_R_Poison1",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_R_Poison2",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_R_Poison3",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_R_Poison4",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_R_Diamond1",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_R_Diamond2",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_R_Diamond3",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_arc_R_Diamond4",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Greataxe_u",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Greataxe_r",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Greataxe_e",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Greataxe_l",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Greatsword_u",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Greatsword_r",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Greatsword_e",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Greatsword_l",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Halberd_u",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Halberd_r",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Halberd_e",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Halberd_l",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Glaive_u",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Glaive_r",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Glaive_e",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Glaive_l",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_HeavyCrossbow_u",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_HeavyCrossbow_r",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_HeavyCrossbow_e",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_HeavyCrossbow_l",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Rapier_u",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Rapier_r",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Rapier_e",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Rapier_l",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Battleaxe_u",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Battleaxe_r",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Battleaxe_e",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Battleaxe_l",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_WarPick_u",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_WarPick_r",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_WarPick_e",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_WarPick_l",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Flail_u",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Flail_r",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Flail_e",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Flail_l",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_HandCrossbow_u",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_HandCrossbow_r",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_HandCrossbow_e",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_HandCrossbow_l",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Longbow_u",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Longbow_r",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Longbow_e",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Longbow_l",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Morningstar_u",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Morningstar_r",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Morningstar_e",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Morningstar_l",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Warhammer_u",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Warhammer_r",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Warhammer_e",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Warhammer_l",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Longsword_u",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Longsword_r",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Longsword_e",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Longsword_l",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Trident_u",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Trident_r",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Trident_e",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Trident_l",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Scimitar_u",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Scimitar_r",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Scimitar_e",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Scimitar_l",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Pike_u",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Pike_r",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Pike_e",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Pike_l",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Shortsword_u",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Shortsword_r",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Shortsword_e",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Shortsword_l",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_LightHammer_u",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_LightHammer_r",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_LightHammer_e",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_LightHammer_l",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_LightCrossbow_u",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_LightCrossbow_r",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_LightCrossbow_e",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_LightCrossbow_l",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Mace_u",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Mace_r",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Mace_e",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Mace_l",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Dagger_u",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Dagger_r",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Dagger_e",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Dagger_l",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Greatclub_u",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Greatclub_r",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Greatclub_e",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Greatclub_l",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Handaxe_u",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Handaxe_r",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Handaxe_e",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Handaxe_l",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Shortbow_u",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Shortbow_r",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Shortbow_e",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Shortbow_l",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Club_u",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Club_r",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Club_e",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Club_l",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Torch_u",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Torch_r",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Torch_e",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Torch_l",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Javelin_u",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Javelin_r",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Javelin_e",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Javelin_l",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Quarterstaff_u",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Quarterstaff_r",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Quarterstaff_e",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Quarterstaff_l",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Spear_u",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Spear_r",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Spear_e",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Spear_l",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Sickle_u",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Sickle_r",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Sickle_e",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Sickle_l",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_ARM_Shield_u",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_ARM_Shield_r",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_ARM_Shield_e",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_ARM_Shield_l",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Maul_u",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Maul_r",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Maul_e",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_WPN_Maul_l",1,0,0,0,0,0,0,0
+
+new treasuretable "AMP_Arcanizer_1"
+new subtable "-1"
+object category "T_REL_All_Uncommon",1000,0,0,0,0,0,0,0
+object category "T_AMP_JackPot",1,0,0,0,0,0,0,0
+
+new treasuretable "AMP_Arcanizer_2"
+new subtable "-1"
+object category "T_REL_All_Rare",1000,0,0,0,0,0,0,0
+object category "T_AMP_JackPot",1,0,0,0,0,0,0,0
+
+new treasuretable "AMP_Arcanizer_3"
+new subtable "-1"
+object category "T_REL_All_Epic",1000,0,0,0,0,0,0,0
+object category "T_AMP_JackPot",1,0,0,0,0,0,0,0
+
+new treasuretable "AMP_Arcanizer_4"
+new subtable "-1"
+object category "T_REL_All_Legendary",1000,0,0,0,0,0,0,0
+object category "T_AMP_JackPot",2,0,0,0,0,0,0,0
+
 new treasuretable "TUT_Chest_Potions"
 CanMerge 1
+new subtable "-1"
+object category "I_AMP_Book",1,0,0,0,0,0,0,0
 new subtable "1,1"
-object category "I_ARP_Overall_Container",1,0,0,0,0,0,0,0
-new treasuretable "ARP_Overall_Container_TT"
-CanMerge 1
+object category "I_Para_TrainingRing",1,0,0,0,0,0,0,0
+
+new treasuretable "AMP_Test01"
 new subtable "1,1"
-object category "I_CONS_DRINK_Rum",1,0,0,0,0,0,0,0
+object category "I_Para_TrainingRing",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_AMP_DeathCleric_Helmet_1",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_AMP_PirateRogue_Helmet_1",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_AMP_CrownPaladin_Helmet_1",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_AMP_ShadowSorcerer_Helmet_1",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_AMP_GlamourBard_Helmet_1",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_AMP_ArcaneFighter_Helmet_1",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_AMP_SwarmkeeperRanger_Helmet_1",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_AMP_Stardruid_Helmet_1",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_AMP_Bladesinger_Helmet_1",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_AMP_DeathCleric_Helmet_2",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_AMP_PirateRogue_Helmet_2",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_AMP_CrownPaladin_Helmet_2",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_AMP_ShadowSorcerer_Helmet_2",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_AMP_GlamourBard_Helmet_2",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_AMP_ArcaneFighter_Helmet_2",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_AMP_SwarmkeeperRanger_Helmet_2",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_AMP_Stardruid_Helmet_2",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_AMP_Bladesinger_Helmet_2",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_AMP_DeathCleric_Helmet_3",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_AMP_PirateRogue_Helmet_3",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_AMP_CrownPaladin_Helmet_3",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_AMP_ShadowSorcerer_Helmet_3",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_AMP_GlamourBard_Helmet_3",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_AMP_ArcaneFighter_Helmet_3",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_AMP_SwarmkeeperRanger_Helmet_3",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_AMP_Stardruid_Helmet_3",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_AMP_Bladesinger_Helmet_3",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_AMP_DeathCleric_Helmet_4",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_AMP_PirateRogue_Helmet_4",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_AMP_CrownPaladin_Helmet_4",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_AMP_ShadowSorcerer_Helmet_4",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_AMP_GlamourBard_Helmet_4",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_AMP_ArcaneFighter_Helmet_4",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_AMP_SwarmkeeperRanger_Helmet_4",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_AMP_Stardruid_Helmet_4",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "I_AMP_Bladesinger_Helmet_4",1,0,0,0,0,0,0,0
