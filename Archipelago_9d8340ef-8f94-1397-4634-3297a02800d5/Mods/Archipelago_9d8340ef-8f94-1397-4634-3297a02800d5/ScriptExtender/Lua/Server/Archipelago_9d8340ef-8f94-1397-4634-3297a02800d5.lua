@@ -18,6 +18,17 @@
 PersistentVars = {}
 syncOnAny = true
 logKills = true
+logQuests = true
+importantKillSet = {
+    ["S_CRE_Templar_378ac93e-03a0-40b4-904c-f37989ac7a8c"] = true
+}
+
+importantQuestSet = {
+    ["DEN_Conflict-HalsinLeft_KilledLeaders"] = true,
+    ["DEN_Conflict-HalsinReturned_Known"] = true,
+    ["GLO_Tadpole-HalsinReturned_Known"] = true,
+    ["GLO_Tadpole-ReportHalsin_LeadersDefeated"] = true
+}
 
 function contains(tbl, value)
     for i = 1, #tbl do  -- Iterate from index 1 to the length of the table
@@ -44,10 +55,17 @@ function OnSessionLoaded()
         if (data.killsanity == 0) then
             logKills = false
         end
+        if (data.questsanity == 0) then
+            logQuests = false
+        end
     end
 end
 
 Ext.Events.SessionLoaded:Subscribe(OnSessionLoaded)
+
+Ext.Osiris.RegisterListener("Died", 1, "after", function(died)
+    print("Died: " .. died)
+end)
 
 Ext.Osiris.RegisterListener("KilledBy", 4, "after", function(defender, attackOwner, attacker, storyActionID)
     if (logKills) then
@@ -106,36 +124,41 @@ end)
 
 Ext.Osiris.RegisterListener("CharacterCreationFinished", 0, "after", function()
     print("CharCreationDone")
-    Ext.IO.SaveFile("ap_out.json", "[]")
-    Ext.IO.SaveFile("ap_in.json", "[]")
-    
-    PersistentVars['APSent'] = {}
-    --Ext.IO.SaveFile("killed_log.json", "[]")
+    if (Osi.GetRegion(GetHostCharacter()) == "SYS_CC_I") then
+        print("Resetting AP files")
+        Ext.IO.SaveFile("ap_out.json", "[]")
+        Ext.IO.SaveFile("ap_in.json", "[]")
+        
+        PersistentVars['APSent'] = {}
+    else
+        print("Not in starting area, not resetting AP files: " .. Osi.GetRegion(GetHostCharacter()))
+    end
 end)
 
 Ext.Osiris.RegisterListener("QuestUpdateUnlocked", 3, "after", function(character, topLevelQuestID, stateID)
     print("QuestUpdateUnlocked " .. character .. " " .. topLevelQuestID .. " " .. tostring(stateID))
-
-    local unparsed = Ext.IO.LoadFile("ap_out.json")
-    local data = {}
-    
-    if (unparsed) then
-        data = Ext.Json.Parse(unparsed)
-        if (data == nil) then
-            print("Failed to parse JSON")
-            return
+    if (logQuests or importantQuestSet[topLevelQuestID .. "-" .. stateID] ) then
+        local unparsed = Ext.IO.LoadFile("ap_out.json")
+        local data = {}
+        
+        if (unparsed) then
+            data = Ext.Json.Parse(unparsed)
+            if (data == nil) then
+                print("Failed to parse JSON")
+                return
+            end
         end
-    end
-    local needsToAdd = true
-    for k, v in ipairs(data) do
-        if (v == topLevelQuestID .. "-" .. stateID) then
-            needsToAdd = false
-            break
+        local needsToAdd = true
+        for k, v in ipairs(data) do
+            if (v == topLevelQuestID .. "-" .. stateID) then
+                needsToAdd = false
+                break
+            end
         end
-    end
-    if (needsToAdd) then
-        table.insert(data, topLevelQuestID .. "-" .. stateID)
-        Ext.IO.SaveFile("ap_out.json", Ext.Json.Stringify(data))
+        if (needsToAdd) then
+            table.insert(data, topLevelQuestID .. "-" .. stateID)
+            Ext.IO.SaveFile("ap_out.json", Ext.Json.Stringify(data))
+        end
     end
 end)
 
@@ -181,6 +204,10 @@ Ext.Osiris.RegisterListener("CastedSpell", 5, "after", function(caster, spell, s
                         elseif (string.sub(v, 6, 9) == "Stun") then
                             ApplyStatus(targetChar, "STUNNED", 5)
                         end
+                        APSent[v] = true
+                    elseif (string.sub(v, 1, 5) == "Dupe-") then
+                        print("Granting dupe item: " .. v)
+                        TemplateAddTo(string.sub(v, 11), targetChar, 1)
                         APSent[v] = true
                     else
                         -- Assume item
