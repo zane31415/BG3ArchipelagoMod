@@ -198,6 +198,7 @@ Ext.Osiris.RegisterListener("CastedSpell", 5, "after", function(caster, spell, s
                         if (string.sub(v, 6, 13) == "Monster-") then
                             local monstername = string.sub(v, 14, 49)
                             local mon = Osi.CreateAtObject(monstername,targetChar,0,0,"",1)
+                            Osi.SetFaction(mon, "AP_TRAP_FACTION")
                             Osi.SetHostileAndEnterCombat(Osi.GetFaction(mon), Osi.GetFaction(targetChar), mon, targetChar)
                         elseif (string.sub(v, 6, 13) == "Bleeding") then
                             ApplyStatus(targetChar, "BLEEDING", 10)
