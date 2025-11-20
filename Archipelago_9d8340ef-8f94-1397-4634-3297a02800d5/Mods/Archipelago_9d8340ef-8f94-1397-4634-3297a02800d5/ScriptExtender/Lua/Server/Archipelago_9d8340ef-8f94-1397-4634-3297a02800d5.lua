@@ -20,14 +20,30 @@ syncOnAny = true
 logKills = true
 logQuests = true
 importantKillSet = {
-    ["S_CRE_Templar_378ac93e-03a0-40b4-904c-f37989ac7a8c"] = true
+    ["S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d"] = true, -- Auntie Ethel
+    ["S_FOR_Bottomless_SpiderQueen_e6b2f3ba-2d02-4507-8680-6047322e1a4b"] = true, -- Spider Queen
+    ["S_UND_PetrifiedDrow_Spectator_39ff8241-fadd-4fbe-ab89-fc5a8b7638a0"] = true, -- Spectator
+    ["S_UND_Bulette_307934b5-6fb5-4fdc-a7ff-433a7ba175b3"] = true, -- Bulette
+    ["S_UND_TheDrowNere_06bf05c5-216b-4eaf-91f5-8f1dd3d57f30"] = true, -- Nere
+    ["S_UND_KethericCity_AdamantineGolem_2a5997fc-5f2a-4a13-b309-bed16da3b255"] = true, -- Grym
+    ["S_CRE_Templar_378ac93e-03a0-40b4-904c-f37989ac7a8c"] = true, --Ch'r'ai W'wargaz
+    ["S_SCL_BlightCombat2_Mound_01_1b294fe0-f1a1-4e81-9d4c-8d86bbda7d2b"] = true, -- Shambling Mound
+    ["S_SCL_FishermansHut_CursedKuoToa_Champion_03524330-c6ca-4078-8fbf-12ec4ffa389a"] = true, -- Cursed Kuo-Toa Chief
+    ["S_TWN_Hospital_Surgeon_e58b8b34-038b-4858-b817-c2a8096a9381"] = true, -- Malus Thorm
+    ["S_TWN_Tollhouse_TollhouseMaster_3b460226-8ca2-4bbc-9bd7-8bb947aa2c06"] = true, -- Gerringothe Thorm
+    ["S_TWN_Distillery_Brewer_4d9e3db3-9a78-4f4b-8101-1dd73c0f3be5"] = true, -- Thisobald Thorm
+    ["S_TWN_VlaakithAttack_Caster_000_e4141a02-f5e7-4a0c-a7af-d3dda6610c1b"] = true, -- Ch'r'ai Tska'an
+    ["S_GLO_Orthon_1dc8091d-2af6-4d33-9268-998ef266d19c"] = true, -- Orthon
+    ["S_SHA_Necromancer_53651a9f-7ea8-444f-ba2d-224390b72f7d"] = true, -- Balthazar
+    ["S_MOO_Ketheric_e9918f3e-5b87-40a3-a9bd-61545151573f"] = true -- Myrkul
 }
 
 importantQuestSet = {
     ["DEN_Conflict-HalsinLeft_KilledLeaders"] = true,
     ["DEN_Conflict-HalsinReturned_Known"] = true,
     ["GLO_Tadpole-HalsinReturned_Known"] = true,
-    ["GLO_Tadpole-ReportHalsin_LeadersDefeated"] = true
+    ["GLO_Tadpole-ReportHalsin_LeadersDefeated"] = true,
+    ["SCL_LiftingTheCurse-TalkToThaniel"] = true, -- Thaniel
 }
 
 function contains(tbl, value)
@@ -68,7 +84,7 @@ Ext.Osiris.RegisterListener("Died", 1, "after", function(died)
 end)
 
 Ext.Osiris.RegisterListener("KilledBy", 4, "after", function(defender, attackOwner, attacker, storyActionID)
-    if (logKills) then
+    if (logKills or importantKillSet[defender]) then
         local unparsed = Ext.IO.LoadFile("ap_out.json")
         local data = {}
         print("Logging kill: " .. "Kill-" .. defender)
