@@ -20,6 +20,7 @@ syncOnAny = true
 logKills = true
 logQuests = true
 deathlink = true
+logContainers = true
 pendingReceiveDeathlink = false
 importantKillSet = {
     ["S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d"] = true, -- Auntie Ethel
@@ -103,6 +104,9 @@ function OnSessionLoaded()
         if (data.deathlink == 0) then
             deathlink = false
         end
+        if (data.containersanity == 0 or data.containersanity == 1) then
+            logContainers = false
+        end
     end
 end
 
@@ -143,32 +147,33 @@ Ext.Osiris.RegisterListener("KilledBy", 4, "after", function(defender, attackOwn
     end
 end)
 
-Ext.Osiris.RegisterListener("EnteredLevel", 3, "after", function(object, objectRootTemplate, level)
-    --print("EnteredLevel: " .. tostring(object) .. " - " .. tostring(level))
-    if (object == GetHostCharacter()) then
-        print("EnteredLevel: " .. level)
-    end
-end)
+-- Ext.Osiris.RegisterListener("EnteredLevel", 3, "after", ???
 
-Ext.Osiris.RegisterListener("TemplateAddedTo", 4, "after", function(objectTemplate, object2, inventoryHolder, addType)
---    if (inventoryHolder == GetHostCharacter()) then
---        print("TemplateAddedTo: " .. objectTemplate .. " - " .. object2 .. " - " .. inventoryHolder .. " - " .. addType)
---        local unparsed = Ext.IO.LoadFile("items_to_remove.json")
---        local data = {}
---        
---        if (unparsed) then
---            data = Ext.Json.Parse(unparsed)
---            if (data == nil) then
---                print("Failed to parse JSON")
---                return
---            end
---        end
---        local APSent = PersistentVars['APSent']
---        if (contains(data, objectTemplate) and not APSent[objectTemplate]) then
---            print("Shouldn't have that.")
-            
---        end
---    end
+Ext.Osiris.RegisterListener("Opened", 1, "after", function(object)
+    print("Opened: " .. object)
+    if (logContainers) then
+        local unparsed = Ext.IO.LoadFile("debug.json")
+        local data = {}
+        
+        if (unparsed) then
+            data = Ext.Json.Parse(unparsed)
+            if (data == nil) then
+                print("Failed to parse JSON")
+                return
+            end
+        end
+        local needsToAdd = true
+        for k, v in ipairs(data) do
+            if (v == topLevelQuestID .. "-" .. stateID) then
+                needsToAdd = false
+                break
+            end
+        end
+        if (needsToAdd) then
+            table.insert(data, object)
+            Ext.IO.SaveFile("debug.json", Ext.Json.Stringify(data))
+        end
+    end
 end)
 
 Ext.Osiris.RegisterListener("CharacterCreationFinished", 0, "after", function()
@@ -179,6 +184,7 @@ Ext.Osiris.RegisterListener("CharacterCreationFinished", 0, "after", function()
         Ext.IO.SaveFile("ap_in.json", "[]")
         Ext.IO.SaveFile("deathLinkSend.json", "[]")
         Ext.IO.SaveFile("deathLinkReceive.json", "[]")
+        Ext.IO.SaveFile("debug.json", "[]")
         
         PersistentVars['APSent'] = {}
     else
@@ -267,7 +273,7 @@ Ext.Osiris.RegisterListener("CastedSpell", 5, "after", function(caster, spell, s
                             local monstername = string.sub(v, 14, 49)
                             local mon = Osi.CreateAtObject(monstername,targetChar,0,0,"",1)
                             Osi.SetFaction(mon, "ACT0a_TUT_HelmDevil_0314cde4-8572-4d70-a117-dba88e20e70d")
-                            Osi.SetHostileAndEnterCombat(Osi.GetFaction(mon), Osi.GetFaction(targetChar), mon, targetChar)
+                            Osi.SetHostileAndEnterCombat("ACT0a_TUT_HelmDevil_0314cde4-8572-4d70-a117-dba88e20e70d", Osi.GetFaction(targetChar), mon, targetChar)
                         elseif (string.sub(v, 6, 13) == "Bleeding") then
                             ApplyStatus(targetChar, "BLEEDING", 10)
                         elseif (string.sub(v, 6, 9) == "Stun") then
