@@ -101,7 +101,7 @@ function OnSessionLoaded()
         if (data.questsanity == 0) then
             logQuests = false
         end
-        if (data.deathlink == 0) then
+        if (data.death_link == 0) then
             deathlink = false
         end
         if (data.containersanity == 0 or data.containersanity == 1) then
