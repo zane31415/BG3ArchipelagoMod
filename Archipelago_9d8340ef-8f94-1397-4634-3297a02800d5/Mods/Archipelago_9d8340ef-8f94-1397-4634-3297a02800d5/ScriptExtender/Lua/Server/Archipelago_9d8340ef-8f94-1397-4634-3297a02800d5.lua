@@ -121,6 +121,22 @@ function OnSessionLoaded()
         if (data.containersanity ~= nil and data.containersanity ~= 0 and data.containersanity ~= 1) then
             logContainers = true
         end
+
+        -- Seed handshake: when the player connects against a freshly-generated
+        -- multiworld, wipe the APSent dedup table so we do not silently swallow
+        -- items whose tokens collide with the previous seed. The apworld
+        -- includes multiworld.seed_name in slot_data for this purpose. If the
+        -- field is absent (older apworld) we leave existing behavior intact.
+        local new_seed = data.seed_name
+        if (type(new_seed) == "string" and new_seed ~= "") then
+            local stored_seed = PersistentVars['SeedName']
+            if (stored_seed ~= new_seed) then
+                print("AP seed_name changed (was " .. tostring(stored_seed) .. ", now " .. new_seed .. "); wiping APSent and ap_out.json")
+                PersistentVars['APSent'] = {}
+                PersistentVars['SeedName'] = new_seed
+                Ext.IO.SaveFile("ap_out.json", "[]")
+            end
+        end
     end
 end
 
