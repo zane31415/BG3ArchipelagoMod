@@ -128,9 +128,16 @@ Ext.Events.SessionLoaded:Subscribe(OnSessionLoaded)
 
 Ext.Osiris.RegisterListener("Died", 1, "after", function(died)
     print("Died: " .. tostring(died))
-    if (deathlink and deathlinkTriggers[died] and not pendingReceiveDeathlink) then
-        Ext.IO.SaveFile("deathLinkSend.json", '["' .. deathlinkNames[died] .. '"]')
-        pendingReceiveDeathlink = false
+    if (deathlinkTriggers[died]) then
+        if (pendingReceiveDeathlink) then
+            -- This death was caused by a deathlink we just received from the
+            -- server; consume the suppression flag instead of echoing the
+            -- death back upstream. Resetting here (rather than after sending)
+            -- ensures subsequent local deaths can send again.
+            pendingReceiveDeathlink = false
+        elseif (deathlink) then
+            Ext.IO.SaveFile("deathLinkSend.json", '["' .. deathlinkNames[died] .. '"]')
+        end
     end
 end)
 
