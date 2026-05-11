@@ -16,11 +16,17 @@
 
 -- SubQuestUpdateUnlocked ?
 PersistentVars = {}
-syncOnAny = true
-logKills = true
-logQuests = true
-deathlink = true
-logContainers = true
+-- Feature flags default to off; OnSessionLoaded flips them on when the
+-- corresponding option is explicitly set in ap_options.json. Defaulting on
+-- meant a missing or partial options file (stale seed, version skew, missing
+-- key) silently left features enabled, which is the opposite of the
+-- Archipelago-wide convention (sc2, pokemon_emerald, wargroove, etc. all
+-- default missing slot_data keys to the safe/off value).
+syncOnAny = false
+logKills = false
+logQuests = false
+deathlink = false
+logContainers = false
 pendingReceiveDeathlink = false
 importantKillSet = {
     ["S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d"] = true, -- Auntie Ethel
@@ -82,6 +88,19 @@ function contains(tbl, value)
     return false -- Value not found after checking all elements
 end
 
+-- Read a boolean-ish option out of the parsed ap_options.json table. Missing
+-- keys are treated as off (matches Archipelago slot_data conventions); both
+-- numeric (0/1) and boolean encodings are accepted so the mod is robust to
+-- apworld version skew and to the option file being partial or stale.
+local function read_option(data, key)
+    if data == nil then return false end
+    local v = data[key]
+    if v == nil then return false end
+    if type(v) == "boolean" then return v end
+    if type(v) == "number" then return v ~= 0 end
+    return false
+end
+
 function OnSessionLoaded()
     -- Persistent variables are only available after SessionLoaded is triggered!
 --    _P(PersistentVars['APSent'])
@@ -92,20 +111,15 @@ function OnSessionLoaded()
             print("Failed to parse JSON")
             return
         end
-        if (data.sync_method == 0) then
-            syncOnAny = false
-        end
-        if (data.killsanity == 0) then
-            logKills = false
-        end
-        if (data.questsanity == 0) then
-            logQuests = false
-        end
-        if (data.death_link == 0) then
-            deathlink = false
-        end
-        if (data.containersanity == 0 or data.containersanity == 1) then
-            logContainers = false
+        syncOnAny = read_option(data, "sync_method")
+        logKills = read_option(data, "killsanity")
+        logQuests = read_option(data, "questsanity")
+        deathlink = read_option(data, "death_link")
+        -- containersanity is an in-development apworld feature; preserve the
+        -- original semantics (only the "yes really" value 2+ enables logging)
+        -- so this change does not silently alter the deferred feature.
+        if (data.containersanity ~= nil and data.containersanity ~= 0 and data.containersanity ~= 1) then
+            logContainers = true
         end
     end
 end
