@@ -88,6 +88,21 @@ function contains(tbl, value)
     return false -- Value not found after checking all elements
 end
 
+-- Clear all the BG3<->AP communication files back to empty arrays and
+-- reset the in-memory dedup table. Called whenever the mod needs to drop
+-- any stale state — currently from CharacterCreationFinished (fresh game
+-- in the prologue) and from the seed_name handshake (player connected
+-- against a different multiworld than the one PersistentVars was last
+-- synced to).
+local function reset_ap_state()
+    Ext.IO.SaveFile("ap_out.json", "[]")
+    Ext.IO.SaveFile("ap_in.json", "[]")
+    Ext.IO.SaveFile("deathLinkSend.json", "[]")
+    Ext.IO.SaveFile("deathLinkReceive.json", "[]")
+    Ext.IO.SaveFile("debug.json", "[]")
+    PersistentVars['APSent'] = {}
+end
+
 -- Read a boolean-ish option out of the parsed ap_options.json table. Missing
 -- keys are treated as off (matches Archipelago slot_data conventions); both
 -- numeric (0/1) and boolean encodings are accepted so the mod is robust to
@@ -123,18 +138,19 @@ function OnSessionLoaded()
         end
 
         -- Seed handshake: when the player connects against a freshly-generated
-        -- multiworld, wipe the APSent dedup table so we do not silently swallow
-        -- items whose tokens collide with the previous seed. The apworld
-        -- includes multiworld.seed_name in slot_data for this purpose. If the
-        -- field is absent (older apworld) we leave existing behavior intact.
+        -- multiworld, wipe all the BG3<->AP comm state so stale entries from
+        -- the previous seed do not bleed into the new run. Same reset set
+        -- that CharacterCreationFinished uses below: a seed change is the
+        -- same kind of "fresh BG3<->AP session" event. The apworld includes
+        -- multiworld.seed_name in slot_data for this purpose. If the field
+        -- is absent (older apworld) we leave existing behavior intact.
         local new_seed = data.seed_name
         if (type(new_seed) == "string" and new_seed ~= "") then
             local stored_seed = PersistentVars['SeedName']
             if (stored_seed ~= new_seed) then
-                print("AP seed_name changed (was " .. tostring(stored_seed) .. ", now " .. new_seed .. "); wiping APSent and ap_out.json")
-                PersistentVars['APSent'] = {}
+                print("AP seed_name changed (was " .. tostring(stored_seed) .. ", now " .. new_seed .. "); resetting AP state")
                 PersistentVars['SeedName'] = new_seed
-                Ext.IO.SaveFile("ap_out.json", "[]")
+                reset_ap_state()
             end
         end
     end
@@ -217,13 +233,7 @@ Ext.Osiris.RegisterListener("CharacterCreationFinished", 0, "after", function()
     print("CharCreationDone")
     if (Osi.GetRegion(GetHostCharacter()) == "SYS_CC_I") then
         print("Resetting AP files")
-        Ext.IO.SaveFile("ap_out.json", "[]")
-        Ext.IO.SaveFile("ap_in.json", "[]")
-        Ext.IO.SaveFile("deathLinkSend.json", "[]")
-        Ext.IO.SaveFile("deathLinkReceive.json", "[]")
-        Ext.IO.SaveFile("debug.json", "[]")
-        
-        PersistentVars['APSent'] = {}
+        reset_ap_state()
     else
         print("Not in starting area, not resetting AP files: " .. Osi.GetRegion(GetHostCharacter()))
     end
