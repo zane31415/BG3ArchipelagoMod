@@ -20,7 +20,7 @@ syncOnAny = true
 logKills = true
 logQuests = true
 deathlink = true
-logContainers = true
+logContainers = false
 pendingReceiveDeathlink = false
 importantKillSet = {
     ["S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d"] = true, -- Auntie Ethel
@@ -73,6 +73,9 @@ importantQuestSet = {
     ["SCL_LiftingTheCurse-TalkToThaniel"] = true, -- Thaniel
 }
 
+locationOutFile = "ap_out.json"
+itemsInFile = "ap_in.json"
+
 function contains(tbl, value)
     for i = 1, #tbl do  -- Iterate from index 1 to the length of the table
         if tbl[i] == value then
@@ -82,9 +85,40 @@ function contains(tbl, value)
     return false -- Value not found after checking all elements
 end
 
+local function reset_ap_state()
+    Ext.IO.SaveFile(locationOutFile, "[]")
+    Ext.IO.SaveFile(itemsInFile, "[]")
+    Ext.IO.SaveFile("deathLinkSend.json", "[]")
+    Ext.IO.SaveFile("deathLinkReceive.json", "[]")
+    Ext.IO.SaveFile("debug.json", "[]")
+    PersistentVars['APSent'] = {}
+end
+
+local function read_option(data, key)
+    if data == nil then return false end
+    local v = data[key]
+    if v == nil then return false end
+    if type(v) == "boolean" then return v end
+    if type(v) == "number" then return v ~= 0 end
+    return false
+end
+
+local function print_to_file(filename, text)
+    local unparsed = Ext.IO.LoadFile(filename)
+    local data = {}
+    
+    if (unparsed) then
+        data = Ext.Json.Parse(unparsed)
+        if (data == nil) then
+            print("Failed to parse JSON")
+            return
+        end
+    end
+    table.insert(data, text)
+    Ext.IO.SaveFile(filename, Ext.Json.Stringify(data))
+end
+
 function OnSessionLoaded()
-    -- Persistent variables are only available after SessionLoaded is triggered!
---    _P(PersistentVars['APSent'])
     local unparsed = Ext.IO.LoadFile("ap_options.json")
     if (unparsed) then
         data = Ext.Json.Parse(unparsed)
@@ -92,20 +126,24 @@ function OnSessionLoaded()
             print("Failed to parse JSON")
             return
         end
-        if (data.sync_method == 0) then
-            syncOnAny = false
+        syncOnAny = read_option(data, "sync_method")
+        logKills = read_option(data, "killsanity")
+        logQuests = read_option(data, "questsanity")
+        deathlink = read_option(data, "death_link")
+        logContainers = false
+        if (data.containersanity ~= nil and data.containersanity ~= 0 and data.containersanity ~= 1) then
+            logContainers = true
         end
-        if (data.killsanity == 0) then
-            logKills = false
-        end
-        if (data.questsanity == 0) then
-            logQuests = false
-        end
-        if (data.deathlink == 0) then
-            deathlink = false
-        end
-        if (data.containersanity == 0 or data.containersanity == 1) then
-            logContainers = false
+        local new_seed = data.seed_name
+        if (type(new_seed) == "string" and new_seed ~= "") then
+            local stored_seed = PersistentVars['SeedName']            
+            locationOutFile = new_seed .. "ap_out.json"
+            itemsInFile = new_seed .. "ap_in.json"
+            if (stored_seed ~= new_seed) then
+                print("AP seed_name changed (was " .. tostring(stored_seed) .. ", now " .. new_seed .. "); resetting AP state")
+                PersistentVars['SeedName'] = new_seed
+                reset_ap_state()
+            end
         end
     end
 end
@@ -114,15 +152,22 @@ Ext.Events.SessionLoaded:Subscribe(OnSessionLoaded)
 
 Ext.Osiris.RegisterListener("Died", 1, "after", function(died)
     print("Died: " .. tostring(died))
-    if (deathlink and deathlinkTriggers[died] and not pendingReceiveDeathlink) then
-        Ext.IO.SaveFile("deathLinkSend.json", '["' .. deathlinkNames[died] .. '"]')
-        pendingReceiveDeathlink = false
+    if (deathlinkTriggers[died]) then
+        if (pendingReceiveDeathlink) then
+            -- This death was caused by a deathlink we just received from the
+            -- server; consume the suppression flag instead of echoing the
+            -- death back upstream. Resetting here (rather than after sending)
+            -- ensures subsequent local deaths can send again.
+            pendingReceiveDeathlink = false
+        elseif (deathlink) then
+            Ext.IO.SaveFile("deathLinkSend.json", '["' .. deathlinkNames[died] .. '"]')
+        end
     end
 end)
 
 Ext.Osiris.RegisterListener("KilledBy", 4, "after", function(defender, attackOwner, attacker, storyActionID)
     if (logKills or importantKillSet[defender]) then
-        local unparsed = Ext.IO.LoadFile("ap_out.json")
+        local unparsed = Ext.IO.LoadFile(locationOutFile)
         local data = {}
         print("Logging kill: " .. "Kill-" .. defender)
         
@@ -142,12 +187,30 @@ Ext.Osiris.RegisterListener("KilledBy", 4, "after", function(defender, attackOwn
         end
         if (needsToAdd) then
             table.insert(data, "Kill-" .. defender)
-            Ext.IO.SaveFile("ap_out.json", Ext.Json.Stringify(data))
+            Ext.IO.SaveFile(locationOutFile, Ext.Json.Stringify(data))
         end
     end
 end)
 
--- Ext.Osiris.RegisterListener("EnteredLevel", 3, "after", ???
+--Ext.Osiris.RegisterListener("UseStarted", 2, "after", function(character, object)
+--    print_to_file("debug.json", "UseStarted: " .. character .. " " .. object )
+--end)
+
+--Ext.Osiris.RegisterListener("TemplateUseStarted", 3, "after", function(character, itemTemplate, item)
+--    print_to_file("debug.json", "TemplateUseStarted: " .. character .. " " .. itemTemplate .. " " .. item)
+--end)
+
+--Ext.Osiris.RegisterListener("EnteredTrigger", 2, "after", function(character, trigger)
+--    if (deathlinkTriggers[character]) then
+--        print_to_file("debug.json", "EnteredTrigger: " .. character .. " " .. trigger )
+--    end
+--end)
+
+--Ext.Osiris.RegisterListener("EnteredLevel", 3, "after", function(character, region, isFirstTime)
+--    if (deathlinkTriggers[character]) then
+--        print_to_file("debug.json", "EnteredLevel: " .. character .. " " .. region .. " " .. tostring(isFirstTime))
+--    end
+--end)
 
 Ext.Osiris.RegisterListener("Opened", 1, "after", function(object)
     print("Opened: " .. object)
@@ -164,13 +227,13 @@ Ext.Osiris.RegisterListener("Opened", 1, "after", function(object)
         end
         local needsToAdd = true
         for k, v in ipairs(data) do
-            if (v == topLevelQuestID .. "-" .. stateID) then
+            if (v == object) then
                 needsToAdd = false
                 break
             end
         end
         if (needsToAdd) then
-            table.insert(data, object)
+            table.insert(data, "Opened: " .. object)
             Ext.IO.SaveFile("debug.json", Ext.Json.Stringify(data))
         end
     end
@@ -180,13 +243,7 @@ Ext.Osiris.RegisterListener("CharacterCreationFinished", 0, "after", function()
     print("CharCreationDone")
     if (Osi.GetRegion(GetHostCharacter()) == "SYS_CC_I") then
         print("Resetting AP files")
-        Ext.IO.SaveFile("ap_out.json", "[]")
-        Ext.IO.SaveFile("ap_in.json", "[]")
-        Ext.IO.SaveFile("deathLinkSend.json", "[]")
-        Ext.IO.SaveFile("deathLinkReceive.json", "[]")
-        Ext.IO.SaveFile("debug.json", "[]")
-        
-        PersistentVars['APSent'] = {}
+        reset_ap_state()
     else
         print("Not in starting area, not resetting AP files: " .. Osi.GetRegion(GetHostCharacter()))
     end
@@ -195,7 +252,7 @@ end)
 Ext.Osiris.RegisterListener("QuestUpdateUnlocked", 3, "after", function(character, topLevelQuestID, stateID)
     print("QuestUpdateUnlocked " .. character .. " " .. topLevelQuestID .. " " .. tostring(stateID))
     if (logQuests or importantQuestSet[topLevelQuestID .. "-" .. stateID] ) then
-        local unparsed = Ext.IO.LoadFile("ap_out.json")
+        local unparsed = Ext.IO.LoadFile(locationOutFile)
         local data = {}
         
         if (unparsed) then
@@ -214,7 +271,7 @@ Ext.Osiris.RegisterListener("QuestUpdateUnlocked", 3, "after", function(characte
         end
         if (needsToAdd) then
             table.insert(data, topLevelQuestID .. "-" .. stateID)
-            Ext.IO.SaveFile("ap_out.json", Ext.Json.Stringify(data))
+            Ext.IO.SaveFile(locationOutFile, Ext.Json.Stringify(data))
         end
     end
 end)
@@ -239,7 +296,7 @@ Ext.Osiris.RegisterListener("CastedSpell", 5, "after", function(caster, spell, s
                 end
             end
         end
-        local unparsed_in = Ext.IO.LoadFile("ap_in.json")
+        local unparsed_in = Ext.IO.LoadFile(itemsInFile)
         if (unparsed_in) then
             local APSent = PersistentVars['APSent']
             if not APSent then
