@@ -16,10 +16,12 @@
 
 -- SubQuestUpdateUnlocked ?
 PersistentVars = {}
+
 syncOnAny = true
 logKills = true
 logQuests = true
 deathlink = true
+devDebugOnly = false
 logContainers = false
 pendingReceiveDeathlink = false
 importantKillSet = {
@@ -43,27 +45,16 @@ importantKillSet = {
     ["S_MOO_Ketheric_e9918f3e-5b87-40a3-a9bd-61545151573f"] = true -- Myrkul
 }
 
-deathlinkTriggers = {["S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c"] = true,
-    ["S_Player_Minsc_0de603c5-42e2-4811-9dad-f652de080eba"] = true,
-    ["S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b"] = true,
-    ["S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323"] = true,
-    ["S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a"] = true,
-    ["S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604"] = true,
-    ["S_Player_Astarion_c7c13742-bacd-460a-8f65-f864fe41f255"] = true,
-    ["S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12"] = true,
-    ["S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d"] = true,
-    ["S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679"] = true}
+function isDeathLinkTrigger(character)
+    return PersistentVars['DeathLinkTriggers'][character] == true
+end
 
-deathlinkNames = {["S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c"] = "Karlach",
-    ["S_Player_Minsc_0de603c5-42e2-4811-9dad-f652de080eba"] = "Minsc",
-    ["S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b"] = "Minthara",
-    ["S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323"] = "Halsin",
-    ["S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a"] = "Jaheira",
-    ["S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604"] = "Gale",
-    ["S_Player_Astarion_c7c13742-bacd-460a-8f65-f864fe41f255"] = "Astarion",
-    ["S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12"] = "Laezel",
-    ["S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d"] = "Wyll",
-    ["S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679"] = "Shadowheart"}
+function getDeathLinkName(character)
+    if PersistentVars['DeathLinkNames'][character] ~= nil then
+        return PersistentVars['DeathLinkNames'][character]
+    end
+    return "Somebody"
+end
 
 importantQuestSet = {
     ["DEN_Conflict-HalsinLeft_KilledLeaders"] = true,
@@ -119,6 +110,32 @@ local function print_to_file(filename, text)
 end
 
 function OnSessionLoaded()
+    if (PersistentVars['DeathLinkTriggers'] == nil) then 
+        PersistentVars['DeathLinkTriggers'] = {["S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c"] = true,
+            ["S_Player_Minsc_0de603c5-42e2-4811-9dad-f652de080eba"] = true,
+            ["S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b"] = true,
+            ["S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323"] = true,
+            ["S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a"] = true,
+            ["S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604"] = true,
+            ["S_Player_Astarion_c7c13742-bacd-460a-8f65-f864fe41f255"] = true,
+            ["S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12"] = true,
+            ["S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d"] = true,
+            ["S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679"] = true}
+    end
+    if (PersistentVars['DeathLinkNames'] == nil) then
+        PersistentVars['DeathLinkNames'] = {["S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c"] = "Karlach",
+            ["S_Player_Minsc_0de603c5-42e2-4811-9dad-f652de080eba"] = "Minsc",
+            ["S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b"] = "Minthara",
+            ["S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323"] = "Halsin",
+            ["S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a"] = "Jaheira",
+            ["S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604"] = "Gale",
+            ["S_Player_Astarion_c7c13742-bacd-460a-8f65-f864fe41f255"] = "Astarion",
+            ["S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12"] = "Laezel",
+            ["S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d"] = "Wyll",
+            ["S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679"] = "Shadowheart"}
+    end
+
+
     local unparsed = Ext.IO.LoadFile("ap_options.json")
     if (unparsed) then
         data = Ext.Json.Parse(unparsed)
@@ -151,8 +168,7 @@ end
 Ext.Events.SessionLoaded:Subscribe(OnSessionLoaded)
 
 Ext.Osiris.RegisterListener("Died", 1, "after", function(died)
-    print("Died: " .. tostring(died))
-    if (deathlinkTriggers[died]) then
+    if (isDeathLinkTrigger(died)) then
         if (pendingReceiveDeathlink) then
             -- This death was caused by a deathlink we just received from the
             -- server; consume the suppression flag instead of echoing the
@@ -160,7 +176,10 @@ Ext.Osiris.RegisterListener("Died", 1, "after", function(died)
             -- ensures subsequent local deaths can send again.
             pendingReceiveDeathlink = false
         elseif (deathlink) then
-            Ext.IO.SaveFile("deathLinkSend.json", '["' .. deathlinkNames[died] .. '"]')
+            local name = getDeathLinkName(died)
+            if (name ~= nil) then
+                Ext.IO.SaveFile("deathLinkSend.json", '["' .. name .. '"]')
+            end
         end
     end
 end)
@@ -196,21 +215,23 @@ end)
 --    print_to_file("debug.json", "UseStarted: " .. character .. " " .. object )
 --end)
 
---Ext.Osiris.RegisterListener("TemplateUseStarted", 3, "after", function(character, itemTemplate, item)
---    print_to_file("debug.json", "TemplateUseStarted: " .. character .. " " .. itemTemplate .. " " .. item)
---end)
+Ext.Osiris.RegisterListener("TemplateUseStarted", 3, "after", function(character, itemTemplate, item)
+    if(devDebugOnly) then
+        print_to_file("debug.json", "TemplateUseStarted: " .. character .. " " .. itemTemplate .. " " .. item)
+    end
+end)
 
---Ext.Osiris.RegisterListener("EnteredTrigger", 2, "after", function(character, trigger)
---    if (deathlinkTriggers[character]) then
---        print_to_file("debug.json", "EnteredTrigger: " .. character .. " " .. trigger )
---    end
---end)
+Ext.Osiris.RegisterListener("EnteredTrigger", 2, "after", function(character, trigger)
+    if (devDebugOnly and isDeathLinkTrigger(character)) then
+        print_to_file("debug.json", "EnteredTrigger: " .. character .. " " .. trigger )
+    end
+end)
 
---Ext.Osiris.RegisterListener("EnteredLevel", 3, "after", function(character, region, isFirstTime)
---    if (deathlinkTriggers[character]) then
---        print_to_file("debug.json", "EnteredLevel: " .. character .. " " .. region .. " " .. tostring(isFirstTime))
---    end
---end)
+Ext.Osiris.RegisterListener("EnteredLevel", 3, "after", function(character, region, isFirstTime)
+    if (devDebugOnly and isDeathLinkTrigger(character)) then
+        print_to_file("debug.json", "EnteredLevel: " .. character .. " " .. region .. " " .. tostring(isFirstTime))
+    end
+end)
 
 Ext.Osiris.RegisterListener("Opened", 1, "after", function(object)
     print("Opened: " .. object)
@@ -244,6 +265,10 @@ Ext.Osiris.RegisterListener("CharacterCreationFinished", 0, "after", function()
     if (Osi.GetRegion(GetHostCharacter()) == "SYS_CC_I") then
         print("Resetting AP files")
         reset_ap_state()
+        local character = Ext.Entity.Get(Osi.GetHostCharacter())
+        local charname = character.ServerCharacter.Template.Name .. "_" .. GetHostCharacter()
+        PersistentVars['DeathLinkTriggers'][charname] = true
+        PersistentVars['DeathLinkNames'][charname] = "Tav"
     else
         print("Not in starting area, not resetting AP files: " .. Osi.GetRegion(GetHostCharacter()))
     end
