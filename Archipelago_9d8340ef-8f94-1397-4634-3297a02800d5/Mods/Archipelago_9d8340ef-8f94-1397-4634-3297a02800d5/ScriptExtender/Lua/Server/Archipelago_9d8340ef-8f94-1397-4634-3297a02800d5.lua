@@ -24,6 +24,7 @@ deathlink = true
 devDebugOnly = false
 logContainers = false
 pendingReceiveDeathlink = false
+blockEntrances = false
 importantKillSet = {
     ["S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d"] = true, -- Auntie Ethel
     ["S_FOR_Bottomless_SpiderQueen_e6b2f3ba-2d02-4507-8680-6047322e1a4b"] = true, -- Spider Queen
@@ -43,6 +44,45 @@ importantKillSet = {
     ["S_GLO_Orthon_1dc8091d-2af6-4d33-9268-998ef266d19c"] = true, -- Orthon
     ["S_SHA_Necromancer_53651a9f-7ea8-444f-ba2d-224390b72f7d"] = true, -- Balthazar
     ["S_MOO_Ketheric_e9918f3e-5b87-40a3-a9bd-61545151573f"] = true -- Myrkul
+}
+GATE_BLOCK = {
+    DISABLE_USE = 1,    -- SetDisableUse only
+    CAN_INTERACT = 2,   -- SetCanInteract only
+    BOTH = 3,           -- SetDisableUse and SetCanInteract
+}
+
+locationsToGates = {
+    ["Gate-ExitNautiloid"] = {{"S_TUT_Helm_ControlPanel_bcbba417-6403-40a6-aef6-6785d585df2a", GATE_BLOCK.CAN_INTERACT}},
+    ["Gate-WithersCrypt"] = {
+        {"S_CHA_OUTSIDE_Entrance_Door_000_2647dac6-234b-4e6f-8321-f88e95359fc4", GATE_BLOCK.CAN_INTERACT},
+        {"S_CHA_OUTSIDE_CryptHatch_76d53fd7-dc26-4dde-822a-485e0f19937a", GATE_BLOCK.CAN_INTERACT},
+        {"S_CHA_OUTSIDE_Crypt_Door_d06d5638-c69a-4fcc-b996-c305acbb7ebf", GATE_BLOCK.CAN_INTERACT},
+        {"S_CHA_OUTSIDE_Fissure_GrapplingVines_001_c64eb1e0-cb5a-46a6-af3f-7bf2b2505e84", GATE_BLOCK.CAN_INTERACT},
+        {"S_CHA_OUTSIDE_Fissure_Boulder_29a94ca5-cede-4932-88c5-3942334e4990", GATE_BLOCK.CAN_INTERACT}},
+    ["Gate-RuinedVillageWell"] = {
+        {"BLD_GEN_Platform_SpiderWeb_A_4D_H0n5_4W_A_Dynamic_000_5b9b61f7-82ca-86a0-3dce-4d0142cdc382", GATE_BLOCK.CAN_INTERACT},
+        {"S_FOR_VillageWell_21be1469-8f1c-4934-9235-112364aa3df9", GATE_BLOCK.CAN_INTERACT},
+        {"S_FOR_MasterworkOutsideDoor_c899d16c-60b1-4339-b09f-8eb00e157be8", GATE_BLOCK.CAN_INTERACT}},
+    ["Gate-GoblinCamp"] = {
+        {"S_GOB_ThroneRoom_Door_Entrance_bf8a7b29-383d-4344-bbe6-b72f10c1ba50", GATE_BLOCK.CAN_INTERACT},
+        {"S_GOB_Festivities_SecretEntrance_Door_ddbb3184-e682-47b7-ac0f-94d631b3f3ed", GATE_BLOCK.CAN_INTERACT}},
+    ["Gate-Underdark"] = {
+        {"BLD_GEN_Platform_SpiderWeb_A_4D_H0n5_4W_A_Dynamic_000_5b9b61f7-82ca-86a0-3dce-4d0142cdc382", GATE_BLOCK.CAN_INTERACT},
+        {"S_FOR_VillageWell_21be1469-8f1c-4934-9235-112364aa3df9", GATE_BLOCK.CAN_INTERACT},
+        {"S_FOR_MasterworkOutsideDoor_c899d16c-60b1-4339-b09f-8eb00e157be8", GATE_BLOCK.CAN_INTERACT},
+        {"TOOL_Goblins_Ladder_10n5H_A_c3cd979a-21e8-4f70-adb8-1e81a6250e2e", GATE_BLOCK.CAN_INTERACT}},
+    ["Gate-HagsFireplace"] = {{"S_HAG_HagLair_PortalToLair_b9e148b4-7b9b-45e5-bef4-f0673fffc93e", GATE_BLOCK.CAN_INTERACT}},
+    ["Gate-ZhentarimBasement"] = {{"S_PLA_EscapingZhentarim_Hatch_6f4de170-be4f-4bbb-bb37-69f2a5ddd929", GATE_BLOCK.CAN_INTERACT}},
+    ["Gate-Grymforge"] = {{"S_UND_EbonLake_RaftAtCave_FullRaft_a24aa852-9f72-48bc-8d94-7a92da7ca4c1", GATE_BLOCK.CAN_INTERACT}},
+    ["Gate-MountainPass"] = {
+        {"S_PLA_TeleporterToCrecheFromPlains_016525f4-0ddd-4cf1-85ab-3feaa6f6292a", GATE_BLOCK.CAN_INTERACT},
+        {"S_GOB_TeleporterToCrecheFromGoblinCamp_a81232d7-af15-4c77-b0e1-d7e791fd463b", GATE_BLOCK.CAN_INTERACT}},
+    ["Gate-Creche"] = {{"S_TELEPORT_CrecheDungonEntrance_f1e59d69-7dfd-42aa-b0eb-45e2db3129bc", GATE_BLOCK.CAN_INTERACT}},
+    ["Gate-Act2"] = {},
+    ["Gate-LastLightBasement"] = {},
+    ["Gate-ReithwinsMasonsGuild"] = {},
+    ["Gate-SharTrials"] = {},
+    ["Gate-ProgressiveMoonlightTowers"] = {}
 }
 
 function isDeathLinkTrigger(character)
@@ -148,6 +188,7 @@ function OnSessionLoaded()
         logQuests = read_option(data, "questsanity")
         deathlink = read_option(data, "death_link")
         logContainers = false
+        blockEntrances = read_option(data, "block_entrances")
         if (data.containersanity ~= nil and data.containersanity ~= 0 and data.containersanity ~= 1) then
             logContainers = true
         end
@@ -160,6 +201,36 @@ function OnSessionLoaded()
                 print("AP seed_name changed (was " .. tostring(stored_seed) .. ", now " .. new_seed .. "); resetting AP state")
                 PersistentVars['SeedName'] = new_seed
                 reset_ap_state()
+            end
+        end
+    end
+end
+
+Ext.Osiris.RegisterListener("GameModeStarted", 3, "after", function(gameMode, isMainThread, something)
+    setBlockedEntrances(blockEntrances)
+end)
+
+function applyGateBlock(uuid, mode, blocked)
+    if mode == GATE_BLOCK.DISABLE_USE or mode == GATE_BLOCK.BOTH then
+        Osi.SetDisableUse(uuid, blocked and 1 or 0)
+    end
+    if mode == GATE_BLOCK.CAN_INTERACT or mode == GATE_BLOCK.BOTH then
+        Osi.SetCanInteract(uuid, blocked and 0 or 1)
+    end
+end
+
+function setBlockedEntrances(blockEntrances)
+    local APSent = PersistentVars['APSent'] or {}
+    for location, gates in pairs(locationsToGates) do
+        for _, gate in pairs(gates) do
+            local uuid, mode = gate[1], gate[2]
+            if (APSent[location] == true or not blockEntrances) then
+                -- Don't block gates we've sent the unlock for
+                print("Not blocking entrance to " .. location .. " via gate " .. uuid .. " because we've sent an unlock for it")
+                applyGateBlock(uuid, mode, false)
+            else
+                print("Blocking entrance to " .. location .. " via gate " .. uuid)
+                applyGateBlock(uuid, mode, true)
             end
         end
     end
@@ -230,6 +301,19 @@ end)
 Ext.Osiris.RegisterListener("EnteredLevel", 3, "after", function(character, region, isFirstTime)
     if (devDebugOnly and isDeathLinkTrigger(character)) then
         print_to_file("debug.json", "EnteredLevel: " .. character .. " " .. region .. " " .. tostring(isFirstTime))
+    end
+    if (isDeathLinkTrigger(character) and blockEntrances) then
+        setBlockedEntrances()
+    end
+end)
+
+-- Remove before ship
+Ext.Osiris.RegisterListener("DestroyedBy", 4, "after", function(item, destroyer, destroyerOwner, storyActionId)
+    -- Object is the specific GUID string of the entity being destroyed
+    -- Template is the root template ID (the item type)
+    print("Destroyed Object UUID: " .. item)
+    if (devDebugOnly) then
+        print_to_file("debug.json", "Object destroyed: " .. item)
     end
 end)
 
@@ -365,6 +449,14 @@ Ext.Osiris.RegisterListener("CastedSpell", 5, "after", function(caster, spell, s
                     elseif (string.sub(v, 1, 5) == "Dupe-") then
                         print("Granting dupe item: " .. v)
                         TemplateAddTo(string.sub(v, 11), targetChar, 1)
+                        APSent[v] = true
+                    elseif (string.sub(v, 1, 5) == "Gate-") then
+                        print("Unlocking location: " .. v)
+                        for _, gate in pairs(locationsToGates[v]) do
+                            local uuid, mode = gate[1], gate[2]
+                            print("Unlocking gate " .. uuid .. " for location " .. v)
+                            applyGateBlock(uuid, mode, false)
+                        end
                         APSent[v] = true
                     else
                         -- Assume item
