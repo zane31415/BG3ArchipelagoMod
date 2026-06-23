@@ -24,7 +24,7 @@ deathlink = true
 devDebugOnly = false
 logContainers = false
 pendingReceiveDeathlink = false
-blockEntrances = false
+blockEntrances = true
 importantKillSet = {
     ["S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d"] = true, -- Auntie Ethel
     ["S_FOR_Bottomless_SpiderQueen_e6b2f3ba-2d02-4507-8680-6047322e1a4b"] = true, -- Spider Queen
@@ -207,7 +207,7 @@ function OnSessionLoaded()
 end
 
 Ext.Osiris.RegisterListener("GameModeStarted", 3, "after", function(gameMode, isMainThread, something)
-    setBlockedEntrances(blockEntrances)
+    setBlockedEntrances()
 end)
 
 function applyGateBlock(uuid, mode, blocked)
@@ -219,14 +219,18 @@ function applyGateBlock(uuid, mode, blocked)
     end
 end
 
-function setBlockedEntrances(blockEntrances)
+function setBlockedEntrances()
     local APSent = PersistentVars['APSent'] or {}
     for location, gates in pairs(locationsToGates) do
         for _, gate in pairs(gates) do
             local uuid, mode = gate[1], gate[2]
             if (APSent[location] == true or not blockEntrances) then
                 -- Don't block gates we've sent the unlock for
-                print("Not blocking entrance to " .. location .. " via gate " .. uuid .. " because we've sent an unlock for it")
+                if (not blockEntrances) then
+                    print("Not blocking entrance to " .. location .. " via gate " .. uuid .. " because blockEntrances is false")
+                else
+                    print("Not blocking entrance to " .. location .. " via gate " .. uuid .. " because we've sent an unlock for it")
+                end
                 applyGateBlock(uuid, mode, false)
             else
                 print("Blocking entrance to " .. location .. " via gate " .. uuid)
@@ -307,18 +311,17 @@ Ext.Osiris.RegisterListener("EnteredLevel", 3, "after", function(character, regi
     end
 end)
 
--- Remove before ship
-Ext.Osiris.RegisterListener("DestroyedBy", 4, "after", function(item, destroyer, destroyerOwner, storyActionId)
+--Ext.Osiris.RegisterListener("DestroyedBy", 4, "after", function(item, destroyer, destroyerOwner, storyActionId)
     -- Object is the specific GUID string of the entity being destroyed
     -- Template is the root template ID (the item type)
-    print("Destroyed Object UUID: " .. item)
-    if (devDebugOnly) then
-        print_to_file("debug.json", "Object destroyed: " .. item)
-    end
-end)
+--    print("Destroyed Object UUID: " .. item)
+--    if (devDebugOnly) then
+--        print_to_file("debug.json", "Object destroyed: " .. item)
+--    end
+--end)
 
 Ext.Osiris.RegisterListener("Opened", 1, "after", function(object)
-    print("Opened: " .. object)
+    --print("Opened: " .. object)
     if (logContainers) then
         local unparsed = Ext.IO.LoadFile("debug.json")
         local data = {}
