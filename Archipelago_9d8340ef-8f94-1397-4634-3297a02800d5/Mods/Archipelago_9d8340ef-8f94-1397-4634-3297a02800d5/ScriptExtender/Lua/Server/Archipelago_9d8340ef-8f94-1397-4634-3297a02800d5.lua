@@ -78,11 +78,30 @@ locationsToGates = {
         {"S_PLA_TeleporterToCrecheFromPlains_016525f4-0ddd-4cf1-85ab-3feaa6f6292a", GATE_BLOCK.CAN_INTERACT},
         {"S_GOB_TeleporterToCrecheFromGoblinCamp_a81232d7-af15-4c77-b0e1-d7e791fd463b", GATE_BLOCK.CAN_INTERACT}},
     ["Gate-Creche"] = {{"S_TELEPORT_CrecheDungonEntrance_f1e59d69-7dfd-42aa-b0eb-45e2db3129bc", GATE_BLOCK.CAN_INTERACT}},
-    ["Gate-Act2"] = {},
-    ["Gate-LastLightBasement"] = {},
-    ["Gate-ReithwinsMasonsGuild"] = {},
-    ["Gate-SharTrials"] = {},
-    ["Gate-ProgressiveMoonlightTowers"] = {}
+    ["Gate-Act2"] = {{"S_UND_Elevator_Fort_ToShadowlands_e48a9110-dabc-4471-bcae-3cc8aa57b8c5", GATE_BLOCK.CAN_INTERACT},
+        {"S_CRE_TeleporterToSCL02_45ddbbd7-9316-477a-8e37-1d11256b40f6", GATE_BLOCK.CAN_INTERACT}},
+    ["Gate-LastLightBasement"] = {{"S_Door_HavenCellarEntry_0ab0a1e5-9a71-4038-94f9-6ad3f990a534", GATE_BLOCK.CAN_INTERACT}},
+    ["Gate-ReithwinsMasonsGuild"] = {{"S_TWN_MasonsGuild_HatchToBasement_ccb81739-f582-406d-ae54-a4a46aab7030", GATE_BLOCK.CAN_INTERACT}},
+    ["Gate-SharTrials"] = {{"S_TELEPORTDOOR_Invisible_A_MausoleumEntry_2716d53b-ec00-4e80-a638-6475576eb5c1", GATE_BLOCK.CAN_INTERACT},
+        {"S_SHA_NightsongPrison_ShadowfellEntranceHelper_1fc893ad-277f-4bb3-914c-9bdef4ff0385", GATE_BLOCK.CAN_INTERACT}, -- shadowfell
+        {"S_SHA_NightsongPrison_ExitPortal_3e872c6c-95d1-47ef-85b5-bfa835ebb525", GATE_BLOCK.CAN_INTERACT}}, -- exit
+    ["Gate-ProgressiveMoonlightTowers-0"] = {
+        {"S_MOO_MainTowerEntrance_c9007d4d-8dfe-4b1a-a8cd-7b489710d29e", GATE_BLOCK.CAN_INTERACT}, -- front door (1)
+        {"DOOR_Single_Dungeon_Abbey_B_028_1518702f-a47c-4032-abdf-f58738f68426", GATE_BLOCK.CAN_INTERACT}, -- side door (1)
+        {"DOOR_Single_Dungeon_Abbey_B_027_74c3eec5-df87-4cc5-b8fc-11f3c446de35", GATE_BLOCK.CAN_INTERACT}, -- back side door A(1)
+        {"DOOR_Single_Dungeon_Abbey_B_019_521bb9c1-1de1-4e3d-9bd3-fe2fa2ad5c9f", GATE_BLOCK.CAN_INTERACT}, -- back side door B(1)
+        {"DOOR_Single_Dungeon_Abbey_B_029_e815e895-45dc-47cd-a011-4172c258e799", GATE_BLOCK.CAN_INTERACT}}, -- back side door C(1)
+    ["Gate-ProgressiveMoonlightTowers-1"] = {
+        {"S_MOO_DockDoor_ada141ae-e0a8-4915-a9c7-355093370992", GATE_BLOCK.CAN_INTERACT}, --prison (2)
+        {"S_MOO_StairsToPrison_78b1cd2c-0edb-441d-a389-6163ba7dba48", GATE_BLOCK.CAN_INTERACT}}, -- prison (2)
+    ["Gate-ProgressiveMoonlightTowers-2"] = {
+        {"S_MOO_RoofAccessDoor_0eca4cd0-6fa5-421f-80e9-446c2b758606", GATE_BLOCK.CAN_INTERACT}}, -- roof (3)
+    ["Gate-ProgressiveMoonlightTowers-3"] = {
+        {"S_MOO_TentaclelessTeleporter_c29cec63-82da-4579-b11d-75a5a08bbe1b", GATE_BLOCK.CAN_INTERACT}}, -- colony (4)
+    ["Gate-ProgressiveMoonlightTowers-4"] = {
+        {"S_COL_Elevator_Controller_38c76a3f-beaf-417b-be7e-62773c705c8f", GATE_BLOCK.CAN_INTERACT}, -- Myrkul elevator (5)
+        {"S_COL_KethericShowdown_Door_378bd363-b818-4326-9883-d5a9cd5a1fcc", GATE_BLOCK.CAN_INTERACT} -- Myrkul door (5)
+    }
 }
 
 function isDeathLinkTrigger(character)
@@ -187,6 +206,7 @@ function OnSessionLoaded()
         logKills = read_option(data, "killsanity")
         logQuests = read_option(data, "questsanity")
         deathlink = read_option(data, "death_link")
+        devDebugOnly = read_option(data, "dev_debug_on")
         logContainers = false
         blockEntrances = read_option(data, "block_entrances")
         if (data.containersanity ~= nil and data.containersanity ~= 0 and data.containersanity ~= 1) then
