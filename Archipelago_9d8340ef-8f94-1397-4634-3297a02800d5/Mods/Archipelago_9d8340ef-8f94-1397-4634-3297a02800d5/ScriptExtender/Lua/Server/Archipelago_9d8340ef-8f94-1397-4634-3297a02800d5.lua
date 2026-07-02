@@ -168,33 +168,39 @@ local function print_to_file(filename, text)
     Ext.IO.SaveFile(filename, Ext.Json.Stringify(data))
 end
 
-function OnSessionLoaded()
-    if (PersistentVars['DeathLinkTriggers'] == nil) then 
-        PersistentVars['DeathLinkTriggers'] = {["S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c"] = true,
-            ["S_Player_Minsc_0de603c5-42e2-4811-9dad-f652de080eba"] = true,
-            ["S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b"] = true,
-            ["S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323"] = true,
-            ["S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a"] = true,
-            ["S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604"] = true,
-            ["S_Player_Astarion_c7c13742-bacd-460a-8f65-f864fe41f255"] = true,
-            ["S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12"] = true,
-            ["S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d"] = true,
-            ["S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679"] = true}
+function initDeathLink()
+    if (PersistentVars['DeathLinkTriggers'] == nil) then
+        PersistentVars['DeathLinkTriggers'] = {}
     end
     if (PersistentVars['DeathLinkNames'] == nil) then
-        PersistentVars['DeathLinkNames'] = {["S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c"] = "Karlach",
-            ["S_Player_Minsc_0de603c5-42e2-4811-9dad-f652de080eba"] = "Minsc",
-            ["S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b"] = "Minthara",
-            ["S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323"] = "Halsin",
-            ["S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a"] = "Jaheira",
-            ["S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604"] = "Gale",
-            ["S_Player_Astarion_c7c13742-bacd-460a-8f65-f864fe41f255"] = "Astarion",
-            ["S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12"] = "Laezel",
-            ["S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d"] = "Wyll",
-            ["S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679"] = "Shadowheart"}
+        PersistentVars['DeathLinkNames'] = {}
     end
 
+    local defaultNames = {
+        ["S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c"] = "Karlach",
+        ["S_Player_Minsc_0de603c5-42e2-4811-9dad-f652de080eba"] = "Minsc",
+        ["S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b"] = "Minthara",
+        ["S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323"] = "Halsin",
+        ["S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a"] = "Jaheira",
+        ["S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604"] = "Gale",
+        ["S_Player_Astarion_c7c13742-bacd-460a-8f65-f864fe41f255"] = "Astarion",
+        ["S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12"] = "Laezel",
+        ["S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d"] = "Wyll",
+        ["S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679"] = "Shadowheart"
+    }
 
+    for uuid, name in pairs(defaultNames) do
+        if (PersistentVars['DeathLinkTriggers'][uuid] == nil) then
+            PersistentVars['DeathLinkTriggers'][uuid] = true
+        end
+        if (PersistentVars['DeathLinkNames'][uuid] == nil) then
+            PersistentVars['DeathLinkNames'][uuid] = name
+        end
+    end
+end
+
+function OnSessionLoaded()
+    initDeathLink()
     local unparsed = Ext.IO.LoadFile("ap_options.json")
     if (unparsed) then
         data = Ext.Json.Parse(unparsed)
@@ -475,10 +481,14 @@ Ext.Osiris.RegisterListener("CastedSpell", 5, "after", function(caster, spell, s
                         APSent[v] = true
                     elseif (string.sub(v, 1, 5) == "Gate-") then
                         print("Unlocking location: " .. v)
-                        for _, gate in pairs(locationsToGates[v]) do
-                            local uuid, mode = gate[1], gate[2]
-                            print("Unlocking gate " .. uuid .. " for location " .. v)
-                            applyGateBlock(uuid, mode, false)
+                        if (locationsToGates[v] == nil) then
+                            print("No gates found for " .. v .. ", skipping")
+                        else
+                            for _, gate in pairs(locationsToGates[v]) do
+                                local uuid, mode = gate[1], gate[2]
+                                print("Unlocking gate " .. uuid .. " for location " .. v)
+                                applyGateBlock(uuid, mode, false)
+                            end
                         end
                         APSent[v] = true
                     else
@@ -491,6 +501,9 @@ Ext.Osiris.RegisterListener("CastedSpell", 5, "after", function(caster, spell, s
             end
             PersistentVars['APSent'] = APSent
         end
+    end
+    if (spell == "Shout_AP_Sync") then
+        setBlockedEntrances()
     end
 end)
 print("Archipelago Client Script Loaded v5")
