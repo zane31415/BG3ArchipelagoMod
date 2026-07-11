@@ -167,6 +167,10 @@ local commandChannel = nil
 local RECENT_MAX = 15
 local LOG_MAX = 30
 
+-- Last observed generation-counter content; nil forces the next tick to
+-- (re)process the items file.
+local lastGen = nil
+
 function contains(tbl, value)
     for i = 1, #tbl do  -- Iterate from index 1 to the length of the table
         if tbl[i] == value then
@@ -200,7 +204,11 @@ end
 
 local function reset_ap_state()
     Ext.IO.SaveFile(locationOutFile, "[]")
-    Ext.IO.SaveFile(itemsInFile, "[]")
+    -- Only the legacy UNPREFIXED in-file gets wiped (it may hold another
+    -- seed's items). The seed-prefixed in-file is client-owned and may have
+    -- been written for THIS seed moments ago - wiping it here used to eat
+    -- the first item batch until the server happened to resend.
+    Ext.IO.SaveFile("ap_in.json", "[]")
     Ext.IO.SaveFile("deathLinkSend.json", "[]")
     Ext.IO.SaveFile("deathLinkReceive.json", "[]")
     Ext.IO.SaveFile("debug.json", "[]")
@@ -208,6 +216,7 @@ local function reset_ap_state()
     PersistentVars['APGrantFailures'] = {}
     apState.recent = {}
     apState.checks_logged = 0
+    lastGen = nil
     stateDirty = true
 end
 
@@ -341,6 +350,7 @@ function load_options()
             -- Mid-session pickup of the real filenames (first-run fix):
             -- re-anchor everything derived from them.
             displayNames = nil
+            lastGen = nil
             recount_checks()
         end
     end
@@ -690,7 +700,6 @@ end)
 -- ---------------------------------------------------------------------------
 
 local heartbeatCounter = 0
-local lastGen = nil
 local lastBeatRaw = nil
 local lastBeatAt = nil          -- MonotonicTime ms of last content change
 local lastBeatParsed = nil
