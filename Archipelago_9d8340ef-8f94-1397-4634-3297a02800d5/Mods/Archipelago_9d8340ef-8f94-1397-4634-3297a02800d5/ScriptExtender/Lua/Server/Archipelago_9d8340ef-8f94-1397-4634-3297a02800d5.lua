@@ -24,7 +24,10 @@ deathlink = true
 devDebugOnly = false
 logContainers = false
 pendingReceiveDeathlink = false
-blockEntrances = true
+-- Defaults to false so a mod install without any AP setup (no ap_options.json
+-- ever written) does not lock the world's doors with zero messaging. The real
+-- value is applied whenever ap_options.json is read.
+blockEntrances = false
 importantKillSet = {
     ["S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d"] = true, -- Auntie Ethel
     ["S_FOR_Bottomless_SpiderQueen_e6b2f3ba-2d02-4507-8680-6047322e1a4b"] = true, -- Spider Queen
@@ -125,6 +128,44 @@ importantQuestSet = {
 
 locationOutFile = "ap_out.json"
 itemsInFile = "ap_in.json"
+-- Fast file bus (client -> game): the client bumps this tiny counter file after
+-- every payload write; the tick only re-parses the payload when it changes.
+genInFile = "gen_in.txt"
+-- Wire-string -> display-name map, rewritten by the client next to ap_in.json.
+namesFile = "ap_names.json"
+
+-- Timer/presence protocol constants (docs/se-ap-ipc-design.md section 13)
+local TICK_MS = 250
+local HEARTBEAT_TICKS = 20     -- write our heartbeat every 20 ticks (~5 s)
+local CLIENT_CHECK_TICKS = 4   -- read the client heartbeat every 4 ticks (~1 s)
+local FALLBACK_TICKS = 12      -- no gen file (old client): process every ~3 s
+local STALE_MS = 15000         -- 3x the 5 s heartbeat cadence
+
+PRESENCE_MESSAGES = {
+    NO_CLIENT = "Archipelago BG3 Client not detected - items will not be delivered. Launch 'Baldur's Gate 3 Client' from the Archipelago Launcher. (The Text Client is not enough.)",
+    NO_SERVER = "AP client lost the server. Your checks are saved and will send when it reconnects.",
+    SEED_MISMATCH = "The connected Archipelago room does not match this savegame.",
+    OK = "Archipelago connection restored.",
+}
+
+-- State shared with the in-game window (client Lua) over the AP_State channel.
+apState = {
+    presence = "STARTING",  -- STARTING | OK | NO_CLIENT | NO_SERVER | SEED_MISMATCH
+    seed = nil,
+    slot = nil,
+    items_granted = 0,
+    checks_logged = 0,
+    deathlink = false,
+    recent = {},            -- newest first: { name = ..., t = "HH:MM:SS" }
+    log = {},               -- newest first, plain strings
+    gates = {},             -- { name = "Gate-...", unlocked = bool }, filled at publish
+}
+local stateDirty = false
+local stateChannel = nil
+local commandChannel = nil
+
+local RECENT_MAX = 15
+local LOG_MAX = 30
 
 function contains(tbl, value)
     for i = 1, #tbl do  -- Iterate from index 1 to the length of the table
@@ -135,6 +176,28 @@ function contains(tbl, value)
     return false -- Value not found after checking all elements
 end
 
+local function clock_time()
+    local ok, t = pcall(function() return Ext.Timer.ClockTime() end)
+    if ok and type(t) == "string" then return t end
+    return ""
+end
+
+local function monotonic_now()
+    local ok, t = pcall(function() return Ext.Timer.MonotonicTime() end)
+    if ok and type(t) == "number" then return t end
+    return nil
+end
+
+-- print + mirror into the window's log pane
+local function ap_log(text)
+    print(text)
+    local stamp = clock_time()
+    if stamp ~= "" then text = stamp .. "  " .. text end
+    table.insert(apState.log, 1, text)
+    while #apState.log > LOG_MAX do table.remove(apState.log) end
+    stateDirty = true
+end
+
 local function reset_ap_state()
     Ext.IO.SaveFile(locationOutFile, "[]")
     Ext.IO.SaveFile(itemsInFile, "[]")
@@ -142,6 +205,10 @@ local function reset_ap_state()
     Ext.IO.SaveFile("deathLinkReceive.json", "[]")
     Ext.IO.SaveFile("debug.json", "[]")
     PersistentVars['APSent'] = {}
+    PersistentVars['APGrantFailures'] = {}
+    apState.recent = {}
+    apState.checks_logged = 0
+    stateDirty = true
 end
 
 local function read_option(data, key)
@@ -156,7 +223,7 @@ end
 local function print_to_file(filename, text)
     local unparsed = Ext.IO.LoadFile(filename)
     local data = {}
-    
+
     if (unparsed) then
         data = Ext.Json.Parse(unparsed)
         if (data == nil) then
@@ -166,6 +233,17 @@ local function print_to_file(filename, text)
     end
     table.insert(data, text)
     Ext.IO.SaveFile(filename, Ext.Json.Stringify(data))
+end
+
+local function recount_checks()
+    local raw = Ext.IO.LoadFile(locationOutFile)
+    local data = raw and Ext.Json.Parse(raw) or nil
+    if type(data) == "table" then
+        apState.checks_logged = #data
+    else
+        apState.checks_logged = 0
+    end
+    stateDirty = true
 end
 
 function initDeathLink()
@@ -199,37 +277,84 @@ function initDeathLink()
     end
 end
 
-function OnSessionLoaded()
-    initDeathLink()
+-- Cached wire-string -> display-name table; invalidated on every sync so it
+-- tracks the client's rewrites.
+local displayNames = nil
+
+local function get_display_name(v)
+    if displayNames == nil then
+        local raw = Ext.IO.LoadFile(namesFile)
+        local parsed = raw and Ext.Json.Parse(raw) or nil
+        if type(parsed) == "table" then displayNames = parsed else displayNames = {} end
+    end
+    local name = displayNames[v]
+    if type(name) == "string" and name ~= "" then return name end
+    return v
+end
+
+local function add_recent(v)
+    table.insert(apState.recent, 1, { name = get_display_name(v), t = clock_time() })
+    while #apState.recent > RECENT_MAX do table.remove(apState.recent) end
+    stateDirty = true
+end
+
+-- Options loading. Called at session load AND at the top of every sync
+-- (cheaply): the client writes ap_options.json on Connected, which can happen
+-- after the save is already loaded - the old read-once-at-session-load
+-- behavior left the game on unprefixed files and default options with no error
+-- anywhere (the "first-run desync").
+function load_options()
     local unparsed = Ext.IO.LoadFile("ap_options.json")
-    if (unparsed) then
-        data = Ext.Json.Parse(unparsed)
-        if (data == nil) then
-            print("Failed to parse JSON")
-            return
+    if (not unparsed) then
+        return false
+    end
+    local data = Ext.Json.Parse(unparsed)
+    if (data == nil) then
+        print("Failed to parse JSON (ap_options.json)")
+        return false
+    end
+    syncOnAny = read_option(data, "sync_method")
+    logKills = read_option(data, "killsanity")
+    logQuests = read_option(data, "questsanity")
+    deathlink = read_option(data, "death_link")
+    devDebugOnly = read_option(data, "dev_debug_on")
+    logContainers = false
+    blockEntrances = read_option(data, "block_entrances")
+    if (data.containersanity ~= nil and data.containersanity ~= 0 and data.containersanity ~= 1) then
+        logContainers = true
+    end
+    local new_seed = data.seed_name
+    if (type(new_seed) == "string" and new_seed ~= "") then
+        local stored_seed = PersistentVars['SeedName']
+        local prefix_changed = (itemsInFile ~= new_seed .. "ap_in.json")
+        locationOutFile = new_seed .. "ap_out.json"
+        itemsInFile = new_seed .. "ap_in.json"
+        genInFile = new_seed .. "gen_in.txt"
+        namesFile = new_seed .. "ap_names.json"
+        apState.seed = new_seed
+        if (stored_seed ~= new_seed) then
+            ap_log("AP seed_name changed (was " .. tostring(stored_seed) .. ", now " .. new_seed .. "); resetting AP state")
+            PersistentVars['SeedName'] = new_seed
+            reset_ap_state()
         end
-        syncOnAny = read_option(data, "sync_method")
-        logKills = read_option(data, "killsanity")
-        logQuests = read_option(data, "questsanity")
-        deathlink = read_option(data, "death_link")
-        devDebugOnly = read_option(data, "dev_debug_on")
-        logContainers = false
-        blockEntrances = read_option(data, "block_entrances")
-        if (data.containersanity ~= nil and data.containersanity ~= 0 and data.containersanity ~= 1) then
-            logContainers = true
-        end
-        local new_seed = data.seed_name
-        if (type(new_seed) == "string" and new_seed ~= "") then
-            local stored_seed = PersistentVars['SeedName']            
-            locationOutFile = new_seed .. "ap_out.json"
-            itemsInFile = new_seed .. "ap_in.json"
-            if (stored_seed ~= new_seed) then
-                print("AP seed_name changed (was " .. tostring(stored_seed) .. ", now " .. new_seed .. "); resetting AP state")
-                PersistentVars['SeedName'] = new_seed
-                reset_ap_state()
-            end
+        if (prefix_changed) then
+            -- Mid-session pickup of the real filenames (first-run fix):
+            -- re-anchor everything derived from them.
+            displayNames = nil
+            recount_checks()
         end
     end
+    return true
+end
+
+function OnSessionLoaded()
+    initDeathLink()
+    -- A deathlink received while the game was closed must not fire hours later
+    -- on the next load.
+    Ext.IO.SaveFile("deathLinkReceive.json", "[]")
+    load_options()
+    recount_checks()
+    start_ap_tick()
 end
 
 Ext.Osiris.RegisterListener("GameModeStarted", 3, "after", function(gameMode, isMainThread, something)
@@ -279,7 +404,13 @@ Ext.Osiris.RegisterListener("Died", 1, "after", function(died)
         elseif (deathlink) then
             local name = getDeathLinkName(died)
             if (name ~= nil) then
-                Ext.IO.SaveFile("deathLinkSend.json", '["' .. name .. '"]')
+                -- Append rather than overwrite: two quick deaths must not
+                -- lose the first one while the client is between polls.
+                local unparsed = Ext.IO.LoadFile("deathLinkSend.json")
+                local data = unparsed and Ext.Json.Parse(unparsed) or nil
+                if (type(data) ~= "table") then data = {} end
+                table.insert(data, name)
+                Ext.IO.SaveFile("deathLinkSend.json", Ext.Json.Stringify(data))
             end
         end
     end
@@ -290,7 +421,7 @@ Ext.Osiris.RegisterListener("KilledBy", 4, "after", function(defender, attackOwn
         local unparsed = Ext.IO.LoadFile(locationOutFile)
         local data = {}
         print("Logging kill: " .. "Kill-" .. defender)
-        
+
         if (unparsed) then
             data = Ext.Json.Parse(unparsed)
             if (data == nil) then
@@ -308,6 +439,8 @@ Ext.Osiris.RegisterListener("KilledBy", 4, "after", function(defender, attackOwn
         if (needsToAdd) then
             table.insert(data, "Kill-" .. defender)
             Ext.IO.SaveFile(locationOutFile, Ext.Json.Stringify(data))
+            apState.checks_logged = apState.checks_logged + 1
+            stateDirty = true
         end
     end
 end)
@@ -351,7 +484,7 @@ Ext.Osiris.RegisterListener("Opened", 1, "after", function(object)
     if (logContainers) then
         local unparsed = Ext.IO.LoadFile("debug.json")
         local data = {}
-        
+
         if (unparsed) then
             data = Ext.Json.Parse(unparsed)
             if (data == nil) then
@@ -375,6 +508,9 @@ end)
 
 Ext.Osiris.RegisterListener("CharacterCreationFinished", 0, "after", function()
     print("CharCreationDone")
+    -- Pick up the seed prefix before resetting, so a client connected during
+    -- character creation doesn't get the wrong (unprefixed) files wiped.
+    load_options()
     if (Osi.GetRegion(GetHostCharacter()) == "SYS_CC_I") then
         print("Resetting AP files")
         reset_ap_state()
@@ -392,7 +528,7 @@ Ext.Osiris.RegisterListener("QuestUpdateUnlocked", 3, "after", function(characte
     if (logQuests or importantQuestSet[topLevelQuestID .. "-" .. stateID] ) then
         local unparsed = Ext.IO.LoadFile(locationOutFile)
         local data = {}
-        
+
         if (unparsed) then
             data = Ext.Json.Parse(unparsed)
             if (data == nil) then
@@ -410,100 +546,337 @@ Ext.Osiris.RegisterListener("QuestUpdateUnlocked", 3, "after", function(characte
         if (needsToAdd) then
             table.insert(data, topLevelQuestID .. "-" .. stateID)
             Ext.IO.SaveFile(locationOutFile, Ext.Json.Stringify(data))
+            apState.checks_logged = apState.checks_logged + 1
+            stateDirty = true
         end
     end
 end)
 
+-- ---------------------------------------------------------------------------
+-- Item granting
+-- ---------------------------------------------------------------------------
+
+local function process_deathlink_receive(targetChar)
+    if (not deathlink) then return end
+    local unparsed_deathlink = Ext.IO.LoadFile("deathLinkReceive.json")
+    if unparsed_deathlink and unparsed_deathlink ~= "" then
+        local death_in = Ext.Json.Parse(unparsed_deathlink)
+        if (death_in == nil) then
+            print("Failed to parse JSON (deathLinkReceive.json)")
+            return
+        end
+        for k, v in ipairs(death_in) do
+            if(v == "DeathLink") then
+                pendingReceiveDeathlink = true
+                Osi.Die(targetChar)
+                Ext.IO.SaveFile("deathLinkReceive.json", "[]")
+            end
+        end
+    end
+end
+
+-- Grants a single wire-string entry. Runs under pcall from process_incoming:
+-- raising here means "not granted, retry next sync".
+local function grant_item(v, targetChar)
+    if (string.sub(v, 1, 5) == "Gold-") then
+        -- Wire format is Gold-DDDDDD-n (6 zero-padded digits), but accept any
+        -- digit count so a future Gold-1500 item doesn't silently grant zero.
+        local amount = tonumber(string.match(v, "^Gold%-(%d+)"))
+        if (amount) then
+            AddGold(targetChar, amount)
+        else
+            ap_log("Malformed gold entry '" .. v .. "'; granted nothing")
+        end
+    elseif (string.sub(v, 1, 7) == "LevelUp") then
+        local charTable = Osi.DB_Players:Get(nil)
+        for char in pairs(charTable) do
+            Osi.AddExplorationExperience(charTable[char][1], 1000000)
+        end
+    elseif (string.sub(v, 1, 5) == "Trap-") then
+        if (string.sub(v, 6, 13) == "Monster-") then
+            local monstername = string.sub(v, 14, 49)
+            local mon = Osi.CreateAtObject(monstername,targetChar,0,0,"",1)
+            Osi.SetFaction(mon, "ACT0a_TUT_HelmDevil_0314cde4-8572-4d70-a117-dba88e20e70d")
+            Osi.SetHostileAndEnterCombat("ACT0a_TUT_HelmDevil_0314cde4-8572-4d70-a117-dba88e20e70d", Osi.GetFaction(targetChar), mon, targetChar)
+        elseif (string.sub(v, 6, 13) == "Bleeding") then
+            ApplyStatus(targetChar, "BLEEDING", 10)
+        elseif (string.sub(v, 6, 9) == "Stun") then
+            ApplyStatus(targetChar, "STUNNED", 5)
+        else
+            -- Generation strips unimplemented traps, so reaching this means
+            -- version skew. Say so instead of silently eating the item.
+            ap_log("Trap '" .. v .. "' is not implemented in this mod version; nothing applied")
+        end
+    elseif (string.sub(v, 1, 5) == "Dupe-") then
+        print("Granting dupe item: " .. v)
+        TemplateAddTo(string.sub(v, 11), targetChar, 1)
+    elseif (string.sub(v, 1, 5) == "Gate-") then
+        print("Unlocking location: " .. v)
+        if (locationsToGates[v] == nil) then
+            ap_log("No gates found for " .. v .. ", skipping")
+        else
+            for _, gate in pairs(locationsToGates[v]) do
+                local uuid, mode = gate[1], gate[2]
+                print("Unlocking gate " .. uuid .. " for location " .. v)
+                applyGateBlock(uuid, mode, false)
+            end
+        end
+    else
+        -- Assume item
+        print("Granting item: " .. v)
+        TemplateAddTo(v, targetChar, 1)
+    end
+end
+
+-- The body of the old CastedSpell handler: reads deathlink + ap_in and grants
+-- anything not yet granted. Called from the spell listener AND the 250 ms tick.
+function process_incoming()
+    local targetChar = GetHostCharacter()
+    load_options()
+    displayNames = nil
+    process_deathlink_receive(targetChar)
+    local unparsed_in = Ext.IO.LoadFile(itemsInFile)
+    if (not unparsed_in) then
+        return
+    end
+    local APSent = PersistentVars['APSent']
+    if not APSent then
+        APSent = {}
+    end
+    local failCounts = PersistentVars['APGrantFailures']
+    if not failCounts then
+        failCounts = {}
+    end
+    local data_in = Ext.Json.Parse(unparsed_in)
+    if (data_in == nil) then
+        print("Failed to parse JSON")
+        return
+    end
+    for k, v in ipairs(data_in) do
+        if (type(v) ~= "string") then
+            ap_log("Ignoring non-string entry #" .. k .. " in " .. itemsInFile)
+        elseif (APSent[v] ~= true) then
+            -- One bad entry must not block every item after it, forever.
+            local ok, err = pcall(grant_item, v, targetChar)
+            if (ok) then
+                APSent[v] = true
+                add_recent(v)
+            else
+                local n = (failCounts[v] or 0) + 1
+                failCounts[v] = n
+                if (n <= 5) then
+                    ap_log("Failed to grant '" .. v .. "' (attempt " .. n .. "): " .. tostring(err))
+                elseif (n == 6) then
+                    ap_log("Still failing to grant '" .. v .. "'; will keep retrying quietly")
+                end
+            end
+        end
+    end
+    PersistentVars['APSent'] = APSent
+    PersistentVars['APGrantFailures'] = failCounts
+end
+
 Ext.Osiris.RegisterListener("CastedSpell", 5, "after", function(caster, spell, spellType, spellElement, storyActionID)
-    targetChar = GetHostCharacter()
     if (spell == "Shout_AP_Sync" or syncOnAny) then
-        if (deathlink) then
-            local unparsed_deathlink = Ext.IO.LoadFile("deathLinkReceive.json")
-            if unparsed_deathlink and unparsed_deathlink ~= "" then
-                local death_in = Ext.Json.Parse(unparsed_deathlink)
-                if (death_in == nil) then
-                    print("Failed to parse JSON")
-                    return
-                end
-                for k, v in ipairs(death_in) do
-                    if(v == "DeathLink") then
-                        pendingReceiveDeathlink = true
-                        Osi.Die(targetChar)
-                        Ext.IO.SaveFile("deathLinkReceive.json", "[]")
-                    end
-                end
-            end
-        end
-        local unparsed_in = Ext.IO.LoadFile(itemsInFile)
-        if (unparsed_in) then
-            local APSent = PersistentVars['APSent']
-            if not APSent then
-                APSent = {}
-            end
-            local data_in = Ext.Json.Parse(unparsed_in)
-            if (data_in == nil) then
-                print("Failed to parse JSON")
-                return
-            end
-            for k, v in ipairs(data_in) do
-                local isAlreadySent = false
-                if (APSent[v] == true) then
-                    isAlreadySent = true
-                end
-                if (not isAlreadySent) then
-                    if (string.sub(v, 1, 5) == "Gold-") then
-                        local amount = tonumber(string.sub(v, 6, 11)) --Gold-100000-
-                        if (amount) then
-                            AddGold(targetChar, amount)
-                        end
-                        APSent[v] = true
-                    elseif (string.sub(v, 1, 7) == "LevelUp") then
-                        local charTable = Osi.DB_Players:Get(nil)
-                        for char in pairs(charTable) do
-                            Osi.AddExplorationExperience(charTable[char][1], 1000000)
-                        end
-                        APSent[v] = true
-                    elseif (string.sub(v, 1, 5) == "Trap-") then
-                        if (string.sub(v, 6, 13) == "Monster-") then
-                            local monstername = string.sub(v, 14, 49)
-                            local mon = Osi.CreateAtObject(monstername,targetChar,0,0,"",1)
-                            Osi.SetFaction(mon, "ACT0a_TUT_HelmDevil_0314cde4-8572-4d70-a117-dba88e20e70d")
-                            Osi.SetHostileAndEnterCombat("ACT0a_TUT_HelmDevil_0314cde4-8572-4d70-a117-dba88e20e70d", Osi.GetFaction(targetChar), mon, targetChar)
-                        elseif (string.sub(v, 6, 13) == "Bleeding") then
-                            ApplyStatus(targetChar, "BLEEDING", 10)
-                        elseif (string.sub(v, 6, 9) == "Stun") then
-                            ApplyStatus(targetChar, "STUNNED", 5)
-                        end
-                        APSent[v] = true
-                    elseif (string.sub(v, 1, 5) == "Dupe-") then
-                        print("Granting dupe item: " .. v)
-                        TemplateAddTo(string.sub(v, 11), targetChar, 1)
-                        APSent[v] = true
-                    elseif (string.sub(v, 1, 5) == "Gate-") then
-                        print("Unlocking location: " .. v)
-                        if (locationsToGates[v] == nil) then
-                            print("No gates found for " .. v .. ", skipping")
-                        else
-                            for _, gate in pairs(locationsToGates[v]) do
-                                local uuid, mode = gate[1], gate[2]
-                                print("Unlocking gate " .. uuid .. " for location " .. v)
-                                applyGateBlock(uuid, mode, false)
-                            end
-                        end
-                        APSent[v] = true
-                    else
-                        -- Assume item
-                        print("Granting item: " .. v)
-                        TemplateAddTo(v, targetChar, 1)
-                        APSent[v] = true
-                    end
-                end
-            end
-            PersistentVars['APSent'] = APSent
-        end
+        process_incoming()
     end
     if (spell == "Shout_AP_Sync") then
         setBlockedEntrances()
     end
 end)
-print("Archipelago Client Script Loaded v5")
+
+-- ---------------------------------------------------------------------------
+-- Presence protocol + repeating tick (design doc section 13)
+-- ---------------------------------------------------------------------------
+
+local heartbeatCounter = 0
+local lastGen = nil
+local lastBeatRaw = nil
+local lastBeatAt = nil          -- MonotonicTime ms of last content change
+local lastBeatParsed = nil
+local sessionLoadedAt = nil
+local tickCount = 0
+local tickStarted = false
+
+local function write_game_heartbeat()
+    heartbeatCounter = heartbeatCounter + 1
+    local seed = PersistentVars['SeedName'] or ""
+    -- Plain overwrite on purpose: a torn read is harmless (change detection
+    -- just retries), and skipping temp+rename halves the metadata churn.
+    Ext.IO.SaveFile("heartbeat_game.json", '{"n":' .. heartbeatCounter .. ',"seed":"' .. seed .. '"}')
+end
+
+local function check_client_heartbeat()
+    local raw = Ext.IO.LoadFile("heartbeat_client.json")
+    if (raw ~= nil and raw ~= lastBeatRaw) then
+        lastBeatRaw = raw
+        lastBeatAt = monotonic_now()
+        local parsed = Ext.Json.Parse(raw)
+        if (parsed ~= nil) then
+            lastBeatParsed = parsed
+            if (type(parsed.slot) == "string" and parsed.slot ~= "") then
+                apState.slot = parsed.slot
+            end
+        end
+    end
+end
+
+local function compute_presence()
+    local now = monotonic_now()
+    if (now == nil) then return apState.presence end
+    if (lastBeatAt == nil) then
+        -- Give the client a grace period after load before declaring it gone.
+        if (sessionLoadedAt ~= nil and now - sessionLoadedAt < STALE_MS) then
+            return "STARTING"
+        end
+        return "NO_CLIENT"
+    end
+    if (now - lastBeatAt > STALE_MS) then
+        return "NO_CLIENT"
+    end
+    local p = lastBeatParsed
+    if (p ~= nil) then
+        if (p.server_connected == false) then
+            return "NO_SERVER"
+        end
+        local seed = PersistentVars['SeedName']
+        if (type(p.seed) == "string" and p.seed ~= "" and seed ~= nil and p.seed ~= seed) then
+            return "SEED_MISMATCH"
+        end
+    end
+    return "OK"
+end
+
+local function in_character_creation()
+    local ok, region = pcall(function() return Osi.GetRegion(GetHostCharacter()) end)
+    return ok and region == "SYS_CC_I"
+end
+
+-- Least-intrusive in-game messaging we could verify: toast for everything,
+-- modal only for NO_CLIENT (the one state where the player must act).
+local function notify_player(msg, modal)
+    pcall(function()
+        local host = Osi.GetHostCharacter()
+        if (modal and Osi.OpenMessageBox ~= nil) then
+            Osi.OpenMessageBox(host, msg)
+        elseif (Osi.ShowNotification ~= nil) then
+            Osi.ShowNotification(host, msg)
+        end
+    end)
+end
+
+local function update_presence()
+    local newState = compute_presence()
+    if (newState == apState.presence) then return end
+    local old = apState.presence
+    apState.presence = newState
+    stateDirty = true
+    ap_log("AP presence: " .. tostring(old) .. " -> " .. newState)
+    if (newState == "STARTING" or in_character_creation()) then return end
+    if (newState == "OK") then
+        -- Recovery toast only if we previously told the player something was wrong.
+        if (old ~= "STARTING") then
+            notify_player(PRESENCE_MESSAGES.OK, false)
+        end
+    elseif (PRESENCE_MESSAGES[newState] ~= nil) then
+        notify_player(PRESENCE_MESSAGES[newState], newState == "NO_CLIENT")
+    end
+end
+
+local function publish_state()
+    stateDirty = false
+    if (stateChannel == nil) then return end
+    local n = 0
+    for _ in pairs(PersistentVars['APSent'] or {}) do n = n + 1 end
+    apState.items_granted = n
+    apState.deathlink = deathlink
+    apState.seed = PersistentVars['SeedName']
+    local APSent = PersistentVars['APSent'] or {}
+    local gates = {}
+    for location, _ in pairs(locationsToGates) do
+        table.insert(gates, { name = location, unlocked = (APSent[location] == true) or (not blockEntrances) })
+    end
+    table.sort(gates, function(a, b) return a.name < b.name end)
+    apState.gates = gates
+    pcall(function() stateChannel:Broadcast(apState) end)
+end
+
+local function ap_tick()
+    tickCount = tickCount + 1
+    if (tickCount % CLIENT_CHECK_TICKS == 0) then
+        check_client_heartbeat()
+        update_presence()
+    end
+    local gen = Ext.IO.LoadFile(genInFile)
+    if (gen ~= nil) then
+        if (gen ~= lastGen) then
+            lastGen = gen
+            process_incoming()
+        end
+    elseif (tickCount % FALLBACK_TICKS == 0) then
+        -- Old client (or pre-connect): no gen file to short-circuit on, so
+        -- fall back to processing every ~3 s instead of never.
+        process_incoming()
+    end
+    if (tickCount % HEARTBEAT_TICKS == 0) then
+        write_game_heartbeat()
+    end
+    if (stateDirty) then
+        publish_state()
+    end
+end
+
+local function schedule_tick()
+    Ext.Timer.WaitForRealtime(TICK_MS, function()
+        pcall(ap_tick)
+        schedule_tick()
+    end)
+end
+
+function start_ap_tick()
+    if (tickStarted) then return end
+    if (Ext.Timer == nil or Ext.Timer.WaitForRealtime == nil) then
+        print("AP: Ext.Timer unavailable; item delivery falls back to spell-cast sync only")
+        return
+    end
+    sessionLoadedAt = monotonic_now()
+    tickStarted = true
+    schedule_tick()
+end
+
+-- Exposed for test harnesses that drive the tick manually instead of through
+-- Ext.Timer (FakeBG3).
+function ap_tick_once()
+    ap_tick()
+end
+
+-- ---------------------------------------------------------------------------
+-- In-game window plumbing (HARD blueprint): the server owns all file IPC and
+-- publishes compact state to the client context; the window sends commands
+-- back. APNet is the tiny wrapper in Shared/APNet.lua (loaded by the
+-- bootstraps); when it's absent the mod runs headless exactly as before.
+-- ---------------------------------------------------------------------------
+
+local function handle_gui_command(data)
+    if (type(data) ~= "table") then return end
+    if (data.command == "resync") then
+        local seq = (PersistentVars['APCmdSeq'] or 0) + 1
+        PersistentVars['APCmdSeq'] = seq
+        Ext.IO.SaveFile("ap_command.json", Ext.Json.Stringify({ seq = seq, command = "resync" }))
+        ap_log("Resync requested from the in-game window")
+    elseif (data.command == "refresh_state") then
+        stateDirty = true
+    end
+end
+
+if (APNet ~= nil) then
+    stateChannel = APNet.Channel("AP_State")
+    commandChannel = APNet.Channel("AP_Command")
+    if (commandChannel ~= nil) then
+        commandChannel:SetHandler(function(data, user)
+            handle_gui_command(data)
+        end)
+    end
+end
+
+print("Archipelago Client Script Loaded v6")
