@@ -444,8 +444,8 @@ function setBlockedEntrances()
                 applyGateBlock(uuid, mode, false)
             else
                 if ((location == "Gate-RuinedVillageWell" and APSent["Gate-Underdark"] == true) or (location == "Gate-Underdark" and APSent["Gate-RuinedVillageWell"] == true)) then
-                    -- Don't block the Ruined Village Well if the Underdark gate is unlocked, and vice versa
-                    print("Not blocking entrance to " .. location .. " via gate " .. uuid .. " because the alternative path is unlocked")
+                    -- Don't block the Ruined Village Well if we've unlocked the Underdark, and vice versa
+                    print("Not blocking entrance to " .. location .. " via gate " .. uuid .. " because we've sent an unlock for the other gate")
                     applyGateBlock(uuid, mode, false)
                 else
                     print("Blocking entrance to " .. location .. " via gate " .. uuid)
