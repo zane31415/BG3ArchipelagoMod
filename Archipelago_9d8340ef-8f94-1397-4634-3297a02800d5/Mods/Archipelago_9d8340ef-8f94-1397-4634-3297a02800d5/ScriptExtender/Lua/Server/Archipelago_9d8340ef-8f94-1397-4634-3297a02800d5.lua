@@ -28,13 +28,44 @@ pendingReceiveDeathlink = false
 -- ever written) does not lock the world's doors with zero messaging. The real
 -- value is applied whenever ap_options.json is read.
 blockEntrances = false
+-- When true, any story attempt to lock a waypoint is immediately reversed so the
+-- player never loses fast-travel access to a region they've already unlocked
+-- (grove lockdown, creche destroyed, Wyrmrock foundry, act transitions, ...).
+-- These all funnel through the base Osiris LockWaypoint call, so a single
+-- "after" listener neutralizes every one of them. See LockWaypoint listener.
+keepWaypointsUnlocked = true
+-- When true, keep the Act 2 "point of no return" global flag cleared. It is set
+-- (via a compound flag) on entering Nightsong's prison at the climax of the
+-- Trials of Shar. That flag is the linchpin for two things we don't want:
+--   * QRY_SCL_General_CanReturnToAct1 == NOT flag, so while it's set, waypoint
+--     travel back to Act 1 is refused; clearing it restores return travel.
+--   * ~18 Act 1 / Underdark quests are bound to failure states through it
+--     (DB_QuestDef_State(Act2_PointOfNoReturnReached, quest, failstate)).
+-- We clear it on session load and on every level entry (it can be re-derived
+-- from its compound source, so a one-shot clear won't hold). We deliberately do
+-- NOT touch DB_SCL_Teleporters_Blocked: the physical elevator/mountain
+-- teleporters can stay blocked since waypoints cover return travel. The base
+-- game already clears this exact flag on a debug path, so the engine tolerates
+-- it. NOTE: quests already failed at the instant the flag first set are not
+-- un-failed by this - that's what reopenClosedActQuests below is for.
+killPointOfNoReturn = true
+POINT_OF_NO_RETURN_FLAG = "Act2_PointOfNoReturnReached_a3155f30-b8f3-4db5-ac21-d3036f4426e3"
+NULL_GUID = "NULL_00000000-0000-0000-0000-000000000000"
+-- EXPERIMENTAL / needs in-game verification. The base game force-closes Act 1
+-- quests to failure states when the Wilderness (WLD_Main_A) unloads - e.g.
+-- DEN_HarpyMeal -> "DoneNoInvestigation" / "DoneLeftKid", which map to NO AP
+-- location (bg3_locations.py), so the check is lost. QuestUpdate has no
+-- documented inverse and a closed quest may reject further updates, so this
+-- listener (re-issuing an earlier open state) is a "see what actually happens"
+-- probe, not a known-good fix. Tune the target state per quest during testing.
+reopenClosedActQuests = true
 importantKillSet = {
     ["S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d"] = true, -- Auntie Ethel
     ["S_FOR_Bottomless_SpiderQueen_e6b2f3ba-2d02-4507-8680-6047322e1a4b"] = true, -- Spider Queen
     ["S_UND_PetrifiedDrow_Spectator_39ff8241-fadd-4fbe-ab89-fc5a8b7638a0"] = true, -- Spectator
     ["S_UND_Bulette_307934b5-6fb5-4fdc-a7ff-433a7ba175b3"] = true, -- Bulette
     ["S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46"] = true, -- Glut
-    ["Kill-S_UND_MyconidSovereign_ea0f222f-eaad-4d83-bbcd-cbae51ccf265"] = true, -- Spaw
+    ["S_UND_MyconidSovereign_ea0f222f-eaad-4d83-bbcd-cbae51ccf265"] = true, -- Spaw
     ["S_UND_TheDrowNere_06bf05c5-216b-4eaf-91f5-8f1dd3d57f30"] = true, -- Nere
     ["S_UND_KethericCity_AdamantineGolem_2a5997fc-5f2a-4a13-b309-bed16da3b255"] = true, -- Grym
     ["S_CRE_Templar_378ac93e-03a0-40b4-904c-f37989ac7a8c"] = true, --Ch'r'ai W'wargaz
@@ -87,7 +118,8 @@ locationsToGates = {
     ["Gate-ReithwinsMasonsGuild"] = {{"S_TWN_MasonsGuild_HatchToBasement_ccb81739-f582-406d-ae54-a4a46aab7030", GATE_BLOCK.CAN_INTERACT}},
     ["Gate-SharTrials"] = {{"S_TELEPORTDOOR_Invisible_A_MausoleumEntry_2716d53b-ec00-4e80-a638-6475576eb5c1", GATE_BLOCK.CAN_INTERACT},
         {"S_SHA_NightsongPrison_ShadowfellEntranceHelper_1fc893ad-277f-4bb3-914c-9bdef4ff0385", GATE_BLOCK.CAN_INTERACT}, -- shadowfell
-        {"S_SHA_NightsongPrison_ExitPortal_3e872c6c-95d1-47ef-85b5-bfa835ebb525", GATE_BLOCK.CAN_INTERACT}}, -- exit
+       -- {"S_SHA_NightsongPrison_ExitPortal_3e872c6c-95d1-47ef-85b5-bfa835ebb525", GATE_BLOCK.CAN_INTERACT} -- exit
+    }, 
     ["Gate-ProgressiveMoonlightTowers-0"] = {
         {"S_MOO_MainTowerEntrance_c9007d4d-8dfe-4b1a-a8cd-7b489710d29e", GATE_BLOCK.CAN_INTERACT}, -- front door (1)
         {"DOOR_Single_Dungeon_Abbey_B_028_1518702f-a47c-4032-abdf-f58738f68426", GATE_BLOCK.CAN_INTERACT}, -- side door (1)
@@ -104,7 +136,8 @@ locationsToGates = {
     ["Gate-ProgressiveMoonlightTowers-4"] = {
         {"S_COL_Elevator_Controller_38c76a3f-beaf-417b-be7e-62773c705c8f", GATE_BLOCK.CAN_INTERACT}, -- Myrkul elevator (5)
         {"S_COL_KethericShowdown_Door_378bd363-b818-4326-9883-d5a9cd5a1fcc", GATE_BLOCK.CAN_INTERACT} -- Myrkul door (5)
-    }
+    },
+    ["Gate-Act3"] = {{"S_TWN_ActExit_4df293a7-c9b7-4be4-b4a9-42400ddbe209", GATE_BLOCK.CAN_INTERACT}}
 }
 
 function isDeathLinkTrigger(character)
@@ -214,6 +247,7 @@ local function reset_ap_state()
     Ext.IO.SaveFile("debug.json", "[]")
     PersistentVars['APSent'] = {}
     PersistentVars['APGrantFailures'] = {}
+    PersistentVars['ContainersOpened'] = {}
     apState.recent = {}
     apState.checks_logged = 0
     lastGen = nil
@@ -357,6 +391,20 @@ function load_options()
     return true
 end
 
+-- Clear the Act 2 point-of-no-return flag if it's set (idempotent - clearing an
+-- already-clear flag is harmless). Global flags target the null GUID.
+function clearPointOfNoReturn()
+    if (not killPointOfNoReturn) then
+        return
+    end
+    if (Osi.GetFlag(POINT_OF_NO_RETURN_FLAG, NULL_GUID) == 1) then
+        Osi.ClearFlag(POINT_OF_NO_RETURN_FLAG, NULL_GUID)
+        if (devDebugOnly) then
+            print_to_file("debug.json", "Cleared Act2_PointOfNoReturnReached")
+        end
+    end
+end
+
 function OnSessionLoaded()
     initDeathLink()
     -- A deathlink received while the game was closed must not fire hours later
@@ -364,6 +412,7 @@ function OnSessionLoaded()
     Ext.IO.SaveFile("deathLinkReceive.json", "[]")
     load_options()
     recount_checks()
+    clearPointOfNoReturn()
     start_ap_tick()
 end
 
@@ -394,8 +443,14 @@ function setBlockedEntrances()
                 end
                 applyGateBlock(uuid, mode, false)
             else
-                print("Blocking entrance to " .. location .. " via gate " .. uuid)
-                applyGateBlock(uuid, mode, true)
+                if ((location == "Gate-RuinedVillageWell" and APSent["Gate-Underdark"] == true) or (location == "Gate-Underdark" and APSent["Gate-RuinedVillageWell"] == true)) then
+                    -- Don't block the Ruined Village Well if the Underdark gate is unlocked, and vice versa
+                    print("Not blocking entrance to " .. location .. " via gate " .. uuid .. " because the alternative path is unlocked")
+                    applyGateBlock(uuid, mode, false)
+                else
+                    print("Blocking entrance to " .. location .. " via gate " .. uuid)
+                    applyGateBlock(uuid, mode, true)
+                end
             end
         end
     end
@@ -478,7 +533,94 @@ Ext.Osiris.RegisterListener("EnteredLevel", 3, "after", function(character, regi
     if (isDeathLinkTrigger(character) and blockEntrances) then
         setBlockedEntrances()
     end
+    -- Re-clear the point-of-no-return flag on any region change. Entering
+    -- Nightsong's prison re-derives it from a compound flag, so clearing once at
+    -- session load isn't enough; every subsequent level entry heals it again.
+    clearPointOfNoReturn()
 end)
+
+-- Keep already-unlocked waypoints usable. The base game locks waypoints on a
+-- number of one-way story beats (grove lockdown, creche exploded, Wyrmrock, act
+-- transitions). Every path goes through the Osiris LockWaypoint(WaypointID,
+-- Player) call, so we listen "after" and immediately re-unlock. UnlockWaypoint
+-- does not fire LockWaypoint, so there is no feedback loop. Temporary combat
+-- fast-travel blocks use a separate mechanism and are unaffected.
+Ext.Osiris.RegisterListener("LockWaypoint", 2, "after", function(waypointID, player)
+    if (not keepWaypointsUnlocked) then
+        return
+    end
+    if (devDebugOnly) then
+        print_to_file("debug.json", "LockWaypoint reverted: " .. tostring(waypointID) .. " " .. tostring(player))
+    end
+    Osi.UnlockWaypoint(waypointID, player)
+end)
+
+-- =====================================================================
+-- DRAFT / DISABLED: selective NPC re-staging on advancement.
+-- =====================================================================
+-- Goal: when the base game takes an NPC off-stage as part of a location
+-- advancing (e.g. the grove refugees leaving via
+-- PROC_DEN_TieflingRefugees_MakeNPCLeave -> SetOnStage(_NPC, 0)), put the
+-- NPC back IF it's still needed for an AP location we haven't sent yet.
+-- Accepts a "weirdly sparse" world: only the still-needed NPCs come back.
+--
+-- Worked example - Mirkon, the charmed tiefling child in the harpy scene:
+--   NPC:     S_DEN_CharmedKid_3b92c689-6024-4446-a6c9-584e9e8d77ca
+--   He is listed in Story DB_DEN_AttackOnDen_LeaveNPCs, so he leaves the
+--   grove through the SetOnStage(_NPC, 0) path above. The 4 harpies
+--   (S_DEN_Harpy_000..003) are NOT in that leave-list, so they generally
+--   persist; re-staging Mirkon is the operative piece. The scene's AP
+--   location resolves via the DEN_HarpyMeal quest / all-harpies-dead.
+--
+-- CAVEATS to sort out during a test run (why this is left disabled):
+--   1. GUID form: confirm SetOnStage passes the S_-prefixed form that
+--      matches the keys below (importantKillSet is keyed the same way, so
+--      it probably does - but verify).
+--   2. MakeNPCLeave also does SetHasDialog(_NPC, 0) / fires "DEN_NPC_LeftDen".
+--      Re-staging may need SetHasDialog(_NPC, 1) (and repositioning) before
+--      the harpy dialog will re-trigger. Re-staging alone may leave a mute
+--      Mirkon standing there.
+--   3. LOCATION STRINGS below are PLACEHOLDERS. The real AP location name
+--      for the harpy scene is defined apworld-side; fill it in. Format in
+--      ap_out.json is a flat array of "Kill-<guid>" / "<quest>-<state>".
+--   4. Perf: SetOnStage fires very often. Keep the hot path to a single
+--      table lookup (protectedNpcs[npc]); only touch the file for a match.
+--
+-- respawnRequiredNpcs = false
+--
+-- -- NPC GUID -> AP location string that "consumes" this NPC. While that
+-- -- location is NOT present in ap_out.json (not yet sent), re-stage the NPC.
+-- protectedNpcs = {
+--     -- Mirkon. PLACEHOLDER location string - replace with the real one.
+--     ["S_DEN_CharmedKid_3b92c689-6024-4446-a6c9-584e9e8d77ca"] = "DEN_HarpyMeal-<state>",
+-- }
+--
+-- -- True once the given AP location string has been written to ap_out.json.
+-- local function apLocationSent(checkString)
+--     local raw = Ext.IO.LoadFile(locationOutFile)
+--     if (not raw) then return false end
+--     local data = Ext.Json.Parse(raw)
+--     if (type(data) ~= "table") then return false end
+--     for _, v in ipairs(data) do
+--         if (v == checkString) then return true end
+--     end
+--     return false
+-- end
+--
+-- Ext.Osiris.RegisterListener("SetOnStage", 2, "after", function(object, onStage)
+--     if (not respawnRequiredNpcs) then return end
+--     -- Only interested in despawns (onStage == 0). Cheap guard first.
+--     if (onStage == 1) then return end
+--     local location = protectedNpcs[object]
+--     if (not location) then return end
+--     -- Still needed? If the location hasn't been sent, keep the NPC around.
+--     if (not apLocationSent(location)) then
+--         if (devDebugOnly) then
+--             print_to_file("debug.json", "Re-staged protected NPC: " .. tostring(object))
+--         end
+--         Osi.SetOnStage(object, 1)
+--     end
+-- end)
 
 --Ext.Osiris.RegisterListener("DestroyedBy", 4, "after", function(item, destroyer, destroyerOwner, storyActionId)
     -- Object is the specific GUID string of the entity being destroyed
@@ -489,31 +631,61 @@ end)
 --    end
 --end)
 
-Ext.Osiris.RegisterListener("Opened", 1, "after", function(object)
-    --print("Opened: " .. object)
-    if (logContainers) then
-        local unparsed = Ext.IO.LoadFile("debug.json")
-        local data = {}
+-- Osiris hands us "<Name>_<uuid>" (CONT_Goblins_Chest_A_000_295ffe0f-...); the
+-- apworld keys containers on the bare instance uuid, which is the last 36 chars.
+local function container_uuid(object)
+    if (type(object) ~= "string" or #object < 36) then return nil end
+    local uuid = string.sub(object, -36)
+    if (string.match(uuid, "^%x%x%x%x%x%x%x%x%-%x%x%x%x%-%x%x%x%x%-%x%x%x%x%-%x%x%x%x%x%x%x%x%x%x%x%x$")) then
+        return uuid
+    end
+    return nil
+end
 
-        if (unparsed) then
-            data = Ext.Json.Parse(unparsed)
-            if (data == nil) then
-                print("Failed to parse JSON")
-                return
-            end
-        end
-        local needsToAdd = true
-        for k, v in ipairs(data) do
-            if (v == object) then
-                needsToAdd = false
-                break
-            end
-        end
-        if (needsToAdd) then
-            table.insert(data, "Opened: " .. object)
-            Ext.IO.SaveFile("debug.json", Ext.Json.Stringify(data))
+Ext.Osiris.RegisterListener("Opened", 1, "after", function(object)
+    if (not logContainers) then return end
+    if (devDebugOnly) then
+        print_to_file("debug.json", "Opened: " .. tostring(object))
+    end
+
+    local uuid = container_uuid(object)
+    if (uuid == nil) then return end
+    local location = "Container-" .. uuid
+
+    -- Opening a container fires every time the player pokes it, and the
+    -- out-file can hold thousands of container checks by Act 3, so keep the
+    -- already-sent set in PersistentVars and only touch the file on a new one.
+    local opened = PersistentVars['ContainersOpened']
+    if (opened == nil) then
+        opened = {}
+        PersistentVars['ContainersOpened'] = opened
+    end
+    if (opened[uuid] == true) then return end
+
+    local unparsed = Ext.IO.LoadFile(locationOutFile)
+    local data = {}
+
+    if (unparsed) then
+        data = Ext.Json.Parse(unparsed)
+        if (data == nil) then
+            print("Failed to parse JSON")
+            return
         end
     end
+    local needsToAdd = true
+    for k, v in ipairs(data) do
+        if (v == location) then
+            needsToAdd = false
+            break
+        end
+    end
+    if (needsToAdd) then
+        table.insert(data, location)
+        Ext.IO.SaveFile(locationOutFile, Ext.Json.Stringify(data))
+        apState.checks_logged = apState.checks_logged + 1
+        stateDirty = true
+    end
+    opened[uuid] = true
 end)
 
 Ext.Osiris.RegisterListener("CharacterCreationFinished", 0, "after", function()
@@ -560,6 +732,32 @@ Ext.Osiris.RegisterListener("QuestUpdateUnlocked", 3, "after", function(characte
             stateDirty = true
         end
     end
+end)
+
+-- EXPERIMENTAL: when the base game force-closes an Act 1 quest to a dead-end
+-- failure state on region unload, try to reopen it by re-issuing an earlier
+-- still-playable state, so the player (having returned via restored waypoints)
+-- can still complete it and earn the AP check.
+--
+-- "<quest>-<failstate>" -> "<open state to re-issue>".
+-- The target states below are GUESSES to tune in-game - "the original base
+-- event." Re-issuing an open state to a *closed* quest may simply be rejected
+-- (that's the thing we're testing). Re-issuing the target does not re-enter this
+-- table (target isn't a failstate key), so there's no listener loop; but if the
+-- region unloads again it will re-close and re-fire, which is acceptable.
+reopenQuestTargets = {
+    ["DEN_HarpyMeal-DoneNoInvestigation"] = "HeardBeachSong", -- heard the song; go find the kid
+    ["DEN_HarpyMeal-DoneLeftKid"]         = "FoundKid",       -- found the charmed kid on the beach
+}
+
+Ext.Osiris.RegisterListener("QuestUpdateUnlocked", 3, "after", function(character, topLevelQuestID, stateID)
+    if (not reopenClosedActQuests) then return end
+    local target = reopenQuestTargets[topLevelQuestID .. "-" .. stateID]
+    if (not target) then return end
+    if (devDebugOnly) then
+        print_to_file("debug.json", "Reopen attempt: " .. topLevelQuestID .. " " .. stateID .. " -> " .. target)
+    end
+    Osi.QuestUpdate(character, topLevelQuestID, target)
 end)
 
 -- ---------------------------------------------------------------------------
