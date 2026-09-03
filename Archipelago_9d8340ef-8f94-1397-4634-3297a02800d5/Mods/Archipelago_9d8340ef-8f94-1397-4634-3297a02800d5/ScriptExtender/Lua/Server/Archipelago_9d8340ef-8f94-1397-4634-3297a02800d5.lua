@@ -169,6 +169,9 @@ itemsInFile = "ap_in.json"
 genInFile = "gen_in.txt"
 -- Wire-string -> display-name map, rewritten by the client next to ap_in.json.
 namesFile = "ap_names.json"
+-- Coordinate calibration dump, only written when dev_debug_on and
+-- containersanity are both on. See dump_container_position.
+containersDumpFile = "containers_dump.json"
 
 -- Timer/presence protocol constants (docs/se-ap-ipc-design.md section 13)
 local TICK_MS = 250
@@ -381,6 +384,7 @@ function load_options()
         itemsInFile = new_seed .. "ap_in.json"
         genInFile = new_seed .. "gen_in.txt"
         namesFile = new_seed .. "ap_names.json"
+        containersDumpFile = new_seed .. "containers_dump.json"
         apState.seed = new_seed
         if (stored_seed ~= new_seed) then
             ap_log("AP seed_name changed (was " .. tostring(stored_seed) .. ", now " .. new_seed .. "); resetting AP state")
@@ -419,12 +423,19 @@ function OnSessionLoaded()
     Ext.IO.SaveFile("deathLinkReceive.json", "[]")
     load_options()
     recount_checks()
-    clearPointOfNoReturn()
     start_ap_tick()
 end
 
 Ext.Osiris.RegisterListener("GameModeStarted", 3, "after", function(gameMode, isMainThread, something)
     setBlockedEntrances()
+    -- Not SessionLoaded: that fires before the Osiris story is running, and the
+    -- Osi.GetFlag inside threw "Attempted to call Osiris function in restricted
+    -- context", which aborted the rest of OnSessionLoaded - including
+    -- start_ap_tick, so the heartbeat and the fast bus never started.
+    -- TODO: this only clears the flag once per session. If the story can set
+    -- Act2_PointOfNoReturnReached mid-play, a FlagSet listener is also needed.
+    -- Not handling that now; see docs/story-lockout-map.md.
+    clearPointOfNoReturn()
 end)
 
 function applyGateBlock(uuid, mode, blocked)
@@ -682,26 +693,51 @@ end
 -- from this build - reporting a door costs nothing, dropping every container
 -- would be silent and total.
 local function is_container(object)
-    if (Osi.IsContainer == nil) then return true end
-    local ok, result = pcall(Osi.IsContainer, object)
-    if (not ok) then return true end
-    return result == 1 or result == true
+    return true
+    -- None of the following worked, Osi.IsContainer errors on nil value.
+    --if (Osi.IsContainer == nil) then return true end
+    --local ok, result = pcall(Osi.IsContainer, object)
+    --if (not ok) then return true end
+    --return result == 1 or result == true
 end
 
-Ext.Osiris.RegisterListener("Opened", 1, "after", function(object)
-    if (not logContainers) then return end
-    if (devDebugOnly) then
-        print_to_file("debug.json", "Opened: " .. tostring(object))
-    end
+-- Where did the game actually put this container? The x/z in containers.py are
+-- level-local for every level except the handful of *_Main_A region roots, so
+-- location names carry positions a player cannot use - the Dank Crypt's
+-- "Stack of Books 12 (152, 16)" reads (-180, -294) in game. Recording one
+-- anchor per level is enough to solve that level's translation offline; three
+-- spread across a level also proves it is a translation and not a rotation.
+--
+-- Only written when dev_debug_on and containersanity are both on, and only for
+-- containers that are new to this save, so the file stays anchor-sized.
+local function dump_container_position(uuid, object)
+    if ((not devDebugOnly) or (not logContainers)) then return end
 
-    local uuid = container_uuid(object)
-    if (uuid == nil) then return end
-    if (not is_container(object)) then
-        if (devDebugOnly) then
-            print_to_file("debug.json", "Not a container, ignoring: " .. tostring(object))
-        end
-        return
+    -- GetPosition wants the full name_uuid Osiris handed us, not the bare uuid.
+    local ok, x, y, z = pcall(Osi.GetPosition, object)
+    if ((not ok) or (x == nil)) then return end
+    local gotRegion, region = pcall(Osi.GetRegion, object)
+    if (not gotRegion) then region = nil end
+
+    local unparsed = Ext.IO.LoadFile(containersDumpFile)
+    local data = {}
+    if (unparsed) then
+        data = Ext.Json.Parse(unparsed)
+        if (type(data) ~= "table") then data = {} end
     end
+    table.insert(data, {
+        uuid = uuid,
+        x = x,
+        y = y,
+        z = z,
+        region = region or "",
+    })
+    Ext.IO.SaveFile(containersDumpFile, Ext.Json.Stringify(data))
+end
+
+-- Shared by the Opened and TemplateUseStarted listeners: both mean "the player
+-- got this container's inventory", they just fire for different object kinds.
+local function record_container(uuid, object)
     local location = "Container-" .. uuid
 
     -- Opening a container fires every time the player pokes it, and the
@@ -713,6 +749,7 @@ Ext.Osiris.RegisterListener("Opened", 1, "after", function(object)
         PersistentVars['ContainersOpened'] = opened
     end
     if (opened[uuid] == true) then return end
+    dump_container_position(uuid, object)
 
     local unparsed = Ext.IO.LoadFile(locationOutFile)
     local data = {}
@@ -738,6 +775,76 @@ Ext.Osiris.RegisterListener("Opened", 1, "after", function(object)
         stateDirty = true
     end
     opened[uuid] = true
+end
+
+Ext.Osiris.RegisterListener("Opened", 1, "after", function(object)
+    if (not logContainers) then return end
+    if (devDebugOnly) then
+        print_to_file("debug.json", "Opened: " .. tostring(object))
+    end
+
+    local uuid = container_uuid(object)
+    if (uuid == nil) then return end
+    if (not is_container(object)) then
+        if (devDebugOnly) then
+            print_to_file("debug.json", "Not a container, ignoring: " .. tostring(object))
+        end
+        return
+    end
+    record_container(uuid, object)
+end)
+
+-- Bookrows, shelves, racks and vases hand the player an inventory but never
+-- raise Osiris "Opened" - only Use/TemplateUse. Without this listener the
+-- OBJ_Bookrow / OBJ_PotionShelf / OBJ_Vase families (3280 of the 10708 rows in
+-- containers.py, 66 of the 68 objects in the Dank Crypt alone) can never be
+-- checked. TemplateUseStarted fires for *using* anything though - potions,
+-- scrolls, ladders - so the root template is matched against the container
+-- families below before anything is written.
+--
+-- These prefixes cover ~97% of those three families with no false positives
+-- against the other container families. Anything missed is logged below when
+-- dev_debug_on is set, so the list can be extended from real play.
+local USE_CONTAINER_PREFIXES = {
+    "BOOK",                       -- BOOK_GEN_Books_Row/Stack/Pile, Gale's tome quest
+    "LAB",                        -- LAB_GEN_Bottle_Rack
+    "FUR_GEN_Bookshelf",
+    "CONT_HUM",                   -- CONT_HUM_Vase_*
+    "CONT_GEN_Vase",
+    "CONT_GEN_Alcohol",
+    "CONT_Hospital",              -- bloodbank racks
+    "CONT_Jergal",                -- urns
+    "CONT_Emerald_Enclave_Vase",
+    "DEC_GEN_Kitchen",            -- cupboards
+}
+
+local function is_use_container(template)
+    if (type(template) ~= "string") then return false end
+    for _, prefix in ipairs(USE_CONTAINER_PREFIXES) do
+        if (string.sub(template, 1, #prefix) == prefix) then
+            return true
+        end
+    end
+    return false
+end
+
+Ext.Osiris.RegisterListener("TemplateUseStarted", 3, "after", function(character, itemTemplate, item)
+    if (not logContainers) then return end
+
+    local uuid = container_uuid(item)
+    if (uuid == nil) then return end
+    if (not is_use_container(itemTemplate)) then
+        if (devDebugOnly) then
+            -- If a container you looted shows up here, add its template prefix
+            -- to USE_CONTAINER_PREFIXES above.
+            print_to_file("debug.json", "TemplateUseStarted, not a known container template: " .. tostring(itemTemplate))
+        end
+        return
+    end
+    if (devDebugOnly) then
+        print_to_file("debug.json", "TemplateUseStarted container: " .. tostring(item))
+    end
+    record_container(uuid, item)
 end)
 
 Ext.Osiris.RegisterListener("CharacterCreationFinished", 0, "after", function()
@@ -817,6 +924,9 @@ end)
 -- ---------------------------------------------------------------------------
 
 local function process_deathlink_receive(targetChar)
+    -- Not under pcall, unlike grant_item: an Osi.Die(nil) here would throw out
+    -- of process_incoming before the item loop ever ran.
+    if (targetChar == nil) then return end
     if (not deathlink) then return end
     local unparsed_deathlink = Ext.IO.LoadFile("deathLinkReceive.json")
     if unparsed_deathlink and unparsed_deathlink ~= "" then
@@ -894,6 +1004,12 @@ function process_incoming()
     local targetChar = GetHostCharacter()
     load_options()
     displayNames = nil
+    -- The 250 ms tick starts running before the party exists, and back then
+    -- process_incoming only ran from CastedSpell, which cannot fire that early.
+    -- GetHostCharacter() is nil until then, and passing that to TemplateAddTo
+    -- fails every grant in the batch for no reason. load_options above still
+    -- runs, so the first-run seed-prefix pickup is not delayed by this.
+    if (targetChar == nil) then return end
     process_deathlink_receive(targetChar)
     local unparsed_in = Ext.IO.LoadFile(itemsInFile)
     if (not unparsed_in) then
