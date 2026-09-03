@@ -21,6 +21,7 @@ syncOnAny = true
 logKills = true
 logQuests = true
 deathlink = true
+killsanityStrictness = 1
 devDebugOnly = false
 logContainers = false
 pendingReceiveDeathlink = false
@@ -77,7 +78,9 @@ importantKillSet = {
     ["S_TWN_VlaakithAttack_Caster_000_e4141a02-f5e7-4a0c-a7af-d3dda6610c1b"] = true, -- Ch'r'ai Tska'an
     ["S_GLO_Orthon_1dc8091d-2af6-4d33-9268-998ef266d19c"] = true, -- Orthon
     ["S_SHA_Necromancer_53651a9f-7ea8-444f-ba2d-224390b72f7d"] = true, -- Balthazar
-    ["S_MOO_Ketheric_e9918f3e-5b87-40a3-a9bd-61545151573f"] = true -- Myrkul
+    ["S_MOO_Ketheric_e9918f3e-5b87-40a3-a9bd-61545151573f"] = true, -- Myrkul
+    -- Act 3 bosses to be added here
+    ["S_END_MindBrain_f8bb04a3-22e5-41b0-aed7-5dcf852343d1"] = true, -- Netherbrain
 }
 GATE_BLOCK = {
     DISABLE_USE = 1,    -- SetDisableUse only
@@ -361,6 +364,10 @@ function load_options()
     logQuests = read_option(data, "questsanity")
     deathlink = read_option(data, "death_link")
     devDebugOnly = read_option(data, "dev_debug_on")
+    killsanityStrictness = data.killsanity_strictness
+    if (killsanityStrictness == nil) then
+        killsanityStrictness = 1
+    end
     logContainers = false
     blockEntrances = read_option(data, "block_entrances")
     if (data.containersanity ~= nil and data.containersanity ~= 0 and data.containersanity ~= 1) then
@@ -479,10 +486,36 @@ Ext.Osiris.RegisterListener("Died", 1, "after", function(died)
             end
         end
     end
+    if ((logKills or importantKillSet[died]) and killsanityStrictness == 2) then
+        local unparsed = Ext.IO.LoadFile(locationOutFile)
+        local data = {}
+        print("Logging kill: " .. "Kill-" .. died)
+
+        if (unparsed) then
+            data = Ext.Json.Parse(unparsed)
+            if (data == nil) then
+                print("Failed to parse JSON")
+                return
+            end
+        end
+        local needsToAdd = true
+        for k, v in ipairs(data) do
+            if (v == "Kill-" .. died) then
+                needsToAdd = false
+                break
+            end
+        end
+        if (needsToAdd) then
+            table.insert(data, "Kill-" .. died)
+            Ext.IO.SaveFile(locationOutFile, Ext.Json.Stringify(data))
+            apState.checks_logged = apState.checks_logged + 1
+            stateDirty = true
+        end
+    end
 end)
 
 Ext.Osiris.RegisterListener("KilledBy", 4, "after", function(defender, attackOwner, attacker, storyActionID)
-    if (logKills or importantKillSet[defender]) then
+    if ((logKills or importantKillSet[defender]) and (killsanityStrictness ~= 2)) then
         local unparsed = Ext.IO.LoadFile(locationOutFile)
         local data = {}
         print("Logging kill: " .. "Kill-" .. defender)
@@ -642,6 +675,19 @@ local function container_uuid(object)
     return nil
 end
 
+-- Osiris fires "Opened" for doors too, and a door is never an AP location: in
+-- one player's out-file 306 of 544 "Container-" entries were objects the
+-- apworld has never heard of, mostly doors. Filter them here so the out-file
+-- stays the size of the actual check list. Fail open if the query is missing
+-- from this build - reporting a door costs nothing, dropping every container
+-- would be silent and total.
+local function is_container(object)
+    if (Osi.IsContainer == nil) then return true end
+    local ok, result = pcall(Osi.IsContainer, object)
+    if (not ok) then return true end
+    return result == 1 or result == true
+end
+
 Ext.Osiris.RegisterListener("Opened", 1, "after", function(object)
     if (not logContainers) then return end
     if (devDebugOnly) then
@@ -650,6 +696,12 @@ Ext.Osiris.RegisterListener("Opened", 1, "after", function(object)
 
     local uuid = container_uuid(object)
     if (uuid == nil) then return end
+    if (not is_container(object)) then
+        if (devDebugOnly) then
+            print_to_file("debug.json", "Not a container, ignoring: " .. tostring(object))
+        end
+        return
+    end
     local location = "Container-" .. uuid
 
     -- Opening a container fires every time the player pokes it, and the
