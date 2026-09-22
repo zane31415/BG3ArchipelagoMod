@@ -10,7 +10,20 @@
 
 local TOGGLE_KEY = "U"          -- keyboard toggle; change here if it clashes
 
+-- Build version of THIS file, kept deliberately separate from the server's
+-- copy in Server/Archipelago_<uuid>.lua rather than shared. The failure being
+-- caught is one script being stale while the other is current, so a shared
+-- constant would agree with itself and catch nothing. Bump both together.
+local SCRIPT_VERSION = "0.7.1"
+
+-- How long to wait for the server's first AP_State push before concluding the
+-- server script is not the one we shipped with. The server publishes on its
+-- 250 ms tick and answers refresh_state immediately, so 20 s is a long way
+-- past "slow load".
+local STATE_TIMEOUT_MS = 20000
+
 local state = nil               -- last AP_State payload received
+local stateEverReceived = false
 local lastPresence = nil
 local win = nil
 local widgets = {}
@@ -44,6 +57,24 @@ local HELP_TEXT = table.concat({
     "Checks you make while disconnected are saved and sent on reconnect.",
 }, "\n")
 
+-- The three ways the two halves of the mod can disagree, in the words a
+-- player can act on. All three were real: a stale Server/*.lua loose under
+-- Data\Mods shadowed the pak's copy for one player and cost a week of
+-- "my items never arrive", with nothing in the log naming the cause.
+local INSTALL_HELP = table.concat({
+    "Look for a loose Archipelago_9d8340ef-8f94-1397-4634-3297a02800d5 folder",
+    "under the BG3 install's Data/Mods and delete the whole folder, then",
+    "check the Mods folder for a second Archipelago .pak -- a renamed .pak",
+    "still loads, because the game matches on the mod UUID, not the name.",
+}, "\n")
+
+local NO_STATE_TEXT = table.concat({
+    "The server half of this mod is not responding.",
+    "This window loaded, but no game state has arrived, which means the",
+    "server script is missing, too old, or a stale copy is overriding it.",
+    INSTALL_HELP,
+}, "\n")
+
 local stateChannel = nil
 local commandChannel = nil
 
@@ -57,6 +88,17 @@ local function set_text_color(widget, color)
     pcall(function() widget:SetColor("Text", color) end)
 end
 
+-- nil/"" hides the banner; anything else shows it in the alarming colour.
+local function set_diagnostic(text)
+    if (win == nil or widgets.diag == nil) then return end
+    local shown = (text ~= nil and text ~= "")
+    widgets.diag.Label = shown and text or ""
+    widgets.diag.Visible = shown
+    if (shown) then
+        set_text_color(widgets.diag, PRESENCE_COLORS.NO_CLIENT)
+    end
+end
+
 local function build_window()
     win = Ext.IMGUI.NewWindow("Archipelago")
     win.Closeable = true
@@ -64,6 +106,10 @@ local function build_window()
     widgets.status = win:AddText("Waiting for game state...")
     widgets.slotSeed = win:AddText("")
     widgets.counters = win:AddText("")
+    widgets.build = win:AddText("")
+
+    widgets.diag = win:AddText("")
+    widgets.diag.Visible = false
 
     local resync = win:AddButton("Resync")
     resync.OnClick = function()
@@ -132,7 +178,29 @@ local function refresh()
         .. "    Seed: " .. tostring(state.seed or "?")
     widgets.counters.Label = "Items received: " .. tostring(state.items_granted or 0)
         .. "    Checks logged: " .. tostring(state.checks_logged or 0)
-        .. "    Deathlink: " .. ((state.deathlink and "on") or "off")
+        .. "    Deathlink: " .. (state.deathlink and (state.surviveOnDeathlink and "on (knockout)" or "on (kill)") or "off")
+
+    local serverBuild = state.script_version
+    widgets.build.Label = "Window build: " .. SCRIPT_VERSION
+        .. "    Server build: " .. tostring(serverBuild or "unknown")
+        .. "    Net: " .. tostring(state.net_mode or "?")
+    if (serverBuild == nil) then
+        set_diagnostic(table.concat({
+            "The server script is too old to report its build (pre-0.7.1), but",
+            "this window is build " .. SCRIPT_VERSION .. ". Two copies of the mod are",
+            "installed and the stale one is being loaded.",
+            INSTALL_HELP,
+        }, "\n"))
+    elseif (serverBuild ~= SCRIPT_VERSION) then
+        set_diagnostic(table.concat({
+            "Version mismatch: this window is build " .. SCRIPT_VERSION .. " but the",
+            "server script is build " .. tostring(serverBuild) .. ". Two copies of the",
+            "mod are installed and the stale one is being loaded.",
+            INSTALL_HELP,
+        }, "\n"))
+    else
+        set_diagnostic(nil)
+    end
 
     local recent = state.recent or {}
     for i = 1, RECENT_LINES do
@@ -176,6 +244,7 @@ end
 local function on_state(data)
     if (type(data) ~= "table") then return end
     state = data
+    stateEverReceived = true
     if (not ensure_window()) then return end
     refresh()
     -- NO_CLIENT is the one state where the player must act, so surface the
@@ -194,6 +263,21 @@ local function toggle_window()
     refresh()
 end
 
+-- The server never pushed state. Either it isn't the script we shipped
+-- alongside this window, or the net channels never linked up. Say so in the
+-- window instead of sitting on "Waiting for game state..." forever.
+local function on_state_timeout()
+    if (stateEverReceived) then return end
+    if (not ensure_window()) then return end
+    widgets.status.Label = "Status: server script not responding"
+    set_text_color(widgets.status, PRESENCE_COLORS.NO_CLIENT)
+    widgets.build.Label = "Window build: " .. SCRIPT_VERSION
+        .. "    Server build: no reply"
+        .. "    Net: " .. ((APNet ~= nil and APNet.Describe ~= nil) and APNet.Describe() or "none")
+    set_diagnostic(NO_STATE_TEXT)
+    set_shown(true)
+end
+
 if (APNet ~= nil) then
     stateChannel = APNet.Channel("AP_State")
     commandChannel = APNet.Channel("AP_Command")
@@ -203,6 +287,11 @@ if (APNet ~= nil) then
         end)
     end
 end
+
+-- Greppable build banner, matching the server script's. Two different builds
+-- in the console means two copies of the mod are installed.
+print("Archipelago CLIENT window script loaded: build " .. SCRIPT_VERSION
+    .. ", net " .. ((APNet ~= nil and APNet.Describe ~= nil) and APNet.Describe() or "none"))
 
 -- Keyboard toggle. Ext.Events.KeyInput is not in the documented API surface,
 -- so treat it as optional: if it's missing, the window still auto-shows on
@@ -219,4 +308,12 @@ end)
 -- data even if nothing changed since we loaded in.
 Ext.Events.SessionLoaded:Subscribe(function()
     pcall(function() send_command("refresh_state") end)
+    -- Ext.Timer is not guaranteed in the client context on every SE build, so
+    -- the timeout is best-effort: without it the window simply behaves as it
+    -- did before.
+    pcall(function()
+        Ext.Timer.WaitForRealtime(STATE_TIMEOUT_MS, function()
+            pcall(on_state_timeout)
+        end)
+    end)
 end)

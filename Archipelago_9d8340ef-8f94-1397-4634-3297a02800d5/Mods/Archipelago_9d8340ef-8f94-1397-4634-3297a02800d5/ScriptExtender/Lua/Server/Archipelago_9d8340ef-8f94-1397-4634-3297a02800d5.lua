@@ -17,10 +17,19 @@
 -- SubQuestUpdateUnlocked ?
 PersistentVars = {}
 
+-- Build version of THIS file. Client/APGui.lua carries its own copy of the
+-- same literal and compares the two: the version deliberately is not in a
+-- shared file, because the failure this catches is one script being stale
+-- while the other is current (a loose .lua under Data\Mods overriding the
+-- pak's copy, or a second install). A shared constant would agree with
+-- itself and catch nothing. Bump both files together.
+AP_SCRIPT_VERSION = "0.7.1"
+
 syncOnAny = true
 logKills = true
 logQuests = true
 deathlink = true
+surviveOnDeathlink = true
 killsanityStrictness = 1
 devDebugOnly = false
 logContainers = false
@@ -128,20 +137,20 @@ locationsToGates = {
         {"DOOR_Single_Dungeon_Abbey_B_028_1518702f-a47c-4032-abdf-f58738f68426", GATE_BLOCK.CAN_INTERACT}, -- side door (1)
         {"DOOR_Single_Dungeon_Abbey_B_027_74c3eec5-df87-4cc5-b8fc-11f3c446de35", GATE_BLOCK.CAN_INTERACT}, -- back side door A(1)
         {"DOOR_Single_Dungeon_Abbey_B_019_521bb9c1-1de1-4e3d-9bd3-fe2fa2ad5c9f", GATE_BLOCK.CAN_INTERACT}, -- back side door B(1)
-        {"DOOR_Single_Dungeon_Abbey_B_029_e815e895-45dc-47cd-a011-4172c258e799", GATE_BLOCK.CAN_INTERACT}}, -- back side door C(1)
-    ["Gate-ProgressiveMoonlightTowers-1"] = {
+        {"DOOR_Single_Dungeon_Abbey_B_029_e815e895-45dc-47cd-a011-4172c258e799", GATE_BLOCK.CAN_INTERACT}, -- back side door C(1)
         {"S_MOO_DockDoor_ada141ae-e0a8-4915-a9c7-355093370992", GATE_BLOCK.CAN_INTERACT}, --prison (2)
         {"S_MOO_StairsToPrison_78b1cd2c-0edb-441d-a389-6163ba7dba48", GATE_BLOCK.CAN_INTERACT}}, -- prison (2)
-    ["Gate-ProgressiveMoonlightTowers-2"] = {
+    ["Gate-ProgressiveMoonlightTowers-1"] = {
         {"S_MOO_RoofAccessDoor_0eca4cd0-6fa5-421f-80e9-446c2b758606", GATE_BLOCK.CAN_INTERACT}}, -- roof (3)
-    ["Gate-ProgressiveMoonlightTowers-3"] = {
-        {"S_MOO_TentaclelessTeleporter_c29cec63-82da-4579-b11d-75a5a08bbe1b", GATE_BLOCK.CAN_INTERACT}}, -- colony (4)
-    ["Gate-ProgressiveMoonlightTowers-4"] = {
+    ["Gate-ProgressiveMoonlightTowers-2"] = {
+        {"S_MOO_TentaclelessTeleporter_c29cec63-82da-4579-b11d-75a5a08bbe1b", GATE_BLOCK.CAN_INTERACT}, -- colony (4)
         {"S_COL_Elevator_Controller_38c76a3f-beaf-417b-be7e-62773c705c8f", GATE_BLOCK.CAN_INTERACT}, -- Myrkul elevator (5)
         {"S_COL_KethericShowdown_Door_378bd363-b818-4326-9883-d5a9cd5a1fcc", GATE_BLOCK.CAN_INTERACT} -- Myrkul door (5)
     },
     ["Gate-Act3"] = {{"S_TWN_ActExit_4df293a7-c9b7-4be4-b4a9-42400ddbe209", GATE_BLOCK.CAN_INTERACT}}
 }
+
+shouldSpawnMonster = false
 
 function isDeathLinkTrigger(character)
     return PersistentVars['DeathLinkTriggers'][character] == true
@@ -160,6 +169,14 @@ importantQuestSet = {
     ["GLO_Tadpole-HalsinReturned_Known"] = true,
     ["GLO_Tadpole-ReportHalsin_LeadersDefeated"] = true,
     ["SCL_LiftingTheCurse-TalkToThaniel"] = true, -- Thaniel
+}
+
+requireKill = {
+    ["S_CHA_FL0_DeadSkeleton_Caster_04_cb4c2c8f-b6db-4c53-b7e3-395aef311a39"] = true,
+    ["S_CHA_FL0_DeadSkeleton_Caster_03_462f0982-35c4-4a34-a3bf-399f37e686ee"] = true,
+    ["S_CHA_FL0_DeadSkeleton_Caster_02_1535feb9-7ff9-4132-be09-191ba3f8c2e1"] = true,
+    ["S_CHA_FL0_DeadSkeleton_Caster_01_7af3fa6c-7f7a-4920-acaf-f091e7c62373"] = true,
+    ["S_CHA_FL0_DeadSkeleton_Melee_01_ebf854f1-7971-4f81-a2b7-e4b79b550b85"] = true
 }
 
 locationOutFile = "ap_out.json"
@@ -195,6 +212,9 @@ apState = {
     items_granted = 0,
     checks_logged = 0,
     deathlink = false,
+    surviveOnDeathlink = true,
+    script_version = AP_SCRIPT_VERSION,
+    net_mode = nil,         -- filled at publish; window flags a mismatch
     recent = {},            -- newest first: { name = ..., t = "HH:MM:SS" }
     log = {},               -- newest first, plain strings
     gates = {},             -- { name = "Gate-...", unlocked = bool }, filled at publish
@@ -366,6 +386,7 @@ function load_options()
     logKills = read_option(data, "killsanity")
     logQuests = read_option(data, "questsanity")
     deathlink = read_option(data, "death_link")
+    surviveOnDeathlink = read_option(data, "death_link_consequence")
     devDebugOnly = read_option(data, "dev_debug_on")
     killsanityStrictness = data.killsanity_strictness
     if (killsanityStrictness == nil) then
@@ -497,7 +518,7 @@ Ext.Osiris.RegisterListener("Died", 1, "after", function(died)
             end
         end
     end
-    if ((logKills or importantKillSet[died]) and killsanityStrictness == 2) then
+    if ((logKills or importantKillSet[died]) and (killsanityStrictness == 2 and requireKill[died] ~= true)) then
         local unparsed = Ext.IO.LoadFile(locationOutFile)
         local data = {}
         print("Logging kill: " .. "Kill-" .. died)
@@ -526,7 +547,7 @@ Ext.Osiris.RegisterListener("Died", 1, "after", function(died)
 end)
 
 Ext.Osiris.RegisterListener("KilledBy", 4, "after", function(defender, attackOwner, attacker, storyActionID)
-    if ((logKills or importantKillSet[defender]) and (killsanityStrictness ~= 2)) then
+    if ((logKills or importantKillSet[defender]) and (killsanityStrictness ~= 2 or requireKill[defender] == true)) then
         local unparsed = Ext.IO.LoadFile(locationOutFile)
         local data = {}
         print("Logging kill: " .. "Kill-" .. defender)
@@ -666,15 +687,6 @@ end)
 --     end
 -- end)
 
---Ext.Osiris.RegisterListener("DestroyedBy", 4, "after", function(item, destroyer, destroyerOwner, storyActionId)
-    -- Object is the specific GUID string of the entity being destroyed
-    -- Template is the root template ID (the item type)
---    print("Destroyed Object UUID: " .. item)
---    if (devDebugOnly) then
---        print_to_file("debug.json", "Object destroyed: " .. item)
---    end
---end)
-
 -- Osiris hands us "<Name>_<uuid>" (CONT_Goblins_Chest_A_000_295ffe0f-...); the
 -- apworld keys containers on the bare instance uuid, which is the last 36 chars.
 local function container_uuid(object)
@@ -686,19 +698,54 @@ local function container_uuid(object)
     return nil
 end
 
+-- Does this object own an inventory? That is the only honest definition of
+-- "container" we have: a chest, a sack, a bookshelf and a wardrobe all own one,
+-- while a door, a ladder, a chair and a potion do not. Osi.IsContainer was tried
+-- first and errors on a nil value, so this goes at the entity instead.
+--
+-- Three-state on purpose - true / false / nil for "this build cannot tell me" -
+-- because the two callers want to fail in opposite directions. Component names
+-- have moved between Script Extender versions, so unknown names are probed
+-- rather than assumed, and anything that throws lands on nil.
+local INVENTORY_COMPONENTS = { "InventoryOwner", "InventoryContainer" }
+
+-- A read that comes back nil is ambiguous: this entity has no inventory, OR
+-- this build renamed the component and every read will be nil forever. Telling
+-- those apart is the difference between filtering doors and silently dropping
+-- every container in the game, so "no" is only ever returned once the build has
+-- proved it can say "yes" at least once. Until then the answer is "unknown" and
+-- each caller falls back the way it prefers. One real container flips the latch.
+local inventoryProbeProven = false
+
+local function has_inventory(object)
+    if (type(object) ~= "string") then return nil end
+    if (Ext == nil or Ext.Entity == nil or Ext.Entity.Get == nil) then return nil end
+
+    local ok, entity = pcall(Ext.Entity.Get, object)
+    if ((not ok) or entity == nil) then return nil end
+
+    for _, name in ipairs(INVENTORY_COMPONENTS) do
+        local got, component = pcall(function() return entity[name] end)
+        if (got and component ~= nil) then
+            inventoryProbeProven = true
+            return true
+        end
+    end
+
+    if (not inventoryProbeProven) then return nil end
+    return false
+end
+
 -- Osiris fires "Opened" for doors too, and a door is never an AP location: in
 -- one player's out-file 306 of 544 "Container-" entries were objects the
 -- apworld has never heard of, mostly doors. Filter them here so the out-file
--- stays the size of the actual check list. Fail open if the query is missing
--- from this build - reporting a door costs nothing, dropping every container
--- would be silent and total.
+-- stays the size of the actual check list. Fail OPEN when has_inventory cannot
+-- tell - reporting a door costs nothing (the client drops uuids it does not
+-- know), dropping every container would be silent and total.
 local function is_container(object)
-    return true
-    -- None of the following worked, Osi.IsContainer errors on nil value.
-    --if (Osi.IsContainer == nil) then return true end
-    --local ok, result = pcall(Osi.IsContainer, object)
-    --if (not ok) then return true end
-    --return result == 1 or result == true
+    local inventory = has_inventory(object)
+    if (inventory == nil) then return true end
+    return inventory
 end
 
 -- Where did the game actually put this container? The x/z in containers.py are
@@ -794,17 +841,54 @@ Ext.Osiris.RegisterListener("Opened", 1, "after", function(object)
     record_container(uuid, object)
 end)
 
+-- A smashed container can never be opened, so without this the check is simply
+-- lost: Mouldering Caskets in particular tend to break rather than open, and an
+-- AoE through a room takes every barrel and crate with it.
+--
+-- The inventory gate is the same fail-open one "Opened" uses, and it matters
+-- more here: DestroyedBy fires for EVERY destroyed item - potions, weapons,
+-- chairs, doors - not just containers. Whether has_inventory() can still answer
+-- at this point is unverified: Osiris fires this "after" the destruction, so the
+-- entity may already be gone, in which case the probe returns nil, the gate fails
+-- open and junk uuids reach ap_out.json. That is harmless (the client drops uuids
+-- it cannot resolve) but it is noise, so the outcome is logged under dev_debug_on:
+-- if the log shows "gate=nil" for a chest that visibly held loot, the probe is
+-- useless here and this wants a different discriminator.
+Ext.Osiris.RegisterListener("DestroyedBy", 4, "after", function(item, destroyer, destroyerOwner, storyActionID)
+    if (not logContainers) then return end
+
+    local uuid = container_uuid(item)
+    if (uuid == nil) then return end
+
+    local inventory = has_inventory(item)
+    if (devDebugOnly) then
+        local gate = "nil"
+        if (inventory == true) then gate = "true" elseif (inventory == false) then gate = "false" end
+        print_to_file("debug.json", "Destroyed: " .. tostring(item) .. "  gate=" .. gate)
+    end
+    if (inventory == false) then return end
+
+    record_container(uuid, item)
+end)
+
 -- Bookrows, shelves, racks and vases hand the player an inventory but never
 -- raise Osiris "Opened" - only Use/TemplateUse. Without this listener the
--- OBJ_Bookrow / OBJ_PotionShelf / OBJ_Vase families (3280 of the 10708 rows in
+-- OBJ_Bookrow / OBJ_PotionShelf / OBJ_Vase families (3280 of the 10712 rows in
 -- containers.py, 66 of the 68 objects in the Dank Crypt alone) can never be
 -- checked. TemplateUseStarted fires for *using* anything though - potions,
--- scrolls, ladders - so the root template is matched against the container
--- families below before anything is written.
+-- scrolls, ladders, chairs - so the object has to be qualified before anything
+-- is written, and here the failure direction is the opposite of "Opened": an
+-- unqualified use-event is a ladder far more often than it is a container.
 --
--- These prefixes cover ~97% of those three families with no false positives
--- against the other container families. Anything missed is logged below when
--- dev_debug_on is set, so the list can be extended from real play.
+-- has_inventory() is the gate. The prefix list below is now only the fallback
+-- for a Script Extender build that cannot answer, and it is why the list was
+-- never enough on its own: a 2026-09-15 Act 1 run opened 474 catalogued
+-- containers and *used* 104 more that this handler dropped, because a template
+-- allowlist can only ever cover the families someone already thought of.
+-- Open Crate (302 rows in containers.py), Backpack (140), Fish Barrel (67),
+-- Wardrobe (45), Barbed Bulrush (23), Rotting Bag (20), Broken Cabinet (15) and
+-- Equipment Chest (3) were all unreachable that way - 615 locations that could
+-- hold an item nobody could ever collect.
 local USE_CONTAINER_PREFIXES = {
     "BOOK",                       -- BOOK_GEN_Books_Row/Stack/Pile, Gale's tome quest
     "LAB",                        -- LAB_GEN_Bottle_Rack
@@ -818,7 +902,7 @@ local USE_CONTAINER_PREFIXES = {
     "DEC_GEN_Kitchen",            -- cupboards
 }
 
-local function is_use_container(template)
+local function is_use_container_template(template)
     if (type(template) ~= "string") then return false end
     for _, prefix in ipairs(USE_CONTAINER_PREFIXES) do
         if (string.sub(template, 1, #prefix) == prefix) then
@@ -833,16 +917,29 @@ Ext.Osiris.RegisterListener("TemplateUseStarted", 3, "after", function(character
 
     local uuid = container_uuid(item)
     if (uuid == nil) then return end
-    if (not is_use_container(itemTemplate)) then
-        if (devDebugOnly) then
-            -- If a container you looted shows up here, add its template prefix
-            -- to USE_CONTAINER_PREFIXES above.
+
+    local inventory = has_inventory(item)
+    local qualified, why
+    if (inventory == nil) then
+        -- No entity answer from this build: fall back to the old allowlist.
+        qualified = is_use_container_template(itemTemplate)
+        why = "template fallback"
+    else
+        qualified = inventory
+        why = "inventory component"
+    end
+
+    if (not qualified) then
+        if (devDebugOnly and inventory == nil) then
+            -- Only worth logging in fallback mode - with the entity check live
+            -- this fires for every ladder and chair in the game. If a container
+            -- you looted shows up here, add its prefix to USE_CONTAINER_PREFIXES.
             print_to_file("debug.json", "TemplateUseStarted, not a known container template: " .. tostring(itemTemplate))
         end
         return
     end
     if (devDebugOnly) then
-        print_to_file("debug.json", "TemplateUseStarted container: " .. tostring(item))
+        print_to_file("debug.json", "TemplateUseStarted container (" .. why .. "): " .. tostring(item))
     end
     record_container(uuid, item)
 end)
@@ -937,12 +1034,44 @@ local function process_deathlink_receive(targetChar)
         end
         for k, v in ipairs(death_in) do
             if(v == "DeathLink") then
-                pendingReceiveDeathlink = true
-                Osi.Die(targetChar)
+                if (surviveOnDeathlink) then
+                    Osi.SetHitPoints(targetChar, 0)
+                else
+                    pendingReceiveDeathlink = true
+                    Osi.Die(targetChar)
+                end
                 Ext.IO.SaveFile("deathLinkReceive.json", "[]")
             end
         end
     end
+end
+
+local function spawn_monster(targetChar)
+    local monsterUuids = {
+        [1] = "2e51b930-c9fd-41f2-8013-02c92e990de2", -- Lesser hellboar
+        [2] = "2e51b930-c9fd-41f2-8013-02c92e990de2",
+        [3] = "5620024c-5d1b-477d-ace8-43e2275f6158", -- Int Dev
+        [4] = "5620024c-5d1b-477d-ace8-43e2275f6158",
+        [5] = "4b3c6cdc-95da-476d-8ac7-c8d012ccf3b2", -- Ochre Jelly
+        [6] = "4b3c6cdc-95da-476d-8ac7-c8d012ccf3b2",
+        [7] = "bfe9ad10-c5f7-4a08-a2af-acefb296ffcc", -- Hook horror
+        [8] = "bfe9ad10-c5f7-4a08-a2af-acefb296ffcc",
+        [9] = "b63c0d26-7c5f-4dc5-a3d1-2cc99367c809", -- Minotaur
+        [10] = "b63c0d26-7c5f-4dc5-a3d1-2cc99367c809",
+        [11] = "319efbbe-f9f3-4584-804e-3e17d47d1136", -- Spectator
+        [12] = "319efbbe-f9f3-4584-804e-3e17d47d1136",
+    }
+    local currentLevel = Osi.GetLevel(targetChar) or 1
+    if (currentLevel < 1) then
+        currentLevel = 1
+    end
+    if (currentLevel > 12) then
+        currentLevel = 12
+    end
+    local monstername = monsterUuids[currentLevel]
+    local mon = Osi.CreateAtObject(monstername,targetChar,0,0,"",1)
+    Osi.SetFaction(mon, "ACT0a_TUT_HelmDevil_0314cde4-8572-4d70-a117-dba88e20e70d")
+    Osi.SetHostileAndEnterCombat("ACT0a_TUT_HelmDevil_0314cde4-8572-4d70-a117-dba88e20e70d", Osi.GetFaction(targetChar), mon, targetChar)
 end
 
 -- Grants a single wire-string entry. Runs under pcall from process_incoming:
@@ -963,15 +1092,20 @@ local function grant_item(v, targetChar)
             Osi.AddExplorationExperience(charTable[char][1], 1000000)
         end
     elseif (string.sub(v, 1, 5) == "Trap-") then
-        if (string.sub(v, 6, 13) == "Monster-") then
-            local monstername = string.sub(v, 14, 49)
-            local mon = Osi.CreateAtObject(monstername,targetChar,0,0,"",1)
-            Osi.SetFaction(mon, "ACT0a_TUT_HelmDevil_0314cde4-8572-4d70-a117-dba88e20e70d")
-            Osi.SetHostileAndEnterCombat("ACT0a_TUT_HelmDevil_0314cde4-8572-4d70-a117-dba88e20e70d", Osi.GetFaction(targetChar), mon, targetChar)
+        if (string.sub(v, 6, 12) == "Monster") then
+            shouldSpawnMonster = true
         elseif (string.sub(v, 6, 13) == "Bleeding") then
             ApplyStatus(targetChar, "BLEEDING", 10)
         elseif (string.sub(v, 6, 9) == "Stun") then
             ApplyStatus(targetChar, "STUNNED", 5)
+        elseif (string.sub(v, 6, 14) == "Confusion") then
+            ApplyStatus(targetChar, "MADNESS", 10)
+        elseif (string.sub(v, 6, 12) == "Blinded") then
+            ApplyStatus(targetChar, "BLINDED", 10)
+        elseif (string.sub(v, 6, 11) == "Sussur") then
+            ApplyStatus(targetChar, "UND_ANCIENTSUSSURTREEANTIMAGIC_AURA", 10)
+        elseif (string.sub(v, 6, 10) == "Clown") then
+            ApplyStatus(targetChar, "WYR_FACEPAINT_CLOWN", 120)
         else
             -- Generation strips unimplemented traps, so reaching this means
             -- version skew. Say so instead of silently eating the item.
@@ -1048,16 +1182,21 @@ function process_incoming()
             end
         end
     end
+    if (shouldSpawnMonster) then
+        local ok, err = pcall(spawn_monster, targetChar)
+        if (not ok) then ap_log("Monster trap failed: " .. tostring(err)) end
+        shouldSpawnMonster = false
+    end
     PersistentVars['APSent'] = APSent
     PersistentVars['APGrantFailures'] = failCounts
 end
 
 Ext.Osiris.RegisterListener("CastedSpell", 5, "after", function(caster, spell, spellType, spellElement, storyActionID)
-    if (spell == "Shout_AP_Sync" or syncOnAny) then
-        process_incoming()
-    end
     if (spell == "Shout_AP_Sync") then
         setBlockedEntrances()
+    end
+    if (spell == "Shout_AP_Sync" or syncOnAny) then
+        process_incoming()
     end
 end)
 
@@ -1165,6 +1304,9 @@ local function publish_state()
     for _ in pairs(PersistentVars['APSent'] or {}) do n = n + 1 end
     apState.items_granted = n
     apState.deathlink = deathlink
+    apState.surviveOnDeathlink = surviveOnDeathlink
+    apState.script_version = AP_SCRIPT_VERSION
+    apState.net_mode = ((APNet ~= nil and APNet.Describe ~= nil) and APNet.Describe() or "none")
     apState.seed = PersistentVars['SeedName']
     local APSent = PersistentVars['APSent'] or {}
     local gates = {}
@@ -1251,7 +1393,20 @@ if (APNet ~= nil) then
         commandChannel:SetHandler(function(data, user)
             handle_gui_command(data)
         end)
+    else
+        print("AP: AP_Command channel unavailable; the window's buttons will do nothing")
     end
+    if (stateChannel == nil) then
+        print("AP: AP_State channel unavailable; the in-game window will stay blank")
+    end
+else
+    print("AP: Shared/APNet.lua did not load; running headless, no in-game window")
 end
 
-print("Archipelago Client Script Loaded v6")
+-- Greppable build banner. When a player reports missing items, this line and
+-- the matching one from Client/APGui.lua are the first thing to ask for: two
+-- different builds mean two copies of the mod are installed and the stale one
+-- is winning. (The old wording here was "Archipelago Client Script Loaded v6",
+-- printed by the SERVER script, which made exactly that diagnosis harder.)
+print("Archipelago SERVER script loaded: build " .. AP_SCRIPT_VERSION
+    .. ", net " .. ((APNet ~= nil and APNet.Describe ~= nil) and APNet.Describe() or "none"))
