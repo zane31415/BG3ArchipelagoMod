@@ -1056,8 +1056,8 @@ local function spawn_monster(targetChar)
         [6] = "4b3c6cdc-95da-476d-8ac7-c8d012ccf3b2",
         [7] = "bfe9ad10-c5f7-4a08-a2af-acefb296ffcc", -- Hook horror
         [8] = "bfe9ad10-c5f7-4a08-a2af-acefb296ffcc",
-        [9] = "b63c0d26-7c5f-4dc5-a3d1-2cc99367c809", -- Minotaur
-        [10] = "b63c0d26-7c5f-4dc5-a3d1-2cc99367c809",
+        [9] = "cc1b177d-5053-4472-b1e2-8c3e42fc17da", -- Meenlock
+        [10] = "cc1b177d-5053-4472-b1e2-8c3e42fc17da",
         [11] = "319efbbe-f9f3-4584-804e-3e17d47d1136", -- Spectator
         [12] = "319efbbe-f9f3-4584-804e-3e17d47d1136",
     }
