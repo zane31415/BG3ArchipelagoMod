@@ -394,6 +394,11 @@ function load_options()
     end
     logContainers = false
     blockEntrances = read_option(data, "block_entrances")
+    if (type(data.companion_shuffle) == "table") then
+        companionShuffle = data.companion_shuffle
+    else
+        companionShuffle = nil
+    end
     if (data.containersanity ~= nil and data.containersanity ~= 0 and data.containersanity ~= 1) then
         logContainers = true
     end
@@ -442,6 +447,11 @@ function OnSessionLoaded()
     -- A deathlink received while the game was closed must not fire hours later
     -- on the next load.
     Ext.IO.SaveFile("deathLinkReceive.json", "[]")
+    -- A companion-shuffle outfit whose equip timer was cut off by a save/quit
+    -- gets another go (see apply_pending_outfits).
+    for _, st in pairs(PersistentVars['CompanionShuffle'] or {}) do
+        if (st.outfit == "applying") then st.outfit = "pending" end
+    end
     load_options()
     recount_checks()
     start_ap_tick()
@@ -1017,6 +1027,186 @@ Ext.Osiris.RegisterListener("QuestUpdateUnlocked", 3, "after", function(characte
 end)
 
 -- ---------------------------------------------------------------------------
+-- Companion shuffle (slot_data "companion_shuffle", rolled in
+-- worlds/bg3/companions.py). On a companion's FIRST recruit:
+--   * class: point their Origin record at the rolled class/subclass just
+--     before the game's own RequestInitialLevel runs (it is called from
+--     _GLO_Shared_PartyMembers on PROC_CheckFirstTimeRecruited), so the engine
+--     builds level 1 itself and fills the choices from the generic per-class
+--     DefaultValues - the same defaults hirelings get.
+--   * outfit: give them a fresh copy of another companion's camp body/shoes/
+--     underwear and equip it. Their own set stays in their inventory.
+-- EXPERIMENTAL / unverified in the live engine: the Ext.StaticData Origin
+-- field names, whether RequestInitialLevel reads the Origin at call time, and
+-- whether Equip on a freshly TemplateAddTo'd item needs the delay below.
+-- Everything is pcall'd and logged, so a failure costs the shuffle, not the run.
+-- ---------------------------------------------------------------------------
+
+companionShuffle = nil  -- slot_data table, set by load_options
+
+-- character GUID -> { key used in slot_data, Origin UUID }
+COMPANION_CHARACTERS = {
+    ["3ed74f06-3c60-42dc-83f6-f034cb47c679"] = { "Shadowheart", "2bb39cf2-4649-4238-8d0c-44f62b5a3dfd" },
+    ["58a69333-40bf-8358-1d17-fff240d7fb12"] = { "Laezel", "fb3bc4c3-49eb-4944-b714-d0cb357bb635" },
+    ["c7c13742-bacd-460a-8f65-f864fe41f255"] = { "Astarion", "3780c689-d903-41c2-bf64-1e6ec6a8e1e5" },
+    ["ad9af97d-75da-406a-ae13-7071c563f604"] = { "Gale", "35c3caad-5543-4593-be75-e7deba30f062" },
+    ["c774d764-4a17-48dc-b470-32ace9ce447d"] = { "Wyll", "efc9d114-0296-4a30-b701-365fc07d44fb" },
+    ["2c76687d-93a2-477b-8b18-8a14b549304c"] = { "Karlach", "b8b4a974-b045-45f6-9516-b457b8773abd" },
+    ["25721313-0c15-4935-8176-9f134385451b"] = { "Minthara", "eae09670-869d-4b70-b605-33af4ee80b34" },
+    ["7628bc0e-52b8-42a7-856a-13a6fd413323"] = { "Halsin", "a36281c5-adcd-4d6e-8e5a-b5650b8f17eb" },
+    ["91b6b200-7d00-4d62-8dc9-99e8339dfa1a"] = { "Jaheira", "c1f137c7-a17c-47b0-826a-12e44a8ec45c" },
+    ["0de603c5-42e2-4811-9dad-f652de080eba"] = { "Minsc", "e1b629bc-7340-4fe6-81a4-834a838ff5c5" },
+}
+
+-- Camp body, camp shoes, underwear root templates: the set each companion's
+-- starting Equipment stats entry gives them. (Lae'zel really does start in
+-- ARM_Camp_Shoes_Wyll.)
+CAMP_OUTFITS = {
+    Shadowheart = { "7062410b-439c-4f2f-bc48-1c16ab1ace20", "e92e4dad-8e96-4f27-aacb-cc430df0bc75", "b460bd0c-58fe-4a56-831c-af92fd4ba7e2" },
+    Laezel      = { "54de4a07-c57c-421e-912c-7e8bd93ca0c4", "b307af36-a2da-4c01-aac3-a31771edd407", "185ab1be-e93d-4518-b053-d6d4d7168d68" },
+    Astarion    = { "b7392453-6569-4c24-9a1b-cbaea7cebac8", "4700fad1-769e-4831-9b3f-4ead08c49cfa", "4b30a649-fd88-4f64-a57b-1149d7b9ac41" },
+    Gale        = { "c56bbf29-2315-415e-a488-fada851828ea", "cb28ea7d-2838-43e7-a807-11277c44facb", "5cdc0fe0-dbda-4f31-89f8-9e16782daef1" },
+    Wyll        = { "bd2ac836-5584-41e5-b4ff-01782c0dec6d", "b307af36-a2da-4c01-aac3-a31771edd407", "1930ceec-4a50-43d9-8589-94593c449be4" },
+    Karlach     = { "5c79e518-2c59-41c5-84a7-d43a58e76d09", "b8f42945-a42e-46cb-a424-3a0a5e97157a", "e865db4c-4df3-48e9-8cf3-5abad75510ba" },
+    Minthara    = { "29a31736-6f9d-46ef-880d-ac3157187202", "f107cc6a-3a6e-4a58-be16-fbe73b3f7ae8", "73874ef8-a3c4-4a68-8d2a-ed3d580dfb52" },
+    Halsin      = { "dc74db6c-14b2-44fa-8415-0dd1194e90e2", "42de5102-7a39-44d2-b1d8-645ec4d8b0ce", "9ebb9117-a0ae-46f2-a243-8d67650e9586" },
+    Jaheira     = { "0d0d9c0f-e9aa-4ba4-a0a9-1a0b7b7069ca", "556de2bd-99a6-4d62-b78c-d4681ce5bdfa", "91259e65-dd71-4312-ba3c-c55757978788" },
+    Minsc       = { "42ff9d36-849d-4777-968c-8cf9ca7d8027", "836e13ab-78a6-4ca3-ba8e-adc4c25205f1", "48a3ffbe-f14e-4cfe-b45e-ebadb3af0fd4" },
+}
+
+-- PersistentVars['CompanionShuffle'][name] = { class = "done"|"missed"|"failed",
+--   outfit = "done"|"pending"|"failed", char = <character string> }
+local function shuffle_state()
+    local s = PersistentVars['CompanionShuffle']
+    if (s == nil) then
+        s = {}
+        PersistentVars['CompanionShuffle'] = s
+    end
+    return s
+end
+
+local function guid_of(s)
+    if (type(s) ~= "string" or #s < 36) then return nil end
+    return string.sub(s, -36)
+end
+
+-- An origin the player picked as their avatar is not shuffled.
+local function is_avatar(char)
+    local g = guid_of(char)
+    local ok, rows = pcall(function() return Osi.DB_Avatars:Get(nil) end)
+    if (not ok or rows == nil) then return false end
+    for _, row in pairs(rows) do
+        if (guid_of(row[1]) == g) then return true end
+    end
+    return false
+end
+
+-- The proc can run again for a companion already recruited (Wyll's dialog
+-- path, the debug camp teleport, a save from before this feature). The game
+-- marks the real first time with this DB fact right after our "before" hook.
+local function already_recruited(char)
+    local g = guid_of(char)
+    local ok, rows = pcall(function() return Osi.DB_OnlyOncePerPlayer:Get(nil, "Recruitment_Respec") end)
+    if (not ok or rows == nil) then return false end
+    for _, row in pairs(rows) do
+        if (guid_of(row[1]) == g) then return true end
+    end
+    return false
+end
+
+local function set_origin_class(originUuid, roll)
+    return pcall(function()
+        local origin = Ext.StaticData.Get(originUuid, "Origin")
+        if (origin == nil) then error("no Origin " .. originUuid) end
+        origin.ClassUUID = roll.class_uuid
+        origin.SubClassUUID = roll.subclass_uuid
+    end)
+end
+
+local function apply_outfit(char, name, donor)
+    local templates = CAMP_OUTFITS[donor]
+    if (templates == nil) then
+        ap_log("Companion shuffle: no outfit table for '" .. tostring(donor) .. "'")
+        shuffle_state()[name].outfit = "failed"
+        return
+    end
+    for _, tpl in ipairs(templates) do
+        Osi.TemplateAddTo(tpl, char, 1, 0)
+    end
+    -- Give the new items a moment to land in the inventory before equipping.
+    Ext.Timer.WaitFor(1000, function()
+        local ok, err = pcall(function()
+            for _, tpl in ipairs(templates) do
+                local item = Osi.GetItemByTemplateInInventory(tpl, char)
+                if (item == nil) then error("template " .. tpl .. " not in inventory") end
+                Osi.Equip(char, item)
+            end
+        end)
+        if (ok) then
+            shuffle_state()[name].outfit = "done"
+            ap_log("Companion shuffle: " .. name .. " is wearing " .. donor .. "'s camp clothes")
+        else
+            shuffle_state()[name].outfit = "failed"
+            ap_log("Companion shuffle: outfit for " .. name .. " failed: " .. tostring(err))
+        end
+    end)
+end
+
+-- Outfits for companions recruited before ap_options.json existed (Nautiloid
+-- recruits on a first run). Class can't be caught up: level 1 is already built.
+local function apply_pending_outfits()
+    if (type(companionShuffle) ~= "table") then return end
+    for name, st in pairs(shuffle_state()) do
+        local roll = companionShuffle[name]
+        if (st.outfit == "pending" and type(roll) == "table" and st.char ~= nil) then
+            st.outfit = "applying"
+            apply_outfit(st.char, name, roll.outfit)
+        end
+    end
+end
+
+Ext.Osiris.RegisterListener("PROC_CheckFirstTimeRecruited", 1, "before", function(char)
+    local entry = COMPANION_CHARACTERS[guid_of(char) or ""]
+    if (entry == nil) then return end
+    local name, originUuid = entry[1], entry[2]
+    local state = shuffle_state()
+    if (state[name] ~= nil) then return end
+    if (already_recruited(char)) then
+        state[name] = { class = "preexisting", outfit = "preexisting", char = char }
+        return
+    end
+    if (is_avatar(char)) then
+        state[name] = { class = "avatar", outfit = "avatar", char = char }
+        return
+    end
+    state[name] = { char = char }
+    local roll = (type(companionShuffle) == "table") and companionShuffle[name] or nil
+    if (type(roll) ~= "table") then
+        -- No options yet (or a seed without the shuffle).
+        state[name].class = "missed"
+        state[name].outfit = "pending"
+        ap_log("Companion shuffle: " .. name .. " recruited before ap_options.json had a shuffle; class left as-is")
+        return
+    end
+
+    local ok, err = set_origin_class(originUuid, roll)
+    if (ok) then
+        state[name].class = "done"
+        ap_log("Companion shuffle: " .. name .. " starts as " .. tostring(roll.class) .. " (" .. tostring(roll.subclass) .. ")")
+    else
+        state[name].class = "failed"
+        ap_log("Companion shuffle: class for " .. name .. " failed: " .. tostring(err))
+    end
+
+    state[name].outfit = "applying"
+    local ok2, err2 = pcall(apply_outfit, char, name, roll.outfit)
+    if (not ok2) then
+        state[name].outfit = "failed"
+        ap_log("Companion shuffle: outfit for " .. name .. " failed: " .. tostring(err2))
+    end
+end)
+
+-- ---------------------------------------------------------------------------
 -- Item granting
 -- ---------------------------------------------------------------------------
 
@@ -1144,6 +1334,8 @@ function process_incoming()
     -- fails every grant in the batch for no reason. load_options above still
     -- runs, so the first-run seed-prefix pickup is not delayed by this.
     if (targetChar == nil) then return end
+    local okPending, errPending = pcall(apply_pending_outfits)
+    if (not okPending) then ap_log("Companion shuffle: pending outfits failed: " .. tostring(errPending)) end
     process_deathlink_receive(targetChar)
     local unparsed_in = Ext.IO.LoadFile(itemsInFile)
     if (not unparsed_in) then
