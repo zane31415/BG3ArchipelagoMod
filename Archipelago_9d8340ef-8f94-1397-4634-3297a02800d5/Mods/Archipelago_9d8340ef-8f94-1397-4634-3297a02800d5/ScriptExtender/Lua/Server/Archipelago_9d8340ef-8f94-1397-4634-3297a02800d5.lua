@@ -1035,7 +1035,9 @@ end)
 --     builds level 1 itself and fills the choices from the generic per-class
 --     DefaultValues - the same defaults hirelings get.
 --   * outfit: give them a fresh copy of another companion's camp body/shoes/
---     underwear and equip it. Their own set stays in their inventory.
+--     underwear, equip it, and delete their own (now unequipped) set.
+-- Each half is optional (YAML randomize_companion_classes/_clothes): the apworld
+-- leaves "class_uuid" or "outfit" out of a companion's entry when it is off.
 -- EXPERIMENTAL / unverified in the live engine: the Ext.StaticData Origin
 -- field names, whether RequestInitialLevel reads the Origin at call time, and
 -- whether Equip on a freshly TemplateAddTo'd item needs the delay below.
@@ -1074,8 +1076,8 @@ CAMP_OUTFITS = {
     Minsc       = { "42ff9d36-849d-4777-968c-8cf9ca7d8027", "836e13ab-78a6-4ca3-ba8e-adc4c25205f1", "48a3ffbe-f14e-4cfe-b45e-ebadb3af0fd4" },
 }
 
--- PersistentVars['CompanionShuffle'][name] = { class = "done"|"missed"|"failed",
---   outfit = "done"|"pending"|"failed", char = <character string> }
+-- PersistentVars['CompanionShuffle'][name] = { class = "done"|"missed"|"failed"|"off",
+--   outfit = "done"|"pending"|"applying"|"failed"|"off", char = <character string> }
 local function shuffle_state()
     local s = PersistentVars['CompanionShuffle']
     if (s == nil) then
@@ -1142,12 +1144,28 @@ local function apply_outfit(char, name, donor)
                 Osi.Equip(char, item)
             end
         end)
-        if (ok) then
-            shuffle_state()[name].outfit = "done"
-            ap_log("Companion shuffle: " .. name .. " is wearing " .. donor .. "'s camp clothes")
-        else
+        if (not ok) then
             shuffle_state()[name].outfit = "failed"
             ap_log("Companion shuffle: outfit for " .. name .. " failed: " .. tostring(err))
+            return
+        end
+        shuffle_state()[name].outfit = "done"
+        ap_log("Companion shuffle: " .. name .. " is wearing " .. donor .. "'s camp clothes")
+        -- Drop their own set, which the equips just pushed back into the
+        -- inventory. A template the donor set shares (Lae'zel and Wyll wear the
+        -- same shoes) is the item we just equipped, so it is left alone.
+        local okDel, errDel = pcall(function()
+            local keep = {}
+            for _, tpl in ipairs(templates) do keep[tpl] = true end
+            for _, tpl in ipairs(CAMP_OUTFITS[name] or {}) do
+                if (not keep[tpl]) then
+                    local old = Osi.GetItemByTemplateInInventory(tpl, char)
+                    if (old ~= nil) then Osi.RequestDelete(old) end
+                end
+            end
+        end)
+        if (not okDel) then
+            ap_log("Companion shuffle: removing " .. name .. "'s own camp clothes failed: " .. tostring(errDel))
         end
     end)
 end
@@ -1159,8 +1177,12 @@ local function apply_pending_outfits()
     for name, st in pairs(shuffle_state()) do
         local roll = companionShuffle[name]
         if (st.outfit == "pending" and type(roll) == "table" and st.char ~= nil) then
-            st.outfit = "applying"
-            apply_outfit(st.char, name, roll.outfit)
+            if (roll.outfit == nil) then
+                st.outfit = "off"
+            else
+                st.outfit = "applying"
+                apply_outfit(st.char, name, roll.outfit)
+            end
         end
     end
 end
@@ -1189,20 +1211,28 @@ Ext.Osiris.RegisterListener("PROC_CheckFirstTimeRecruited", 1, "before", functio
         return
     end
 
-    local ok, err = set_origin_class(originUuid, roll)
-    if (ok) then
-        state[name].class = "done"
-        ap_log("Companion shuffle: " .. name .. " starts as " .. tostring(roll.class) .. " (" .. tostring(roll.subclass) .. ")")
+    if (roll.class_uuid == nil) then
+        state[name].class = "off"
     else
-        state[name].class = "failed"
-        ap_log("Companion shuffle: class for " .. name .. " failed: " .. tostring(err))
+        local ok, err = set_origin_class(originUuid, roll)
+        if (ok) then
+            state[name].class = "done"
+            ap_log("Companion shuffle: " .. name .. " starts as " .. tostring(roll.class) .. " (" .. tostring(roll.subclass) .. ")")
+        else
+            state[name].class = "failed"
+            ap_log("Companion shuffle: class for " .. name .. " failed: " .. tostring(err))
+        end
     end
 
-    state[name].outfit = "applying"
-    local ok2, err2 = pcall(apply_outfit, char, name, roll.outfit)
-    if (not ok2) then
-        state[name].outfit = "failed"
-        ap_log("Companion shuffle: outfit for " .. name .. " failed: " .. tostring(err2))
+    if (roll.outfit == nil) then
+        state[name].outfit = "off"
+    else
+        state[name].outfit = "applying"
+        local ok2, err2 = pcall(apply_outfit, char, name, roll.outfit)
+        if (not ok2) then
+            state[name].outfit = "failed"
+            ap_log("Companion shuffle: outfit for " .. name .. " failed: " .. tostring(err2))
+        end
     end
 end)
 
