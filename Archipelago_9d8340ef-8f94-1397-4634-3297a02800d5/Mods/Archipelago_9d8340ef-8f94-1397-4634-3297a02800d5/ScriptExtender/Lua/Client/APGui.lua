@@ -14,13 +14,17 @@ local TOGGLE_KEY = "U"          -- keyboard toggle; change here if it clashes
 -- copy in Server/Archipelago_<uuid>.lua rather than shared. The failure being
 -- caught is one script being stale while the other is current, so a shared
 -- constant would agree with itself and catch nothing. Bump both together.
-local SCRIPT_VERSION = "0.7.1"
+local SCRIPT_VERSION = "0.7.2"
 
 -- How long to wait for the server's first AP_State push before concluding the
--- server script is not the one we shipped with. The server publishes on its
--- 250 ms tick and answers refresh_state immediately, so 20 s is a long way
--- past "slow load".
-local STATE_TIMEOUT_MS = 20000
+-- server script is not the one we shipped with. The request sent at session
+-- load is often lost (the server script is not listening yet), so it is
+-- repeated every STATE_RETRY_MS until state arrives, and the server pushes
+-- unasked on its first few heartbeats. Only when all of that has failed does
+-- the window say the server is not responding.
+local STATE_RETRY_MS = 3000
+local STATE_RETRIES = 10
+local STATE_TIMEOUT_MS = STATE_RETRY_MS * STATE_RETRIES + 5000
 
 local state = nil               -- last AP_State payload received
 local stateEverReceived = false
@@ -309,8 +313,18 @@ end)
 Ext.Events.SessionLoaded:Subscribe(function()
     pcall(function() send_command("refresh_state") end)
     -- Ext.Timer is not guaranteed in the client context on every SE build, so
-    -- the timeout is best-effort: without it the window simply behaves as it
-    -- did before.
+    -- the retries and the timeout are best-effort: without it the window
+    -- simply behaves as it did before.
+    pcall(function()
+        local tries = 0
+        local function retry()
+            if (stateEverReceived or tries >= STATE_RETRIES) then return end
+            tries = tries + 1
+            pcall(function() send_command("refresh_state") end)
+            Ext.Timer.WaitForRealtime(STATE_RETRY_MS, retry)
+        end
+        Ext.Timer.WaitForRealtime(STATE_RETRY_MS, retry)
+    end)
     pcall(function()
         Ext.Timer.WaitForRealtime(STATE_TIMEOUT_MS, function()
             pcall(on_state_timeout)

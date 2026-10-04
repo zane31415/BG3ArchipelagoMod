@@ -22,4 +22,7 @@
   <content contentuid="hd4159ff2ga6a2g9e15g6077g59e5deedb243" version="1">Forces a sync with the Archipelago Client. ONLY CAST FROM TAV.</content>
   <content contentuid="hc6825983g28f5gb3e5g0aa0gcbdb478cec21" version="2">Archipelago Sync</content>
   <content contentuid="hf65ac924gbecfg52a3g3337ga964ea1cbf62" version="2">Force a sync with the Archipelago Client. ONLY CAST FROM TAV.</content>
+  <content contentuid="h5c1b0a47g2e6dg4b0fg9a31g7d2e4c8f1a60" version="1">Archipelago: Highlight Containers</content>
+  <content contentuid="h8f3a6d12g71c4g4e9ag8b25g0c6f9e3d7b14" version="1">While on, every container within 20m that has not been opened yet glows, even if it is empty. Not every glowing container is an Archipelago location.</content>
+  <content contentuid="h2b7e9c35g4a18g4d62gb0f7g91a3c5e8d240" version="1">Unopened container</content>
 </contentList>

@@ -23,7 +23,7 @@ PersistentVars = {}
 -- while the other is current (a loose .lua under Data\Mods overriding the
 -- pak's copy, or a second install). A shared constant would agree with
 -- itself and catch nothing. Bump both files together.
-AP_SCRIPT_VERSION = "0.7.1"
+AP_SCRIPT_VERSION = "0.7.2"
 
 syncOnAny = true
 logKills = true
@@ -33,6 +33,9 @@ surviveOnDeathlink = true
 killsanityStrictness = 1
 devDebugOnly = false
 logContainers = false
+-- ap_options.json "container_highlight": glow every unopened container near the
+-- party. Independent of containersanity. See the "Container highlight" section.
+containerHighlight = false
 pendingReceiveDeathlink = false
 -- Defaults to false so a mod install without any AP setup (no ap_options.json
 -- ever written) does not lock the world's doors with zero messaging. The real
@@ -196,6 +199,12 @@ local HEARTBEAT_TICKS = 20     -- write our heartbeat every 20 ticks (~5 s)
 local CLIENT_CHECK_TICKS = 4   -- read the client heartbeat every 4 ticks (~1 s)
 local FALLBACK_TICKS = 12      -- no gen file (old client): process every ~3 s
 local STALE_MS = 15000         -- 3x the 5 s heartbeat cadence
+-- Push state to the in-game window on this many heartbeats after a load, changed
+-- or not. The window's own request at session load can arrive before this
+-- script is listening, and with nothing changing afterwards the window sat on
+-- "server script not responding" until the player pressed Resync.
+local STARTUP_STATE_PUSHES = 6
+local startupStatePushes = STARTUP_STATE_PUSHES
 
 PRESENCE_MESSAGES = {
     NO_CLIENT = "Archipelago BG3 Client not detected - items will not be delivered. Launch 'Baldur's Gate 3 Client' from the Archipelago Launcher. (The Text Client is not enough.)",
@@ -274,6 +283,7 @@ local function reset_ap_state()
     PersistentVars['APSent'] = {}
     PersistentVars['APGrantFailures'] = {}
     PersistentVars['ContainersOpened'] = {}
+    PersistentVars['HighlightOpened'] = {}
     apState.recent = {}
     apState.checks_logged = 0
     lastGen = nil
@@ -394,6 +404,7 @@ function load_options()
     end
     logContainers = false
     blockEntrances = read_option(data, "block_entrances")
+    containerHighlight = read_option(data, "container_highlight")
     if (type(data.companion_shuffle) == "table") then
         companionShuffle = data.companion_shuffle
     else
@@ -952,6 +963,245 @@ Ext.Osiris.RegisterListener("TemplateUseStarted", 3, "after", function(character
         print_to_file("debug.json", "TemplateUseStarted container (" .. why .. "): " .. tostring(item))
     end
     record_container(uuid, item)
+end)
+
+-- ---------------------------------------------------------------------------
+-- Container highlight (ap_options.json "container_highlight")
+--
+-- Ported from the AP Assist testing mod. While the option is on, each avatar
+-- carries the AP_ContainerHighlight toggle passive. Its toggle applies
+-- AP_HIGHLIGHT_AURA, a 20m aura that tags every item in range with
+-- AP_HIGHLIGHT_SCAN. Each tagged item is judged once per session here: a world
+-- item that owns an inventory and has not been opened yet gets
+-- AP_HIGHLIGHT_GLOW, which comes off on the same three events a container check
+-- is recorded on. The glow only knows "could be a location": it does not read
+-- the apworld's table, so things that are not locations glow too.
+--
+-- It works with containersanity off as well, which is why it keeps its own
+-- opened-set (HighlightOpened) next to ContainersOpened.
+-- ---------------------------------------------------------------------------
+
+local HL_PASSIVE = "AP_ContainerHighlight"
+local HL_AURA = "AP_HIGHLIGHT_AURA"
+local HL_SCAN = "AP_HIGHLIGHT_SCAN"
+local HL_GLOW = "AP_HIGHLIGHT_GLOW"
+
+-- Every Osi call here goes through hl_q by NAME. A query on an entity that is
+-- not loaded throws, and Osi functions cannot be handled as values in Script
+-- Extender, so the call is always made inside a closure.
+local function hl_q(name, ...)
+    local args = table.pack(...)
+    local ok, a, b, c = pcall(function()
+        return Osi[name](table.unpack(args, 1, args.n))
+    end)
+    if (not ok) then return nil end
+    return a, b, c
+end
+
+local function hl_vars()
+    if (PersistentVars['HighlightOpened'] == nil) then PersistentVars['HighlightOpened'] = {} end
+    if (PersistentVars['HighlightGlowing'] == nil) then PersistentVars['HighlightGlowing'] = {} end
+    if (PersistentVars['HighlightGranted'] == nil) then PersistentVars['HighlightGranted'] = {} end
+    return PersistentVars
+end
+
+local function hl_column(read)
+    local out = {}
+    local ok, rows = pcall(read)
+    if (ok and type(rows) == "table") then
+        for _, row in ipairs(rows) do
+            if (row[1] ~= nil) then table.insert(out, row[1]) end
+        end
+    end
+    return out
+end
+
+-- The passive goes on the avatar(s) only, so there is one toggle per player.
+local function hl_avatars()
+    local list = hl_column(function() return Osi.DB_Avatars:Get(nil) end)
+    if (#list == 0) then
+        local host = hl_q("GetHostCharacter")
+        if (host ~= nil) then list = { host } end
+    end
+    return list
+end
+
+-- True while the option is on AND some party member has the aura, i.e. the
+-- player has not switched the toggle off.
+local function hl_active()
+    if (not containerHighlight) then return false end
+    for _, member in ipairs(hl_column(function() return Osi.DB_Players:Get(nil) end)) do
+        if (hl_q("HasActiveStatus", member, HL_AURA) == 1) then return true end
+    end
+    return false
+end
+
+-- Container checks already in the out-file, so a container opened in another
+-- save of the same seed does not glow. Re-read on level load and on enable.
+local hlOutChecked = {}
+
+local function hl_read_out_file()
+    hlOutChecked = {}
+    local unparsed = Ext.IO.LoadFile(locationOutFile)
+    if (not unparsed) then return end
+    local ok, data = pcall(Ext.Json.Parse, unparsed)
+    if ((not ok) or type(data) ~= "table") then return end
+    for _, entry in ipairs(data) do
+        if (type(entry) == "string" and string.sub(entry, 1, 10) == "Container-") then
+            hlOutChecked[string.sub(entry, 11)] = true
+        end
+    end
+end
+
+local function hl_already_opened(uuid)
+    if (hl_vars()['HighlightOpened'][uuid] == true) then return true end
+    if (hlOutChecked[uuid] == true) then return true end
+    local opened = PersistentVars['ContainersOpened']
+    return opened ~= nil and opened[uuid] == true
+end
+
+-- A world item (not inside anyone's inventory) that owns an inventory.
+-- Osi.IsContainer is the second signal, for a container whose inventory
+-- component only exists after the first open.
+local function hl_is_world_container(object)
+    if (hl_q("IsItem", object) ~= 1) then return false end
+    if (hl_q("GetInventoryOwner", object) ~= nil) then return false end
+    if (has_inventory(object) == true) then return true end
+    return hl_q("IsContainer", object) == 1
+end
+
+-- Session cache of aura verdicts. The aura re-applies AP_HIGHLIGHT_SCAN each
+-- time an item comes back into range.
+local hlEvaluated = {}
+
+local function hl_glow(uuid)
+    local glowing = hl_vars()['HighlightGlowing']
+    if (glowing[uuid] ~= nil) then return end
+    hl_q("ApplyStatus", uuid, HL_GLOW, -1, 1)
+    glowing[uuid] = true
+end
+
+-- Returns false when the item is in a level that is not loaded. The entry
+-- stays and the next level load retries it.
+local function hl_unglow(uuid)
+    local glowing = hl_vars()['HighlightGlowing']
+    if (glowing[uuid] == nil) then return true end
+    local ok, entity = pcall(Ext.Entity.Get, uuid)
+    if ((not ok) or entity == nil) then return false end
+    hl_q("RemoveStatus", uuid, HL_GLOW)
+    glowing[uuid] = nil
+    return true
+end
+
+-- Drop glows that no longer belong: highlight off, or opened since.
+local function hl_reconcile()
+    local on = hl_active()
+    local stale = {}
+    for uuid in pairs(hl_vars()['HighlightGlowing']) do
+        if ((not on) or hl_already_opened(uuid)) then table.insert(stale, uuid) end
+    end
+    for _, uuid in ipairs(stale) do hl_unglow(uuid) end
+end
+
+local function hl_mark_opened(object)
+    local uuid = container_uuid(object)
+    if (uuid == nil) then return end
+    local v = hl_vars()
+    if (v['HighlightGlowing'][uuid] == nil and hlEvaluated[uuid] ~= true
+        and not hl_is_world_container(object)) then
+        return
+    end
+    v['HighlightOpened'][uuid] = true
+    hl_unglow(uuid)
+end
+
+Ext.Osiris.RegisterListener("StatusApplied", 4, "after", function(object, status, causee, storyActionID)
+    if (status == HL_SCAN) then
+        if (not containerHighlight) then return end
+        local uuid = container_uuid(object)
+        if (uuid == nil or hlEvaluated[uuid] ~= nil) then return end
+        local verdict = hl_is_world_container(object)
+        hlEvaluated[uuid] = verdict
+        if (verdict and (not hl_already_opened(uuid)) and hl_active()) then hl_glow(uuid) end
+    elseif (status == HL_AURA) then
+        -- Toggled on: judge everything afresh.
+        hlEvaluated = {}
+        hl_read_out_file()
+    end
+end)
+
+Ext.Osiris.RegisterListener("StatusRemoved", 4, "after", function(object, status, causee, storyActionID)
+    if (status == HL_AURA) then hl_reconcile() end
+end)
+
+-- These three run whether or not containersanity is on.
+Ext.Osiris.RegisterListener("Opened", 1, "after", function(item)
+    if (not containerHighlight) then return end
+    hl_mark_opened(item)
+end)
+
+Ext.Osiris.RegisterListener("TemplateUseStarted", 3, "after", function(character, itemTemplate, item)
+    if (not containerHighlight) then return end
+    hl_mark_opened(item)
+end)
+
+Ext.Osiris.RegisterListener("DestroyedBy", 4, "after", function(item, destroyer, destroyerOwner, storyActionID)
+    if (not containerHighlight) then return end
+    local uuid = container_uuid(item)
+    if (uuid == nil) then return end
+    local v = hl_vars()
+    if (v['HighlightGlowing'][uuid] ~= nil) then
+        v['HighlightOpened'][uuid] = true
+        v['HighlightGlowing'][uuid] = nil
+    end
+end)
+
+-- Bring the avatars in line with the option. nil = not applied this session.
+-- Called from the tick, because load_options can run before Osiris is callable
+-- and the option can arrive mid-session when the client connects.
+local hlApplied = nil
+
+local function highlight_sync()
+    if (hlApplied == containerHighlight) then return end
+    local avatars = hl_avatars()
+    if (#avatars == 0) then return end     -- no avatar yet (character creation)
+    local v = hl_vars()
+    if (containerHighlight) then
+        hl_read_out_file()
+        for _, char in ipairs(avatars) do
+            if (hl_q("HasPassive", char, HL_PASSIVE) ~= 1) then hl_q("AddPassive", char, HL_PASSIVE) end
+            if (not v['HighlightGranted'][char]) then
+                v['HighlightGranted'][char] = true
+                -- ToggledDefaultOn shows the toggle as on. Make the aura agree in
+                -- case AddPassive did not run the ToggleOnFunctors.
+                Ext.Timer.WaitFor(1000, function()
+                    if (containerHighlight and hl_q("HasActiveStatus", char, HL_AURA) ~= 1) then
+                        hl_q("ApplyStatus", char, HL_AURA, -1, 1)
+                    end
+                end)
+            end
+        end
+    else
+        for _, char in ipairs(avatars) do
+            if (hl_q("HasPassive", char, HL_PASSIVE) == 1) then hl_q("RemovePassive", char, HL_PASSIVE) end
+            if (hl_q("HasActiveStatus", char, HL_AURA) == 1) then hl_q("RemoveStatus", char, HL_AURA) end
+        end
+        -- A later re-enable grants the toggle afresh, switched on.
+        v['HighlightGranted'] = {}
+        hlEvaluated = {}
+        hl_reconcile()
+    end
+    hlApplied = containerHighlight
+end
+
+Ext.Osiris.RegisterListener("LevelGameplayStarted", 2, "after", function(level, isEditorMode)
+    if (level == "SYS_CC_I") then return end
+    -- Re-apply on every level: a new avatar may exist, and glows left in a
+    -- level that was unloaded when they should have come off get retried.
+    hlApplied = nil
+    pcall(highlight_sync)
+    if (containerHighlight) then hl_read_out_file() end
+    pcall(hl_reconcile)
 end)
 
 Ext.Osiris.RegisterListener("CharacterCreationFinished", 0, "after", function()
@@ -1545,6 +1795,7 @@ local function ap_tick()
     if (tickCount % CLIENT_CHECK_TICKS == 0) then
         check_client_heartbeat()
         update_presence()
+        pcall(highlight_sync)
     end
     local gen = Ext.IO.LoadFile(genInFile)
     if (gen ~= nil) then
@@ -1559,6 +1810,10 @@ local function ap_tick()
     end
     if (tickCount % HEARTBEAT_TICKS == 0) then
         write_game_heartbeat()
+        if (startupStatePushes > 0) then
+            startupStatePushes = startupStatePushes - 1
+            stateDirty = true
+        end
     end
     if (stateDirty) then
         publish_state()
