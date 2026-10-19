@@ -14,7 +14,7 @@ local TOGGLE_KEY = "U"          -- keyboard toggle; change here if it clashes
 -- copy in Server/Archipelago_<uuid>.lua rather than shared. The failure being
 -- caught is one script being stale while the other is current, so a shared
 -- constant would agree with itself and catch nothing. Bump both together.
-local SCRIPT_VERSION = "0.7.2"
+local SCRIPT_VERSION = "0.8.0"
 
 -- How long to wait for the server's first AP_State push before concluding the
 -- server script is not the one we shipped with. The request sent at session

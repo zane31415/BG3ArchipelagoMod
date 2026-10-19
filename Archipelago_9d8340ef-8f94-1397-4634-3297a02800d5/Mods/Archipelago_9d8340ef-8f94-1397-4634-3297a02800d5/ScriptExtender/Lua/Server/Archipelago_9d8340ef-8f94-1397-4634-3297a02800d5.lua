@@ -23,7 +23,7 @@ PersistentVars = {}
 -- while the other is current (a loose .lua under Data\Mods overriding the
 -- pak's copy, or a second install). A shared constant would agree with
 -- itself and catch nothing. Bump both files together.
-AP_SCRIPT_VERSION = "0.7.2"
+AP_SCRIPT_VERSION = "0.8.0"
 
 syncOnAny = true
 logKills = true
@@ -92,6 +92,18 @@ importantKillSet = {
     ["S_SHA_Necromancer_53651a9f-7ea8-444f-ba2d-224390b72f7d"] = true, -- Balthazar
     ["S_MOO_Ketheric_e9918f3e-5b87-40a3-a9bd-61545151573f"] = true, -- Myrkul
     -- Act 3 bosses to be added here
+    ["S_WYR_SkeletalDragon_67770922-5e0a-40c5-b3f0-67e8eb50493a"] = true, -- Ansur
+    ["S_LOW_FatherCarrion_b003409c-364f-4065-94bf-7436001d890e"] = true, -- Mystic Carrion
+    ["S_LOW_CountingHouse_JaheiraClone_4da802f5-3237-40b8-afff-d728016e3047"] = true, -- 'Jaheira'
+    ["S_LOW_Elfsong_GithyankiShield_Paladin_54467aa9-33dd-41c4-bd77-87a71ed22c16"] = true, -- Ch'r'ai Har'rak
+    ["S_LOW_Lorroakan_a9d4b71d-b0ef-429e-8210-6dc8be986ee9"] = true, -- Lorroakan
+    ["S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8"] = true, -- Raphael
+    ["S_LOW_MurderTribunal_Sarevok_ae9f784a-ea64-4297-95a7-8377e85231b6"] = true, -- Sarevok
+    ["S_GLO_Cazador_2f1880e6-1297-4ca3-a79c-9fabc7f179d3"] = true, -- Cazador
+    ["S_LOW_SteelWatcher_Prototype_51db791d-4378-448a-86ba-3e3ae2748db6"] = true, -- Steel Watcher Titan
+    ["S_LOW_Viconia_b1ea974d-96fb-47ca-b6d9-9c85fcb69313"] = true, -- Viconia
+    ["S_GLO_Orin_bf24e0ec-a3a6-4905-bd2d-45dc8edf8101"] = true, -- Orin
+    ["S_GLO_Gortash_b878a854-f790-4999-95c4-3f20f00f65ac"] = true, -- Gortash
     ["S_END_MindBrain_f8bb04a3-22e5-41b0-aed7-5dcf852343d1"] = true, -- Netherbrain
 }
 GATE_BLOCK = {
@@ -150,7 +162,76 @@ locationsToGates = {
         {"S_COL_Elevator_Controller_38c76a3f-beaf-417b-be7e-62773c705c8f", GATE_BLOCK.CAN_INTERACT}, -- Myrkul elevator (5)
         {"S_COL_KethericShowdown_Door_378bd363-b818-4326-9883-d5a9cd5a1fcc", GATE_BLOCK.CAN_INTERACT} -- Myrkul door (5)
     },
-    ["Gate-Act3"] = {{"S_TWN_ActExit_4df293a7-c9b7-4be4-b4a9-42400ddbe209", GATE_BLOCK.CAN_INTERACT}}
+    ["Gate-Act3"] = {{"S_TWN_ActExit_4df293a7-c9b7-4be4-b4a9-42400ddbe209", GATE_BLOCK.CAN_INTERACT}},
+    ["Gate-LowerCityEast"] = {
+        {"S_WYR_LevelSwapTeleporter_Heapside_e10905f8-7b12-491f-aedb-bb9300cf721c", GATE_BLOCK.CAN_INTERACT}  -- Wyrm's Rock north transition to the Lower City
+    },
+    ["Gate-LowerCitySewers"] = {
+        {"S_Teleport_DEC_GEN_Manhole_B_001_2088da19-8d27-4331-9602-11bdf78f7769", GATE_BLOCK.CAN_INTERACT}, -- manhole, Lower City East
+        {"S_Door_Teleport_Guildhall_Exit_de4a18e0-4cfa-413e-bee6-978e459421a6", GATE_BLOCK.CAN_INTERACT}, -- Guildhall entrance, Lower City East
+        {"S_LOW_DevilsFee_HatchToBasement_6fb8cf28-dfe1-4259-8ccb-59ce7f805f28", GATE_BLOCK.CAN_INTERACT}, -- Devil's Fee hatch
+        {"S_LOW_KurwinCoffin_TeleportMound_8712c8d1-c013-4b6c-b626-0dcd66c85830", GATE_BLOCK.CAN_INTERACT}, -- graveyard mound
+        {"S_Teleport_DEC_GEN_Manhole_B_000_9be87997-ac69-48ca-b78b-7f2ca4525a87", GATE_BLOCK.CAN_INTERACT}, -- manhole, Lower City Central
+        {"S_Teleport_DEC_GEN_Manhole_A_000_b08b830a-a6f0-4b68-9cf3-09af8f6cabe0", GATE_BLOCK.CAN_INTERACT}, -- manhole by Heapside prison
+        {"S_DOOR_Invisible_Prison_ToiletEscape_93f71101-6b75-42d6-be2d-2b579e619e8e", GATE_BLOCK.CAN_INTERACT}, -- Heapside prison toilet escape
+        {"S_DOOR_Hatch_Dungeon_Abbey_A_000_71d4d617-de81-4582-9428-9ce94af0d4b6", GATE_BLOCK.CAN_INTERACT}, -- gardener's store room hatch, Lower City West
+        {"S_DOOR_Invisible_WarehouseDocksBasement_to_Sewer_956e5881-43b4-4283-939b-d773829a73ef", GATE_BLOCK.CAN_INTERACT}, -- Flymm Cargo basement (iron_throne) to sewers
+        {"S_Teleport_HatchElfsongBasement_965b224a-50aa-4b5a-a330-a20e0281381c", GATE_BLOCK.CAN_INTERACT}, -- Knights of the Shield hideout (elfsong_basement) to sewers
+        {"S_DOOR_Invisible_A_CazadorSecret_toSewer_fab6923e-6e2f-4ae3-8427-e0a2d1a4a471", GATE_BLOCK.CAN_INTERACT}  -- Cazador's dungeon to sewers
+    },
+    ["Gate-ElfsongBasement"] = {
+        {"S_HatchtoElfsongbasement_5755d423-07b6-4dd1-845c-23eff0bdf854", GATE_BLOCK.CAN_INTERACT}, -- Elfsong Tavern hatch
+        {"S_Teleport_Ladder_SewerKoS_0cde8901-1428-4522-98eb-97351ee4a31a", GATE_BLOCK.CAN_INTERACT}  -- sewers ladder into the Knights of the Shield hideout
+    },
+    ["Gate-SorcerousSundries"] = {
+        {"S_LOW_PortalToRamazith_74a258c4-774f-49d2-a673-1389bca439b5", GATE_BLOCK.CAN_INTERACT}, -- shop floor to Ramazith's Tower
+        {"S_SorcSundries_BasementTeleport_001_e3a08981-e43d-4a41-94dc-7af1aa378ece", GATE_BLOCK.CAN_INTERACT}, -- Sorcerous Sundries shop basement to the ruins
+    },
+    ["Gate-HouseOfHope"] = {
+        {"S_LOW_DevilsFee_PortalToHouseOfHope_839e5ee7-1793-4a43-9e91-6da575e188ac", GATE_BLOCK.CAN_INTERACT}  -- Devil's Fee portal
+    },
+    ["Gate-MurderTribunal"] = {
+        {"S_LOW_MurderTribunal_CellarDoor_1aa896d7-f2ad-4430-ab90-2dd00c876145", GATE_BLOCK.CAN_INTERACT}, -- Cundahollow house cellar door
+        {"S_LOW_MurderTribunal_Bookcase_Button_2e18ba69-b6b1-486e-8acf-c24e32dac5b6", GATE_BLOCK.CAN_INTERACT}  -- bookcase button that opens it
+    },
+    ["Gate-BlushingMermaid"] = {
+        {"S_LOW_BlushingMermaid_CellarDoor_Upstairs_25633b00-cb37-43a6-97cc-707c1f9f4b83", GATE_BLOCK.CAN_INTERACT}, -- tavern to cellar
+        {"S_LOW_BlushingMermaid_CellarDoor_Upstairs_2_3d43d839-e612-468a-8c9b-c186febce1cf", GATE_BLOCK.CAN_INTERACT}, -- tavern to cellar
+        {"S_BlushingMermaidCellar_SideDoor_105c39e8-cd7d-4916-bd05-72d8356005cd", GATE_BLOCK.CAN_INTERACT}, -- cellar side door
+        {"S_DOOR_BlushingMermaidCellar_Slider_169715a2-b2ee-4551-a110-d8caf1a11d04", GATE_BLOCK.CAN_INTERACT}  -- cellar sliding door
+    },
+    ["Gate-CazadorPalace"] = {
+        {"S_LOW_CazadorsPalace_BackHallDoor_5021c572-3a48-4fc4-ad7e-40e48fc3f8ed", GATE_BLOCK.CAN_INTERACT}, -- Central to the palace
+        {"S_DOOR_Invisible_A_CazadorSecret_toDungeon_61cebd40-b770-4f29-9090-fa0b6777b1e4", GATE_BLOCK.CAN_INTERACT}, -- sewers to Cazador's dungeon
+        {"S_Ladder_Metal_10n5H_A_CazPayload_8f8aa7ee-09fa-48a8-b666-44e5d1862207", GATE_BLOCK.CAN_INTERACT}, -- Baldur's Mouth basement to the palace
+        {"S_CazadorHatchFirst_eca68075-da13-41bc-8567-1cab78d6739e", GATE_BLOCK.CAN_INTERACT}  -- attic crawlspace to the palace
+    },
+    ["Gate-CountingHouse"] = {
+        {"S_DOORTELEPORT_Vault_000_38d32292-889b-4f3d-9841-ca318376ee06", GATE_BLOCK.CAN_INTERACT}  -- Counting House lobby to the vaults
+    },
+    ["Gate-SteelWatchFoundry"] = {
+        {"S_LOW_DoorToDriverPrep_f50c202f-70c4-4b4e-8951-400de6b1a2bb", GATE_BLOCK.CAN_INTERACT}, -- foundry ground floor into the works
+        {"S_LOW_ElevatorToInstallRoom_a637edb4-a14c-47f8-a4b8-e900ea1af5a2", GATE_BLOCK.CAN_INTERACT}, -- elevator into the works
+        {"S_LOW_FoundryFrontDoor_98556121-7aba-4b50-9336-e183b9906650", GATE_BLOCK.CAN_INTERACT}, -- front door (to the security office floor)
+        {"S_LOW_FoundryFenceGateSide_4fe3e877-380c-4878-a112-bfa53c83fe09", GATE_BLOCK.CAN_INTERACT}, -- side fence gate
+        {"S_LOW_FoundryVent_Outside_f96e5a1c-d778-4eeb-a5a5-b2a02f471cca", GATE_BLOCK.CAN_INTERACT}  -- vent
+    },
+    ["Gate-HouseOfGrief"] = {
+        {"S_LOW_GriefEntrance_af780377-dc6e-4350-be13-3cdeeb93f20f", GATE_BLOCK.CAN_INTERACT}, -- front entrance
+        {"S_LOW_GriefDoor_1aa5ac36-b156-4efe-8214-2056381e5f0a", GATE_BLOCK.CAN_INTERACT}, -- door
+        {"S_DOOR_Invisible_A_ToGrotto_fb614206-fede-4849-969c-a2f71ab33c6a", GATE_BLOCK.CAN_INTERACT}  -- house to the Sharran grotto
+    },
+    ["Gate-UndercityRuins"] = {
+        {"S_TELEPORT_Ladder_AncientLairExit_2cd95e02-7524-4705-a789-5632922a1a7a", GATE_BLOCK.CAN_INTERACT}  -- Ancient Lair exit ladder
+    },
+    ["Gate-AncientLair"] = {
+        {"S_DOOR_Invisible_AncientLair_000_c1e919e0-997c-4848-b2a8-bd59a382a892", GATE_BLOCK.CAN_INTERACT}, -- sewers to the lair
+        {"DOOR_CTY_AncientLairEscape_001_d90256b6-5ec5-427f-a819-b0a9a74deb35", GATE_BLOCK.CAN_INTERACT}, -- Undercity Ruins to the lair
+        {"S_LOW_AncientLairEntranceDoor_13b8694c-dd66-486d-8487-3e7561e0ba21", GATE_BLOCK.CAN_INTERACT}  -- lair entrance door
+    },
+    ["Gate-Endgame"] = {
+        {"S_END_ToMorphicPoolBoat_82964763-8581-4980-86b1-1ceeb287f43f", GATE_BLOCK.CAN_INTERACT}  -- the boat
+    },
 }
 
 shouldSpawnMonster = false
@@ -172,6 +253,9 @@ importantQuestSet = {
     ["GLO_Tadpole-HalsinReturned_Known"] = true,
     ["GLO_Tadpole-ReportHalsin_LeadersDefeated"] = true,
     ["SCL_LiftingTheCurse-TalkToThaniel"] = true, -- Thaniel
+    ["ORI_Avatar_ShadowHeart-SharPath_DefeatedViconia"] = true,
+    ["ORI_Avatar_ShadowHeart-EnemyOfShar_DefeatedViconia"] = true,
+
 }
 
 requireKill = {
@@ -179,7 +263,29 @@ requireKill = {
     ["S_CHA_FL0_DeadSkeleton_Caster_03_462f0982-35c4-4a34-a3bf-399f37e686ee"] = true,
     ["S_CHA_FL0_DeadSkeleton_Caster_02_1535feb9-7ff9-4132-be09-191ba3f8c2e1"] = true,
     ["S_CHA_FL0_DeadSkeleton_Caster_01_7af3fa6c-7f7a-4920-acaf-f091e7c62373"] = true,
-    ["S_CHA_FL0_DeadSkeleton_Melee_01_ebf854f1-7971-4f81-a2b7-e4b79b550b85"] = true
+    ["S_CHA_FL0_DeadSkeleton_Melee_01_ebf854f1-7971-4f81-a2b7-e4b79b550b85"] = true,
+    ["S_LOW_AncientLairMummy_005_331ffe6e-00c9-4f79-94d4-c6d65b4a9093"] = true,
+    ["S_LOW_AncientLairMummy_001_65b33bdc-3126-4962-a712-4175007d9e54"] = true,
+    ["S_LOW_AncientLairMummy_003_6d04276b-aefd-43a2-a2f0-eb586bcfc881"] = true,
+    ["S_LOW_AncientLairMummy_002_6f71be30-7cab-43a7-999d-12b9adde5a0e"] = true,
+    ["S_LOW_AncientLairMummy_004_d526d72a-599c-464e-b7fe-84128d496b3c"] = true,
+    ["S_LOW_AncientLair_CrawlingClaw_006_2928d81e-4ceb-466f-95a4-a774b35a4c83"] = true,
+    ["S_LOW_AncientLair_CrawlingClaw_005_387ea8f7-eed3-46b0-81bc-a2ecc280550c"] = true,
+    ["S_LOW_AncientLair_CrawlingClaw_004_461234ed-2457-417b-b850-7dffb9d57498"] = true,
+    ["S_LOW_AncientLair_CrawlingClaw_000_7f5d8047-66dd-4cec-a992-98d7fe7d9263"] = true,
+    ["S_LOW_AncientLair_CrawlingClaw_002_8aa6c119-d8f2-4c47-877b-425645df061c"] = true,
+    ["S_LOW_AncientLair_CrawlingClaw_001_b174f4f8-7a3e-49d9-90c4-a254bbee9c41"] = true,
+    ["S_LOW_AncientLair_CrawlingClaw_008_bfaacde1-8b90-4846-b474-5d8f8f81c4f6"] = true,
+    ["S_LOW_AncientLair_CrawlingClaw_003_dfb5ea37-aebf-45c5-a658-d69534414132"] = true,
+    ["S_LOW_AncientLair_CrawlingClaw_007_fdc82f15-f593-4f03-a9da-26505e66e8e1"] = true,
+    ["S_LOW_AncientLair_GreaterZombie_001_64b89b9c-657a-40d3-8232-3931e6c72aaf"] = true,
+    ["S_LOW_AncientLair_GreaterZombie_002_ba701b3d-20ec-4225-8a69-3a8be31b4c4f"] = true,
+    ["S_LOW_AncientLair_GreaterZombie_000_bd8ab705-e59e-44b1-89fa-df0dc41cd563"] = true,
+}
+
+cinematicKill = {
+    ["S_GLO_Cazador_2f1880e6-1297-4ca3-a79c-9fabc7f179d3"] = true,
+    ["S_LOW_Viconia_b1ea974d-96fb-47ca-b6d9-9c85fcb69313"] = true,
 }
 
 locationOutFile = "ap_out.json"
@@ -189,9 +295,6 @@ itemsInFile = "ap_in.json"
 genInFile = "gen_in.txt"
 -- Wire-string -> display-name map, rewritten by the client next to ap_in.json.
 namesFile = "ap_names.json"
--- Coordinate calibration dump, only written when dev_debug_on and
--- containersanity are both on. See dump_container_position.
-containersDumpFile = "containers_dump.json"
 
 -- Timer/presence protocol constants (docs/se-ap-ipc-design.md section 13)
 local TICK_MS = 250
@@ -231,6 +334,13 @@ apState = {
 local stateDirty = false
 local stateChannel = nil
 local commandChannel = nil
+
+-- print_to_file logs (debug.json). Ext.IO has no append, and re-reading and
+-- re-parsing the whole file for every line hitched the server once the file
+-- reached ~1 MB, so lines are kept in memory and the file is rewritten from
+-- ap_tick on the heartbeat cadence, only when something was logged.
+local logBuffers = {}          -- filename -> { lines = {...}, dirty = bool } or { broken = true }
+local logFlushOnTick = false   -- false until the tick runs: write through immediately
 
 local RECENT_MAX = 15
 local LOG_MAX = 30
@@ -280,6 +390,7 @@ local function reset_ap_state()
     Ext.IO.SaveFile("deathLinkSend.json", "[]")
     Ext.IO.SaveFile("deathLinkReceive.json", "[]")
     Ext.IO.SaveFile("debug.json", "[]")
+    logBuffers["debug.json"] = { lines = {}, dirty = false }
     PersistentVars['APSent'] = {}
     PersistentVars['APGrantFailures'] = {}
     PersistentVars['ContainersOpened'] = {}
@@ -299,19 +410,42 @@ local function read_option(data, key)
     return false
 end
 
-local function print_to_file(filename, text)
+local function log_buffer(filename)
+    local buf = logBuffers[filename]
+    if (buf ~= nil) then return buf end
+    -- First line since this Lua state was created: pick up what earlier
+    -- sessions wrote, once, so the file keeps accumulating across sessions.
+    buf = { lines = {}, dirty = false }
     local unparsed = Ext.IO.LoadFile(filename)
-    local data = {}
-
     if (unparsed) then
-        data = Ext.Json.Parse(unparsed)
-        if (data == nil) then
+        local ok, data = pcall(Ext.Json.Parse, unparsed)
+        if (ok and type(data) == "table") then
+            buf.lines = data
+        else
+            -- Leave an unreadable file alone rather than overwrite it.
             print("Failed to parse JSON")
-            return
+            buf = { broken = true }
         end
     end
-    table.insert(data, text)
-    Ext.IO.SaveFile(filename, Ext.Json.Stringify(data))
+    logBuffers[filename] = buf
+    return buf
+end
+
+local function flush_log_buffers()
+    for filename, buf in pairs(logBuffers) do
+        if (buf.dirty) then
+            buf.dirty = false
+            Ext.IO.SaveFile(filename, Ext.Json.Stringify(buf.lines))
+        end
+    end
+end
+
+local function print_to_file(filename, text)
+    local buf = log_buffer(filename)
+    if (buf.broken) then return end
+    table.insert(buf.lines, text)
+    buf.dirty = true
+    if (not logFlushOnTick) then flush_log_buffers() end
 end
 
 local function recount_checks()
@@ -421,7 +555,6 @@ function load_options()
         itemsInFile = new_seed .. "ap_in.json"
         genInFile = new_seed .. "gen_in.txt"
         namesFile = new_seed .. "ap_names.json"
-        containersDumpFile = new_seed .. "containers_dump.json"
         apState.seed = new_seed
         if (stored_seed ~= new_seed) then
             ap_log("AP seed_name changed (was " .. tostring(stored_seed) .. ", now " .. new_seed .. "); resetting AP state")
@@ -518,7 +651,21 @@ end
 
 Ext.Events.SessionLoaded:Subscribe(OnSessionLoaded)
 
+local summonNoiseFilter = { "Cat_MinorIllusion", "SpiderFamiliar", "CrabFamiliar", "CatFamiliar", "FrogFamiliar", "RatFamiliar" }
+local function is_summon_noise(character)
+    for _, prefix in ipairs(summonNoiseFilter) do
+        if (string.sub(character, 1, #prefix) == prefix) then
+            return true
+        end
+    end
+    return false
+end
+
 Ext.Osiris.RegisterListener("Died", 1, "after", function(died)
+    if(is_summon_noise(died)) then
+        -- Don't log familiar kills, they're just noise
+        return
+    end
     if (isDeathLinkTrigger(died)) then
         if (pendingReceiveDeathlink) then
             -- This death was caused by a deathlink we just received from the
@@ -539,7 +686,7 @@ Ext.Osiris.RegisterListener("Died", 1, "after", function(died)
             end
         end
     end
-    if ((logKills or importantKillSet[died]) and (killsanityStrictness == 2 and requireKill[died] ~= true)) then
+    if ((logKills or importantKillSet[died]) and ((killsanityStrictness == 2 and requireKill[died] ~= true) or cinematicKill[died] == true)) then
         local unparsed = Ext.IO.LoadFile(locationOutFile)
         local data = {}
         print("Logging kill: " .. "Kill-" .. died)
@@ -568,6 +715,10 @@ Ext.Osiris.RegisterListener("Died", 1, "after", function(died)
 end)
 
 Ext.Osiris.RegisterListener("KilledBy", 4, "after", function(defender, attackOwner, attacker, storyActionID)
+    if(is_summon_noise(defender)) then
+        -- Don't log familiar kills, they're just noise
+        return
+    end
     if ((logKills or importantKillSet[defender]) and (killsanityStrictness ~= 2 or requireKill[defender] == true)) then
         local unparsed = Ext.IO.LoadFile(locationOutFile)
         local data = {}
@@ -638,7 +789,15 @@ Ext.Osiris.RegisterListener("LockWaypoint", 2, "after", function(waypointID, pla
     if (devDebugOnly) then
         print_to_file("debug.json", "LockWaypoint reverted: " .. tostring(waypointID) .. " " .. tostring(player))
     end
-    Osi.UnlockWaypoint(waypointID, player)
+    -- UnlockWaypoint is (name, teleport trigger, character) - unlike LockWaypoint
+    -- it wants the trigger, which the story keeps in
+    -- DB_WaypointInfo(group, waypointID, item, trigger).
+    local ok, rows = pcall(function() return Osi.DB_WaypointInfo:Get(nil, waypointID, nil, nil) end)
+    if ((not ok) or type(rows) ~= "table" or rows[1] == nil) then
+        print("LockWaypoint revert: no DB_WaypointInfo row for " .. tostring(waypointID))
+        return
+    end
+    Osi.UnlockWaypoint(waypointID, rows[1][4], player)
 end)
 
 -- =====================================================================
@@ -769,40 +928,6 @@ local function is_container(object)
     return inventory
 end
 
--- Where did the game actually put this container? The x/z in containers.py are
--- level-local for every level except the handful of *_Main_A region roots, so
--- location names carry positions a player cannot use - the Dank Crypt's
--- "Stack of Books 12 (152, 16)" reads (-180, -294) in game. Recording one
--- anchor per level is enough to solve that level's translation offline; three
--- spread across a level also proves it is a translation and not a rotation.
---
--- Only written when dev_debug_on and containersanity are both on, and only for
--- containers that are new to this save, so the file stays anchor-sized.
-local function dump_container_position(uuid, object)
-    if ((not devDebugOnly) or (not logContainers)) then return end
-
-    -- GetPosition wants the full name_uuid Osiris handed us, not the bare uuid.
-    local ok, x, y, z = pcall(Osi.GetPosition, object)
-    if ((not ok) or (x == nil)) then return end
-    local gotRegion, region = pcall(Osi.GetRegion, object)
-    if (not gotRegion) then region = nil end
-
-    local unparsed = Ext.IO.LoadFile(containersDumpFile)
-    local data = {}
-    if (unparsed) then
-        data = Ext.Json.Parse(unparsed)
-        if (type(data) ~= "table") then data = {} end
-    end
-    table.insert(data, {
-        uuid = uuid,
-        x = x,
-        y = y,
-        z = z,
-        region = region or "",
-    })
-    Ext.IO.SaveFile(containersDumpFile, Ext.Json.Stringify(data))
-end
-
 -- Shared by the Opened and TemplateUseStarted listeners: both mean "the player
 -- got this container's inventory", they just fire for different object kinds.
 local function record_container(uuid, object)
@@ -817,7 +942,6 @@ local function record_container(uuid, object)
         PersistentVars['ContainersOpened'] = opened
     end
     if (opened[uuid] == true) then return end
-    dump_container_position(uuid, object)
 
     local unparsed = Ext.IO.LoadFile(locationOutFile)
     local data = {}
@@ -969,7 +1093,10 @@ end)
 -- Container highlight (ap_options.json "container_highlight")
 --
 -- Ported from the AP Assist testing mod. While the option is on, each avatar
--- carries the AP_ContainerHighlight toggle passive. Its toggle applies
+-- carries the AP_ContainerHighlight toggle passive. Its toggle applies the
+-- AP_HIGHLIGHT_ENABLED marker, and while an avatar has the marker the
+-- currently controlled character (and only that one, so the party does not
+-- scan four times over) carries
 -- AP_HIGHLIGHT_AURA, a 20m aura that tags every item in range with
 -- AP_HIGHLIGHT_SCAN. Each tagged item is judged once per session here: a world
 -- item that owns an inventory and has not been opened yet gets
@@ -982,6 +1109,7 @@ end)
 -- ---------------------------------------------------------------------------
 
 local HL_PASSIVE = "AP_ContainerHighlight"
+local HL_ENABLED = "AP_HIGHLIGHT_ENABLED"
 local HL_AURA = "AP_HIGHLIGHT_AURA"
 local HL_SCAN = "AP_HIGHLIGHT_SCAN"
 local HL_GLOW = "AP_HIGHLIGHT_GLOW"
@@ -1026,12 +1154,16 @@ local function hl_avatars()
     return list
 end
 
--- True while the option is on AND some party member has the aura, i.e. the
+local function hl_party()
+    return hl_column(function() return Osi.DB_Players:Get(nil) end)
+end
+
+-- True while the option is on AND some avatar has the marker, i.e. the
 -- player has not switched the toggle off.
 local function hl_active()
     if (not containerHighlight) then return false end
-    for _, member in ipairs(hl_column(function() return Osi.DB_Players:Get(nil) end)) do
-        if (hl_q("HasActiveStatus", member, HL_AURA) == 1) then return true end
+    for _, avatar in ipairs(hl_avatars()) do
+        if (hl_q("HasActiveStatus", avatar, HL_ENABLED) == 1) then return true end
     end
     return false
 end
@@ -1103,6 +1235,31 @@ local function hl_reconcile()
     for _, uuid in ipairs(stale) do hl_unglow(uuid) end
 end
 
+-- Keep the aura on whoever is being controlled, and off everyone else.
+local function hl_place()
+    local on = hl_active()
+    local party = hl_party()
+    local controlled = {}
+    local any = false
+    for _, char in ipairs(party) do
+        if (hl_q("IsControlled", char) == 1) then
+            controlled[char] = true
+            any = true
+        end
+    end
+    -- Nobody controlled (cutscene, mid-switch): leave the aura where it is.
+    if (on and not any) then return end
+    for _, char in ipairs(party) do
+        local want = on and controlled[char] == true
+        local has = hl_q("HasActiveStatus", char, HL_AURA) == 1
+        if (want and not has) then
+            hl_q("ApplyStatus", char, HL_AURA, -1, 1)
+        elseif (has and not want) then
+            hl_q("RemoveStatus", char, HL_AURA)
+        end
+    end
+end
+
 local function hl_mark_opened(object)
     local uuid = container_uuid(object)
     if (uuid == nil) then return end
@@ -1124,14 +1281,19 @@ Ext.Osiris.RegisterListener("StatusApplied", 4, "after", function(object, status
         hlEvaluated[uuid] = verdict
         if (verdict and (not hl_already_opened(uuid)) and hl_active()) then hl_glow(uuid) end
     elseif (status == HL_AURA) then
-        -- Toggled on: judge everything afresh.
+        -- Toggled on, or moved to another character: judge everything afresh.
         hlEvaluated = {}
         hl_read_out_file()
+    elseif (status == HL_ENABLED) then
+        hl_place()
     end
 end)
 
 Ext.Osiris.RegisterListener("StatusRemoved", 4, "after", function(object, status, causee, storyActionID)
-    if (status == HL_AURA) then hl_reconcile() end
+    if (status == HL_ENABLED) then
+        hl_place()
+        hl_reconcile()
+    end
 end)
 
 -- These three run whether or not containersanity is on.
@@ -1172,18 +1334,29 @@ local function highlight_sync()
             if (hl_q("HasPassive", char, HL_PASSIVE) ~= 1) then hl_q("AddPassive", char, HL_PASSIVE) end
             if (not v['HighlightGranted'][char]) then
                 v['HighlightGranted'][char] = true
-                -- ToggledDefaultOn shows the toggle as on. Make the aura agree in
+                -- ToggledDefaultOn shows the toggle as on. Make the marker agree in
                 -- case AddPassive did not run the ToggleOnFunctors.
                 Ext.Timer.WaitFor(1000, function()
-                    if (containerHighlight and hl_q("HasActiveStatus", char, HL_AURA) ~= 1) then
-                        hl_q("ApplyStatus", char, HL_AURA, -1, 1)
+                    if (containerHighlight and hl_q("HasActiveStatus", char, HL_ENABLED) ~= 1) then
+                        hl_q("ApplyStatus", char, HL_ENABLED, -1, 1)
                     end
                 end)
+            elseif (v['HighlightMarker'] ~= true and hl_q("HasActiveStatus", char, HL_AURA) == 1) then
+                -- Save from before the marker existed: the toggle put the aura
+                -- straight on the avatar. Aura present = toggle was on.
+                hl_q("ApplyStatus", char, HL_ENABLED, -1, 1)
             end
         end
+        v['HighlightMarker'] = true
+        hl_place()
     else
-        for _, char in ipairs(avatars) do
+        -- Everyone who might hold the aura, not just the avatars.
+        local chars = {}
+        for _, char in ipairs(avatars) do chars[char] = true end
+        for _, char in ipairs(hl_party()) do chars[char] = true end
+        for char in pairs(chars) do
             if (hl_q("HasPassive", char, HL_PASSIVE) == 1) then hl_q("RemovePassive", char, HL_PASSIVE) end
+            if (hl_q("HasActiveStatus", char, HL_ENABLED) == 1) then hl_q("RemoveStatus", char, HL_ENABLED) end
             if (hl_q("HasActiveStatus", char, HL_AURA) == 1) then hl_q("RemoveStatus", char, HL_AURA) end
         end
         -- A later re-enable grants the toggle afresh, switched on.
@@ -1193,6 +1366,21 @@ local function highlight_sync()
     end
     hlApplied = containerHighlight
 end
+
+Ext.Osiris.RegisterListener("GainedControl", 1, "after", function(character)
+    if (not containerHighlight) then return end
+    hl_place()
+end)
+
+Ext.Osiris.RegisterListener("CharacterJoinedParty", 1, "after", function(character)
+    if (not containerHighlight) then return end
+    hl_place()
+end)
+
+-- hl_place only walks the party, so take the aura off on the way out.
+Ext.Osiris.RegisterListener("CharacterLeftParty", 1, "after", function(character)
+    if (hl_q("HasActiveStatus", character, HL_AURA) == 1) then hl_q("RemoveStatus", character, HL_AURA) end
+end)
 
 Ext.Osiris.RegisterListener("LevelGameplayStarted", 2, "after", function(level, isEditorMode)
     if (level == "SYS_CC_I") then return end
@@ -1792,6 +1980,11 @@ end
 
 local function ap_tick()
     tickCount = tickCount + 1
+    -- First, and in its own pcall, so an error further down the tick can't
+    -- hold back the debug log.
+    if (tickCount % HEARTBEAT_TICKS == 0) then
+        pcall(flush_log_buffers)
+    end
     if (tickCount % CLIENT_CHECK_TICKS == 0) then
         check_client_heartbeat()
         update_presence()
@@ -1835,6 +2028,7 @@ function start_ap_tick()
     end
     sessionLoadedAt = monotonic_now()
     tickStarted = true
+    logFlushOnTick = true
     schedule_tick()
 end
 
